@@ -3,11 +3,9 @@
 
 <template>
   <div class="main">
-    <!-- <el-row align="middle" justify="center"> -->
-    <!-- <el-col> -->
-    hihihihihi
-    <!-- </el-col> -->
-    <!-- </el-row> -->
+    <el-row align="middle" justify="center">
+      <el-col> hihihihihi </el-col>
+    </el-row>
   </div>
 </template>
 
