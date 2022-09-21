@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import mainSearch from '@/components/search/search.vue';
+import test from '@/components/map/test.vue';
+console.log('????');
 </script>
-
 <template>
   <div class="main">
     <el-row align="middle" justify="center">
       <el-col>
-        d왜지랄?
-        <mainSearch />
+        dd
+        <test />
       </el-col>
     </el-row>
   </div>
 </template>
-
 <style scoped>
-.main {
-}
 </style>

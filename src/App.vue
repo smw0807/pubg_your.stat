@@ -1,12 +1,25 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from '@/components/HelloWorld.vue';
+import HeaderMenu from '@/components/header/HeaderMenu.vue';
+import SideMenu from '@/components/side/SideMenu.vue';
 </script>
 
 <template>
-  <div>
-    <router-view />
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <HeaderMenu />
+      </el-header>
+      <el-container>
+        <el-aside width="200px">
+          <SideMenu />
+        </el-aside>
+        <el-main>
+          <router-view />
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
