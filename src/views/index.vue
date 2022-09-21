@@ -6,7 +6,6 @@ import mainSearch from '@/components/search/search.vue';
   <div class="main">
     <el-row align="middle" justify="center">
       <el-col>
-        d왜지랄?
         <mainSearch />
       </el-col>
     </el-row>

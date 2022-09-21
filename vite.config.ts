@@ -9,6 +9,7 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
   },
+  publicDir: './src/public',
   plugins: [vue()],
   resolve: {
     alias: [

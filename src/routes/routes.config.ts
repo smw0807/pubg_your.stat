@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
+    name: '검색하기',
     component: () => import('@/views/index.vue'),
     meta: {
       transition: 'fade',
@@ -19,7 +19,6 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/map',
     name: '맵별 차량 고정젠',
-    component: () => import('@/views/index.vue'),
     meta: {
       transition: 'fade',
     },
@@ -32,14 +31,14 @@ export const routes: Array<RouteRecordRaw> = [
           transition: 'fade',
         },
       },
-      // {
-      //   path: '/map/miramar',
-      //   name: '미라마',
-      //   component: () => import('@/views/map/miramar.vue'),
-      //   meta: {
-      //     transition: 'fade',
-      //   },
-      // },
+      {
+        path: '/map/miramar',
+        name: '미라마',
+        component: () => import('@/views/map/miramar.vue'),
+        meta: {
+          transition: 'fade',
+        },
+      },
       // {
       //   path: '/map/taego',
       //   name: '태이고',

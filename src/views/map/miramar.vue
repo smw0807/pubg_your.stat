@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import sourceText from '@/public/car-respone/sources?raw';
-const erangel: string[] = sourceText.split('erangel-car=');
+const miramar = sourceText.split('miramar-car=');
 import card from '@/components/map/MapCard.vue';
 </script>
 <template>
@@ -8,7 +8,7 @@ import card from '@/components/map/MapCard.vue';
     <!-- <el-row align="middle" justify="center"> -->
     <!-- <el-col> -->
 
-    <card imgName="erangel-car" :source="erangel[1]" />
+    <card imgName="miramar-car" :source="miramar[1]" />
     <!-- </el-col> -->
     <!-- </el-row> -->
   </div>
