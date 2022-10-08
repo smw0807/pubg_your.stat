@@ -37,8 +37,8 @@ const imgPath: Ref<string> = ref(`/car-respone/${props.imgName}.png`);
   color: #999;
 }
 .image {
-  /* width: 100%;
-  height: 30%; */
-  /* display: block; */
+  width: 100%;
+  height: 30%;
+  display: block;
 }
 </style>
