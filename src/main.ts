@@ -4,8 +4,10 @@ import App from './App.vue';
 
 import { setupRouter } from './routes';
 import { setupElementPlus } from './plugins/element-plus';
+import { setupPinia } from './plugins/pinia';
 
 const app = createApp(App);
 setupRouter(app); //vue-router apply
 setupElementPlus(app); //element plus apply
+setupPinia(app); //pinia apply
 app.mount('#app');
