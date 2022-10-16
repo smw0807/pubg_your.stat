@@ -61,6 +61,7 @@ onMounted(() => {
           class="input-with-select"
           size="large"
           style="width: 500px"
+          @keyup.enter="searchUser"
         >
           <template #prepend>
             <!-- el-input 안에 slot 형식으로 el-select는 뭔가 다른거 같음 :change 기능이 안됨 -->

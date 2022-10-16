@@ -11,7 +11,7 @@ import type { Ref } from 'vue';
   <div>
     <el-menu class="el-menu-demo" mode="horizontal">
       <!-- @select="handleSelect" -->
-      <div class="logo">Element+</div>
+      <div class="logo">PUBG Search</div>
       <!-- <el-menu-item index="1">Processing Center</el-menu-item> -->
       <div class="flex-grow" />
       <el-sub-menu index="2">

@@ -1,45 +1,26 @@
-import axios from 'axios';
 import { SearchAPI } from './Search';
 import Player from '../interfaces/Players';
 /**
- * "https://api.pubg.com/shards/steam/players?filter[playerIds]=account.c0e530e9b7244b358def282782f893af&filter[playerNames]=WackyJacky101"
- * https://api.pubg.com/shards/kakao/players?filter[playerNames]=NoMic_Min
- * https://api.pubg.com/shards/steam/players/account.12ddde2e5fec4688ad5a3b10abfe8d59/seasons/division.bro.official.console-20/ranked
- *
- * https://api.pubg.com/shards/steam/players/account.a144e39e400d4be799f412e872b4c09f/seasons/lifetime
- *
- * 시즌 스탯이 생각보다 디테일한 정보가 안나오는데...?
+ * 플레이어 관련 API
+ * https://api.pubg.com/shards/$platform/seasons/$seasonId/gameMode/$gameMode/players?filter[playerIds]=$playerId-1,$playerId-2
  */
 export class PlayersAPI extends SearchAPI implements Player {
-  public platform = '';
-  public nickname = '';
-
   constructor(platform: string, nickname: string) {
-    super();
-    this.platform = platform;
-    this.nickname = nickname;
+    super(platform, nickname);
   }
   //플레이어 한명 조회
   async getPlayer() {
     try {
-      const player = await this.getAPI(
-        `/${this.platform}/players?filter[playerNames]=${this.nickname}`
+      //todo 이렇게 순차적으로 처리하게 할 필요가 있을지 고민해보자.
+      const sId = await this.getNowSeasonID();
+      const id = await this.getPlayerID();
+      const rs = await this.getAPI(
+        `/${this.platform}/seasons/${sId}/gameMode/squad/players?filter[playerIds]=${id}`
+        // `/${this.platform}/players/${id}/seasons/${sId}`
+        // `/${this.platform}/players/${id}/seasons/${sId}/ranked`
       );
-      // const seasons = await this.getSeasonIDs(this.platform);
-      // console.log('seasons : ', seasons);
-      // const seasonID = seasons.data.data[seasons.data.data.length - 1].id;
-      // console.log('seasonID : ', seasonID);
-      // const url = `/${this.platform}/players/${player.data.data[0].id}/seasons/${seasonID}/ranked`;
-      // console.log(url);
-      // const detail = await this.getAPI(url);
-      // console.log('detail :', detail);
-
-      const lifetime = await this.getAPI(
-        //모슨 시즌 합친 게임모드별 스탯???
-        `/${this.platform}/players/${player.data.data[0].id}/seasons/lifetime`
-      );
-      console.log('lifetime : ', lifetime);
-      return player;
+      //왜 시즌 랭크 스탯 안들어있는지 모르겠음
+      return rs;
     } catch (err) {
       console.error(err);
       return err;
