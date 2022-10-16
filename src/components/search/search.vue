@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
-// import { defineStore } from 'pinia';
 import { useSearchStore } from '@/store/search';
 //icon
 import { Search } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 
 const store = useSearchStore();
-console.log(store.test); //state
-/**
- * getters는 따로 하는게 없나?
- */
-store.test = 'kk';
-console.log(store.test);
-
-const search = await store.search();
-console.log(search);
 
 //========== select ======================================================= S
 interface gameType {
@@ -43,12 +33,12 @@ const changeGameType = (v: string): void => {
 const userNickName: Ref<string> = ref('');
 
 //todo 검색 요청
-const searchUser = (): void => {
+const searchUser = async () => {
   const params = {
-    type: selGameType.value,
-    name: userNickName.value,
+    platform: selGameType.value,
+    nickname: userNickName.value,
   };
-  console.log(params);
+  await store.search(params);
 };
 
 onMounted(() => {

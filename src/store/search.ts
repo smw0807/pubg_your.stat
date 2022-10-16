@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia';
+import { SearchAPI } from '../apis/Search';
+import { PlayersAPI } from '../apis/Players';
+import player from '../interfaces/Players';
 
 export const useSearchStore = defineStore({
   id: 'search',
@@ -11,16 +14,13 @@ export const useSearchStore = defineStore({
     },
   },
   actions: {
-    search() {
-      return new Promise((resolve, reject) => {
-        try {
-          //todo 배그api 요청 로직 추가하기
-          resolve(true);
-        } catch (err) {
-          console.error('search Error :', err);
-          reject(err);
-        }
-      });
+    async search(params: player) {
+      const api = new SearchAPI();
+      const seasons = await api.getSeasonIDs(params.platform);
+      console.log(seasons);
+      const searchAPI = new PlayersAPI(params.platform, params.nickname);
+      const player = await searchAPI.getPlayer();
+      console.log(player);
     },
   },
 });
