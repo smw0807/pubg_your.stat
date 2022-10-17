@@ -18,3 +18,7 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 ## PUBG API
 
 https://documentation.pubg.com/en/introduction.html
+
+## Reference
+
+https://github.com/martinsileno/pubg-typescript-api
