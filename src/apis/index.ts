@@ -1,0 +1,1 @@
+export { PubgAPI } from './base';
