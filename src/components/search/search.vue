@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import type { Ref } from 'vue';
 import { useSearchStore } from '@/store/search';
 //icon
@@ -7,6 +7,7 @@ import { Search } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 
 const store = useSearchStore();
+const $emit = defineEmits(['searchInfo', 'platform']);
 
 //========== select ======================================================= S
 interface gameType {
@@ -32,13 +33,12 @@ const changeGameType = (v: string): void => {
 //닉네임
 const userNickName: Ref<string> = ref('');
 
-//todo 검색 요청
 const searchUser = async () => {
   const params = {
     platform: selGameType.value,
     nickname: userNickName.value,
   };
-  await store.search(params);
+  $emit('searchInfo', params);
 };
 
 onMounted(() => {
@@ -48,6 +48,7 @@ onMounted(() => {
     selGameType.value = defaultGameType;
   }
   userNickName.value = '';
+  $emit('platform', selGameType.value);
 });
 </script>
 
