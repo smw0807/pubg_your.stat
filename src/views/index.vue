@@ -14,12 +14,14 @@ function defPlatform(params: string) {
 }
 //현재 시즌 세팅
 async function setNowSeason() {
-  await store.setNowSeason(platform.value);
+  await store.setSeason(platform.value);
 }
 
 //전적 검색
-function search(params: ISearchForm) {
-  console.log(params);
+async function search(params: ISearchForm) {
+  params.seasonID = store.getNowSeasonID;
+  const rs = await store.searchPlayer(params);
+  console.log(rs);
 }
 
 onMounted(() => {

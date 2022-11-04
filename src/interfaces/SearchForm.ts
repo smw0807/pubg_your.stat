@@ -6,4 +6,5 @@
 export interface ISearchForm {
   platform: string;
   nickname: string;
+  seasonID?: string;
 }

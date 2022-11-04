@@ -33,6 +33,7 @@ const changeGameType = (v: string): void => {
 //닉네임
 const userNickName: Ref<string> = ref('');
 
+//검색 플랫펌, 닉네임 넘기기
 const searchUser = async () => {
   const params = {
     platform: selGameType.value,
