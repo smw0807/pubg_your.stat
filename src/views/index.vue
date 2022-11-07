@@ -10,10 +10,10 @@ const store = useSearchStore();
 const route = useRouter();
 
 //플랫폼
-const platform: Ref<string> = ref('');
-function defPlatform(params: string) {
-  platform.value = params;
-}
+// const platform: Ref<string> = ref('');
+// function defPlatform(params: string) {
+//   platform.value = params;
+// }
 //현재 시즌 세팅
 async function setNowSeason() {
   await store.setSeason(platform.value);
@@ -25,8 +25,8 @@ async function search(params: ISearchForm) {
 }
 
 onMounted(() => {
-  console.log('Mounted!!!');
-  setNowSeason();
+  // console.log('Mounted!!!');
+  // setNowSeason();
 });
 </script>
 
@@ -34,7 +34,8 @@ onMounted(() => {
   <div class="main">
     <el-row align="middle" justify="center">
       <el-col>
-        <mainSearch @search-info="search" @platform="defPlatform" />
+        <!-- <mainSearch @search-info="search" @platform="defPlatform" /> -->
+        <mainSearch @search-info="search" />
       </el-col>
     </el-row>
   </div>

@@ -4,10 +4,9 @@ import type { Ref } from 'vue';
 import { useSearchStore } from '@/store/search';
 //icon
 import { Search } from '@element-plus/icons-vue';
-import { storeToRefs } from 'pinia';
 
 const store = useSearchStore();
-const $emit = defineEmits(['searchInfo', 'platform']);
+const $emit = defineEmits(['searchInfo']);
 
 //========== select ======================================================= S
 interface gameType {
@@ -49,7 +48,6 @@ onMounted(() => {
     selGameType.value = defaultGameType;
   }
   userNickName.value = '';
-  $emit('platform', selGameType.value);
 });
 </script>
 
