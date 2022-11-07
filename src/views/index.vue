@@ -19,7 +19,6 @@ async function setNowSeason() {
 
 //전적 검색
 async function search(params: ISearchForm) {
-  params.seasonID = store.getNowSeasonID;
   const rs = await store.searchPlayer(params);
   console.log(rs);
 }
