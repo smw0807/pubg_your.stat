@@ -28,12 +28,8 @@ export class PlayersAPI extends PubgAPI {
   async getPlayer() {
     try {
       const player = await this.getPlayerID;
-      console.log(player);
-      console.log(player.data.data[0].id);
-      //! 왜 스탯이 다 0으로 나올까??
       return await this.axios(
-        // `/${this._platform}/players/${player.data.data[0].id}/seasons/${this._seasonID}/ranked`
-        `/${this._platform}/players/${player.data.data[0].id}/seasons/${this._seasonID}`
+        `/${this._platform}/players/${player.data.data[0].id}/seasons/${this._seasonID}/ranked`
       );
     } catch (err) {
       console.error(err);
