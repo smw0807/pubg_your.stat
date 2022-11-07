@@ -9,6 +9,15 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/:platform/:nickname',
+    name: '전적검색 결과',
+    props: true,
+    component: () => import('@/views/search/_nickname.vue'),
+    meta: {
+      transition: 'fade',
+    },
+  },
+  {
     path: '/bookmark',
     name: '즐겨찾기',
     component: () => import('@/views/index.vue'),

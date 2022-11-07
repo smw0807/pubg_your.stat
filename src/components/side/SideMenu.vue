@@ -16,10 +16,17 @@ const menus: Array<object> = routes.filter(() => true);
         :router="true"
       >
         <template v-for="(menu, idx) in menus" :index="menu.path">
-          <el-menu-item v-if="!menu.children" :index="menu.path" :key="idx">
+          <el-menu-item
+            v-if="!menu.children && !menu.props"
+            :index="menu.path"
+            :key="idx"
+          >
             <span>{{ menu.name }}</span>
           </el-menu-item>
-          <el-sub-menu v-else :index="menu.path">
+          <el-sub-menu
+            v-else-if="menu.children && !menu.props"
+            :index="menu.path"
+          >
             <template #title>
               <span>{{ menu.name }}</span>
             </template>
