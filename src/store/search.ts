@@ -7,27 +7,19 @@ import type { ISeasonList, ISeason } from '../interfaces';
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
-    test: 'hihihi',
     nowSeasons: [] as ISeason[], //모든 시즌 정보들
     nowSeason: {} as ISeason, //현재 시즌
     nowSeasonID: '' as string, //현재 시즌 아이디
   }),
   getters: {
-    getTest(state) {
-      // return state.test;
-      return this.test;
+    getAllSeason(): ISeason[] {
+      return this.nowSeasons;
     },
-    getNowSeason(state) {
-      // return state.nowSeason;
+    getNowSeason(): ISeason {
       return this.nowSeason;
     },
-    getNowSeasonID(state) {
-      // return state.nowSeasonID;
+    getNowSeasonID(): string {
       return this.nowSeasonID;
-    },
-    getAllSeason(state) {
-      // return state.nowSeasons;
-      return this.nowSeasons;
     },
   },
   actions: {
