@@ -24,7 +24,7 @@ export const useSearchStore = defineStore({
   },
   actions: {
     //시즌 정보 세팅
-    async setSeason(param: string) {
+    async setSeason(param: string): Promise<void> {
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
@@ -37,7 +37,7 @@ export const useSearchStore = defineStore({
       }
     },
     //검색
-    async searchPlayer(params: ISearchForm) {
+    async searchPlayer(params: ISearchForm): Promise<void> {
       const searchAPI = new PlayersAPI(params);
       const rs = await searchAPI.getPlayer();
       console.log(rs);

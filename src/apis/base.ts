@@ -13,23 +13,7 @@ export class PubgAPI {
       },
     });
   }
-  axios(url: string) {
+  axios(url: string): AxiosPromise {
     return this._axios.get(api + url);
   }
-  //플레이어 아이디 가져오기
-  // async getPlayerID() {
-  //   try {
-  //     const rs = await this.axios(
-  //       `/${this._platform}/players?filter[playerNames]=${this._nickname}`
-  //     );
-  //     if (rs.status === 200) {
-  //       return rs.data.data[0].id;
-  //     } else {
-  //       return new Error('존재하지 않는 플레이어 이름입니다.');
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //     return new Error('플레이어 조회 실패');
-  //   }
-  // }
 }
