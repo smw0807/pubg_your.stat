@@ -3,13 +3,16 @@ import { PlayersAPI, SeasonAPI } from '../apis';
 import { ISearchForm } from '../interfaces';
 import type { AxiosPromise } from 'axios';
 import type { ISeasonList, ISeason } from '../interfaces';
-
+/**
+ * 검색 관련 스토어
+ * nowSeasons : 모든 시즌 정보들
+ * nowSeason : 현재 시즌 정보
+ */
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
-    nowSeasons: [] as ISeason[], //모든 시즌 정보들
-    nowSeason: {} as ISeason, //현재 시즌
-    nowSeasonID: '' as string, //현재 시즌 아이디
+    nowSeasons: [] as ISeason[],
+    nowSeason: {} as ISeason,
   }),
   getters: {
     getAllSeason(): ISeason[] {
@@ -17,9 +20,6 @@ export const useSearchStore = defineStore({
     },
     getNowSeason(): ISeason {
       return this.nowSeason;
-    },
-    getNowSeasonID(): string {
-      return this.nowSeasonID;
     },
   },
   actions: {
@@ -30,14 +30,16 @@ export const useSearchStore = defineStore({
         const seasons = await api.getSeasons;
 
         this.nowSeasons = seasons.data.data;
-        this.nowSeason = seasons.data.data[seasons.data.data.length - 1];
-        this.nowSeasonID = this.nowSeason.id;
+        this.nowSeason = seasons.data.data.filter(
+          v => v.attributes.isCurrentSeason
+        )[0];
       } catch (err) {
         console.error(err);
       }
     },
     //검색
     async searchPlayer(params: ISearchForm): Promise<void> {
+      params.seasonID = this.nowSeason.id;
       const searchAPI = new PlayersAPI(params);
       const rs = await searchAPI.getPlayer();
       console.log(rs);
