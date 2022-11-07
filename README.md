@@ -22,3 +22,7 @@ https://documentation.pubg.com/en/introduction.html
 ## Reference
 
 https://github.com/martinsileno/pubg-typescript-api
+
+## Pinia
+
+https://pinia.vuejs.org/introduction.html
