@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * 검색 컴포넌트
+ * 플랫폼 선택 후 닉네임 입력 뒤 검색 누르면
+ * platform, nickname을 (emit)searchInfo로 전달함
+ */
 import { ref, onMounted, defineEmits } from 'vue';
 import type { Ref } from 'vue';
 import { useSearchStore } from '@/store/search';
