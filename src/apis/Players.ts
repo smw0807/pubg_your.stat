@@ -10,32 +10,65 @@ export class PlayersAPI extends PubgAPI {
   private _platform;
   private _nickname;
   private _seasonID;
+  private _userInfo: IPlayerList | null;
   constructor(params: ISearchForm) {
     super();
     this._platform = params.platform;
     this._nickname = params.nickname;
     this._seasonID = params.seasonID;
+    this._userInfo = null;
   }
 
-  //닉네임에서 플레이어 아이디 가져오기
-  get getPlayerID(): AxiosPromise<IPlayerList> {
+  //시즌 랭크 스탯, 시즌 스탯 가져오기
+  get allStat() {
+    return Promise.all([this.getRankStat(), this.getStat()]);
+  }
+
+  //닉네임 검색
+  get playerInfo(): AxiosPromise<IPlayerList> {
     return this.axios(
       `/${this._platform}/players?filter[playerNames]=${this._nickname}`
     );
   }
 
-  //플레이어 한명 조회
-  async getPlayer() {
+  //유저 정보 가져오기
+  async getUserInfo() {
     try {
-      const player = await this.getPlayerID;
-      return await this.axios(
-        `/${this._platform}/players/${player.data.data[0].id}/seasons/${this._seasonID}/ranked`
+      if (!this._userInfo) {
+        const player = await this.playerInfo;
+        this._userInfo = player.data;
+      }
+    } catch (err) {
+      // console.error(err);
+    }
+    return this._userInfo;
+  }
+
+  //랭크 스탯 가져오기
+  async getRankStat() {
+    let result = null;
+    try {
+      const user = await this.getUserInfo();
+      result = await this.axios(
+        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
       );
     } catch (err) {
-      console.error(err);
-      return err;
+      // console.error(err);
     }
+    return result;
   }
-  //플레이어 여러명 조회
-  async getPlayers() {}
+
+  //일반 스탯 가져오기
+  async getStat() {
+    let result = null;
+    try {
+      const user = await this.getUserInfo();
+      result = await this.axios(
+        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}`
+      );
+    } catch (err) {
+      // console.error(err);
+    }
+    return result;
+  }
 }

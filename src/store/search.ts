@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { PlayersAPI, SeasonAPI } from '../apis';
 import { ISearchForm } from '../interfaces';
 import type { AxiosPromise } from 'axios';
-import type { ISeasonList, ISeason } from '../interfaces';
+import type { IPlayerSeason, IPlayerSeasonRank, ISeason } from '../interfaces';
 /**
  * 검색 관련 스토어
  * nowSeasons : 모든 시즌 정보들
@@ -13,6 +13,8 @@ export const useSearchStore = defineStore({
   state: () => ({
     nowSeasons: [] as ISeason[],
     nowSeason: {} as ISeason,
+    rankStat: {} as IPlayerSeasonRank,
+    stat: {} as IPlayerSeason,
   }),
   getters: {
     getAllSeason(): ISeason[] {
@@ -39,10 +41,15 @@ export const useSearchStore = defineStore({
     },
     //검색
     async searchPlayer(params: ISearchForm): Promise<void> {
-      params.seasonID = this.nowSeason.id;
-      const searchAPI = new PlayersAPI(params);
-      const rs = await searchAPI.getPlayer();
-      console.log(rs);
+      try {
+        params.seasonID = this.nowSeason.id;
+        const searchAPI = new PlayersAPI(params);
+        const stat = await searchAPI.allStat;
+        this.rankStat = stat[0]?.data;
+        this.stat = stat[1]?.data;
+      } catch (err) {
+        console.error(err);
+      }
     },
   },
 });
