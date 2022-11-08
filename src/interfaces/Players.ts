@@ -64,6 +64,31 @@ export interface IGameModeStats {
   wins: number;
 }
 
+export interface IPlayerSeasonRank {
+  data: {
+    type: 'rankedplayerstats';
+    attributes: {
+      rankedGameModeStats: {
+        squad: IGameModeStats;
+      };
+    };
+    relationships: {
+      player: {
+        data: {
+          type: 'player';
+          id: string;
+        };
+      };
+      season: {
+        data: {
+          type: 'season';
+          id: string;
+        };
+      };
+    };
+  };
+}
+
 export interface IPlayerSeason {
   data: {
     type: 'playerSeason';
