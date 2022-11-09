@@ -1,28 +1,50 @@
-# Vue 3 + TypeScript + Vite
+# 프로젝트 제목
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## PUBG your.stat
 
-## Recommended IDE Setup
+배틀그라운드 스탯 상세 정보 검색 사이트
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+# 만든 이유
 
-## Type Support For `.vue` Imports in TS
+현재 서비스 중인 전적검색 사이트들을 많이 이용하면서 내 계정 또는 타인의 계정의 전적보단 스탯을 보려고 검색을 자주 했었다.<br>
+사용하면서 좀 더 많은 정보를 보여주면 더 좋을 것 같은데...라는 아쉬움이 조금 있었다.<br>
+보여주는 스탯의 정보는 생각보다 적었고, 궁금한 마음에 직접 API에 요청을 해보니 생각보다 제공되는 정보가 많았다.<br>
+그래서 좀 더 디테일한 정보를 보고 싶었고 전적보단 스탯의 디테일한 정보를 제공하는 사이트를 직접 만들어보자는 생각이들어 시작하게 되었다.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+# 기술 스택
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+- Vite (https://vitejs.dev/)
+- Vue3 (https://vuejs.org/)
+- TypeScript (https://www.typescriptlang.org/)
+- Pinia (https://pinia.vuejs.org/introduction.html)
+- Element Plus (https://element-plus.org/en-US/)
+- PUBG API (https://documentation.pubg.com/en/introduction.html)
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+# 실행 방법
 
-## PUBG API
+## 1. npm install
 
-https://documentation.pubg.com/en/introduction.html
+## 2. .env 생성
 
-## Reference
+```
+### 필요 옵션 ###
+# 펍지 API 요청 URL
+VITE_PUBG_API_URL=
+# 펍지 API 키 (발급 받아야 함)
+VITE_PUBG_API_KEY=
+```
 
+## 3. 실행 명령어
+
+```
+# 개발모드 실행
+npm run dev
+# 빌드 및 실행
+npm run build
+npm start
+```
+
+# 참고한 소스
+
+타입스크립트 구현 중 인터페이스 관련해서 참고한 깃허브<br>
 https://github.com/martinsileno/pubg-typescript-api
-
-## Pinia
-
-https://pinia.vuejs.org/introduction.html
