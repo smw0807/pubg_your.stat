@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Ref } from 'vue';
+  import { ref } from 'vue';
+  import type { Ref } from 'vue';
 
-// const activeIndex: Ref<string> = ref('1')
-// const handleSelect = (key: string, keyPath: string[]): void => {
-//   console.log(key, keyPath)
-// }
+  const titleName: Ref<string> = 'PUBG Your Stat';
 </script>
 <template>
   <div>
     <el-menu class="el-menu-demo" mode="horizontal">
       <!-- @select="handleSelect" -->
-      <div class="logo">PUBG Search</div>
+      <div class="logo">{{ titleName }}</div>
       <!-- <el-menu-item index="1">Processing Center</el-menu-item> -->
       <div class="flex-grow" />
       <el-sub-menu index="2">
@@ -32,19 +29,19 @@ import type { Ref } from 'vue';
   </div>
 </template>
 <style scoped>
-.flex-grow {
-  flex-grow: 1;
-}
-.logo {
-  padding: 0.6em;
-  will-change: filter;
-  font-weight: bold;
-  font-size: 1.3em;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .logo {
+    padding: 0.6em;
+    will-change: filter;
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.vue:hover {
+    filter: drop-shadow(0 0 2em #42b883aa);
+  }
 </style>
