@@ -89,6 +89,7 @@ export interface IPlayerSeasonRank {
     type: 'rankedplayerstats';
     attributes: {
       rankedGameModeStats: {
+        solo: IGameRankStats;
         squad: IGameRankStats;
       };
     };
