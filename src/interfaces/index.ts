@@ -6,4 +6,5 @@ export type {
   IPlayerList,
   IPlayerSeason,
   IPlayerSeasonRank,
+  IGameRankStats,
 } from './Players';
