@@ -25,25 +25,47 @@ export interface IPlayerObject
   };
 }
 
-export interface IGameModeStats {
-  assists: number;
+interface ITier {
+  tier: string; //티어 이름
+  subTier: string; //티어 숫자
+}
+
+//랭크 스탯
+export interface IGameRankStats {
+  currentRankPoint: number;
   bestRankPoint: number;
+  currentTier: ITier;
+  bestTier: ITier;
+  roundsPlayed: number;
+  avgRank: number;
+  top10Ratio: number;
+  winRatio: number;
+  assists: number;
+  wins: number;
+  kda: number;
+  kills: number;
+  deaths: number;
+  damageDealt: number; //총 딜량
+  dBNOs: number; //총 기절 수
+}
+
+// 일반 스탯
+export interface IGameStats {
+  assists: number;
   boosts: number;
   dBNOs: number;
   dailyKills: number;
-  dailyWins: number;
   damageDealt: number;
   days: number;
+  dailyWins: number;
   headshotKills: number;
   heals: number;
-  killPoints: number; // not in docs?
   kills: number;
   longestKill: number;
   longestTimeSurvived: number;
   losses: number;
   maxKillStreaks: number;
   mostSurvivalTime: number;
-  rankPoints: number;
   revives: number;
   rideDistance: number;
   roadKills: number;
@@ -56,11 +78,9 @@ export interface IGameModeStats {
   top10s: number;
   vehicleDestroys: number;
   walkDistance: number;
-  weaponsAcquired: number; // weaponAcquired in docs?
+  weaponsAcquired: number;
   weeklyKills: number;
   weeklyWins: number;
-  winPoints: number;
-  // winRatio: number;  // doesn't exist?
   wins: number;
 }
 
@@ -69,7 +89,7 @@ export interface IPlayerSeasonRank {
     type: 'rankedplayerstats';
     attributes: {
       rankedGameModeStats: {
-        squad: IGameModeStats;
+        squad: IGameRankStats;
       };
     };
     relationships: {
@@ -94,12 +114,12 @@ export interface IPlayerSeason {
     type: 'playerSeason';
     attributes: {
       gameModeStats: {
-        duo: IGameModeStats;
-        'duo-fpp': IGameModeStats;
-        solo: IGameModeStats;
-        'solo-fpp': IGameModeStats;
-        squad: IGameModeStats;
-        'squad-fpp': IGameModeStats;
+        duo: IGameStats;
+        'duo-fpp': IGameStats;
+        solo: IGameStats;
+        'solo-fpp': IGameStats;
+        squad: IGameStats;
+        'squad-fpp': IGameStats;
       };
     };
     relationships: {
