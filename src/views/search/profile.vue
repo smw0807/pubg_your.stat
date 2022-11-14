@@ -5,7 +5,7 @@
    * platform으로 해당 시즌 정보 가져옴
    * nickname으로 아이이디 검색 후 아이디로 현재 시즌 스탯 정보를 가져옴
    */
-  import { ref, onMounted } from 'vue';
+  import { ref, computed, reactive } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useSearchStore } from '../../store/search';
@@ -32,24 +32,41 @@
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
 
-  //플랫폼 시즌 정보 세팅
-  async function setNowSeason() {
-    await store.setSeason(params.platform);
-  }
+  const tppSquad = computed(() => {
+    console.log('computed: ', store.rank);
+    return store.rank;
+  });
 
-  let rankStat: Ref<IGameRankStats | null> = ref(null);
-  console.log(rankStat);
+  //플랫폼 시즌 정보 세팅
+  const setNowSeason = () => {
+    store
+      .setSeason(params.platform)
+      .then(rs => {
+        if (rs) {
+          search();
+        }
+      })
+      .catch(err => {
+        console.error('setNowSeason Error : ', err);
+        alert(err);
+      });
+  };
   //전적 검색
-  async function search(params: ISearchForm) {
-    await store.searchPlayer(params);
-    rankStat.value = store.rankStat.data.attributes.rankedGameModeStats.squad;
-    // console.log(store.rankStat.data);
-    // console.log(store.stat.data.attributes.gameModeStats);
-  }
-  await setNowSeason();
-  await search(params);
-  onMounted(async () => {});
-  console.log(rankStat);
+  const search = () => {
+    console.log('search???');
+    store
+      .searchPlayer(params)
+      .then(() => {
+        // rankSquadStat = rs.rank.data.attributes.rankedGameModeStats.squad;
+        // rankSquadStat = rs.rank.data.attributes.rankedGameModeStats.squad;
+        // console.log('then : ', tppSquad);
+      })
+      .catch(err => {
+        console.error('search Error : ', err);
+        alert(err);
+      });
+  };
+  setNowSeason();
 </script>
 
 <template>
@@ -57,13 +74,17 @@
     <!-- 3인칭 영역 -->
     <!-- 3인칭 랭크 솔로, 스쿼드 -->
     <el-row :gutter="20" align="middle" justify="center">
-      <el-col :span="10"
-        ><rank-stat-card mode="solo" isTPP :data="testData.squad" />
+      <el-col :span="10">
+        test
+        <!-- <rank-stat-card mode="solo" tpp :data="testData.squad" /> -->
       </el-col>
       <el-col :span="10">
-        <suspense>
-          <rank-stat-card mode="squad" isTPP :data="rankStat" />
-        </suspense>
+        <!-- <suspense timeout="0"> -->
+        <rank-stat-card squad tpp :data="tppSquad" />
+        <!-- <template #default>
+          </template> -->
+        <!-- <template #fallback> Getting Your Stat.... </template> -->
+        <!-- </suspense> -->
       </el-col>
     </el-row>
     <!-- 3인칭 일반 솔로, 듀오, 스쿼드 -->

@@ -13,8 +13,8 @@ export const useSearchStore = defineStore({
   state: () => ({
     nowSeasons: [] as ISeason[],
     nowSeason: {} as ISeason,
-    rankStat: {} as IPlayerSeasonRank,
-    stat: {} as IPlayerSeason,
+    rank: {} as IPlayerSeasonRank,
+    normal: {} as IPlayerSeason,
   }),
   getters: {
     getAllSeason(): ISeason[] {
@@ -26,7 +26,7 @@ export const useSearchStore = defineStore({
   },
   actions: {
     //시즌 정보 세팅
-    async setSeason(param: string): Promise<void> {
+    async setSeason(param: string): Promise<Boolean | Error> {
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
@@ -35,8 +35,10 @@ export const useSearchStore = defineStore({
         this.nowSeason = seasons.data.data.filter(
           v => v.attributes.isCurrentSeason
         )[0];
+        return true;
       } catch (err) {
         console.error(err);
+        return new Error('시즌 정보 가져오기 실패');
       }
     },
     //검색
@@ -45,8 +47,8 @@ export const useSearchStore = defineStore({
         params.seasonID = this.nowSeason.id;
         const searchAPI = new PlayersAPI(params);
         const stat = await searchAPI.allStat;
-        this.rankStat = stat[0]?.data;
-        this.stat = stat[1]?.data;
+        this.rank = stat[0]?.data;
+        this.normal = stat[1]?.data;
       } catch (err) {
         console.error(err);
       }
