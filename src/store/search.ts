@@ -26,7 +26,7 @@ export const useSearchStore = defineStore({
   },
   actions: {
     //시즌 정보 세팅
-    async setSeason(param: string): Promise<Boolean | Error> {
+    async setSeason(param: string): Promise<void> {
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
@@ -35,10 +35,8 @@ export const useSearchStore = defineStore({
         this.nowSeason = seasons.data.data.filter(
           v => v.attributes.isCurrentSeason
         )[0];
-        return true;
       } catch (err) {
         console.error(err);
-        return new Error('시즌 정보 가져오기 실패');
       }
     },
     //검색

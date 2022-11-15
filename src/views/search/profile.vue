@@ -5,7 +5,7 @@
    * platform으로 해당 시즌 정보 가져옴
    * nickname으로 아이이디 검색 후 아이디로 현재 시즌 스탯 정보를 가져옴
    */
-  import { ref, computed, reactive } from 'vue';
+  import { ref, computed, reactive, onMounted, nextTick } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useSearchStore } from '../../store/search';
@@ -32,41 +32,39 @@
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
 
-  const tppSquad = computed(() => {
-    console.log('computed: ', store.rank);
-    return store.rank;
-  });
+  // data
+  let tppRankSquad: Ref<IGameRankStats | object> = ref({});
 
-  //플랫폼 시즌 정보 세팅
-  const setNowSeason = () => {
-    store
-      .setSeason(params.platform)
-      .then(rs => {
-        if (rs) {
-          search();
-        }
-      })
-      .catch(err => {
-        console.error('setNowSeason Error : ', err);
-        alert(err);
-      });
+  // 플랫폼 시즌 정보 세팅
+  const setSeason = async () => {
+    await store.setSeason(params.platform);
   };
-  //전적 검색
-  const search = () => {
-    console.log('search???');
-    store
-      .searchPlayer(params)
-      .then(() => {
-        // rankSquadStat = rs.rank.data.attributes.rankedGameModeStats.squad;
-        // rankSquadStat = rs.rank.data.attributes.rankedGameModeStats.squad;
-        // console.log('then : ', tppSquad);
-      })
-      .catch(err => {
-        console.error('search Error : ', err);
-        alert(err);
-      });
+  // 전적 검색
+  const searchPlayer = async () => {
+    await store.searchPlayer(params);
   };
-  setNowSeason();
+
+  // 스탯 데이터
+  const createdStat = (mode: string): IGameRankStats | object => {
+    let result: IGameRankStats | object = {};
+    if (mode === 'solo') {
+      result = store.rank.data?.attributes.rankedGameModeStats.solo;
+    } else if (mode === 'squad') {
+      result = store.rank.data?.attributes.rankedGameModeStats.squad;
+    } else {
+      alert('Need Game Mode Property\nsolo or duo or squad');
+      result = {};
+    }
+    console.log('createdStat : ', result);
+    return result;
+  };
+
+  // });
+  onMounted(async () => {
+    await setSeason();
+    await searchPlayer();
+    tppRankSquad.value = createdStat('squad');
+  });
 </script>
 
 <template>
@@ -79,12 +77,7 @@
         <!-- <rank-stat-card mode="solo" tpp :data="testData.squad" /> -->
       </el-col>
       <el-col :span="10">
-        <!-- <suspense timeout="0"> -->
-        <rank-stat-card squad tpp :data="tppSquad" />
-        <!-- <template #default>
-          </template> -->
-        <!-- <template #fallback> Getting Your Stat.... </template> -->
-        <!-- </suspense> -->
+        <rank-stat-card squad tpp :data="tppRankSquad" />
       </el-col>
     </el-row>
     <!-- 3인칭 일반 솔로, 듀오, 스쿼드 -->

@@ -4,35 +4,15 @@
    * https://vuejs.org/guide/typescript/composition-api.html
    * https://element-plus.org/en-US/component/divider.html
    */
-  import {
-    defineProps,
-    reactive,
-    ref,
-    computed,
-    watch,
-    watchEffect,
-  } from 'vue';
+  import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { IPlayerSeasonRank, IGameRankStats } from '../../interfaces';
+  import { IGameRankStats } from '../../interfaces';
   import { useSearchStore } from '../../store/search';
 
   const store = useSearchStore();
 
-  const Mode = {
-    solo: '솔로',
-    duo: '듀오',
-    squad: '스쿼드',
-  };
-  const Tier = {
-    Bronze: '브론즈',
-    Silver: '실버',
-    Gold: '골드',
-    Platinum: '플래티넘',
-    Diamond: '다이아몬드',
-    Master: '마스터',
-  };
   interface Props {
-    data: IPlayerSeasonRank;
+    data: IGameRankStats;
     mode?: string; //solo, duo, squad
     solo?: boolean;
     squad?: boolean;
@@ -40,75 +20,53 @@
     fpp?: boolean; //1인칭
   }
   const props = defineProps<Props>();
-  console.log(props);
+  // console.log(props);
 
-  const mode = Mode[props.mode]; //! 이거 해결 방법을 모르겠네
+  const mode: Ref<string> = ref('');
 
-  // let stat = reactive({});
-  let stat: Ref<IGameRankStats | undefined> = ref(undefined);
-  watch(props.data, () => {});
-  watchEffect(() => {
-    console.log('watchEffect : ', props.data);
-    stat = createdStat();
-  });
-
-  const createdStat = () => {
-    // let result: Ref<IGameRankStats | null> = ref(null);
-    if (props.solo) {
-    } else if (props.squad) {
-      return props.data.data?.attributes.rankedGameModeStats.squad;
-    } else {
-      alert('Need Game Mode Property\nsolo or duo or squad');
-    }
-  };
-
-  // const stat = reactive(createdStat());
-  console.log('stat : ', stat);
-  // const stat: IGameRankStats = reactive(props.data);
-  // const stat: Ref<IGameRankStats> = ref(
-  //   store.stats.rank.data.attributes.rankedGameModeStats.squad
-  // );
-  // console.log('stat : ', stat.value);
-
-  //Tier
-  const currentTier = stat?.currentTier;
-  const cTier = currentTier?.tier;
-  const cSubTier = currentTier?.subTier;
-  const currentRankPoint = stat?.currentRankPoint;
-  const bestTier = stat?.bestTier;
-  const bTier = bestTier?.tier;
-  const bSubTier = bestTier?.subTier;
-  const bestRankPoint = stat?.bestRankPoint;
+  // TIer
+  const currentTier = computed(() => props.data?.currentTier || '-');
+  const currentRankPoint = computed(() => props.data?.currentRankPoint || 0);
+  const bestTier = computed(() => props.data?.bestTier || '-');
+  const bestRankPoint = computed(() => props.data?.bestRankPoint || 0);
 
   //Game
-  const roundsPlayed = stat?.roundsPlayed;
-  const wins = stat?.wins;
-  const winRatio = (stat?.winRatio || 0 * 100).toFixed(1);
-  const top10Ratio = (stat?.top10Ratio || 0 * 1000).toFixed(1);
-  const avgRank = (stat?.avgRank || 0).toFixed(1);
-  const kda = (stat?.kda || 0).toFixed(1);
-  const kills = stat?.kills;
-  const assists = stat?.assists;
-  const deaths = stat?.deaths;
-  const dBNOs = stat?.dBNOs;
-  const damageDealt = stat?.damageDealt;
+  const roundsPlayed = computed(() => props.data?.roundsPlayed || 0);
+  const wins = computed(() => props.data?.wins || 0);
+  const winRatio = computed(
+    () => ((props.data?.winRatio || 0) * 100).toFixed(1) || 0
+  );
+  const top10Ratio = computed(
+    () => ((props.data?.top10Ratio || 0) * 100).toFixed(1) || 0
+  );
+  const avgRank = computed(() => (props.data?.avgRank || 0).toFixed(1));
+
+  //Stat
+  const kda = computed(() => (props.data?.kda || 0).toFixed(1));
+  const kills = computed(() => props.data?.kills || 0);
+  const assists = computed(() => props.data?.assists || 0);
+  const deaths = computed(() => props.data?.deaths || 0);
+  const dBNOs = computed(() => props.data?.dBNOs || 0);
+  const damageDealt = computed(() => props.data?.damageDealt || 0);
 </script>
 <template>
   <el-card class="box-card">
     <el-divider> {{ mode }} </el-divider>
-    <el-divider content-position="left"> 티어 </el-divider>
+    <el-divider content-position="left">
+      <el-tag type="success" effect="dark">티어</el-tag>
+    </el-divider>
     <el-row :gutter="20">
       <el-col :span="5">현재</el-col>
       <el-col :span="15">
-        {{ cTier }}
-        {{ cSubTier }} (RP:{{ currentRankPoint }})
+        {{ currentTier?.tier }}
+        {{ currentTier?.subTier }} (RP:{{ currentRankPoint }})
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="5">최고</el-col>
       <el-col :span="15">
-        {{ bTier }}
-        {{ bSubTier }} (RP:{{ bestRankPoint }})
+        {{ bestTier?.tier }}
+        {{ bestTier?.subTier }} (RP:{{ bestRankPoint }})
       </el-col>
     </el-row>
 
@@ -149,21 +107,4 @@
   .el-row {
     margin-bottom: 10px;
   }
-  /* .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .box-card {
-    width: 480px;
-  } */
 </style>
