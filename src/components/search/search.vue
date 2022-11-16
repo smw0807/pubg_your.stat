@@ -26,7 +26,7 @@
   // 검색 기록 담을 변수
   const history: Ref<ISearchForm[]> = ref([]);
 
-  // 로컷스토리지에 있는 검색 기록 가져오기
+  // 로컬스토리지에 있는 검색 기록 가져오기
   const getHistory = (): ISearchForm[] => {
     const items = localStorage.getItem('yourstat_search_history');
     if (items) {
@@ -39,11 +39,11 @@
 
   // 검색 정보 로컬스토리지에 추가
   const addLocalStorage = (params: ISearchForm): void => {
-    // 로컬스토리지에 없으면 바로 추가
+    // 로컬스토리지가 없으면 바로 추가
     if (!localStorage.getItem('yourstat_search_history')) {
       localStorage.setItem('yourstat_search_history', JSON.stringify([params]));
     } else {
-      // 있으면 검색한 닉네임이 있는지 검사 후 없으면 추가
+      // 검색하는 닉네임이 로컬스토리지에 없으면 추가
       const itemsArr = getHistory();
       if (!itemsArr.some(v => v.nickname === params.nickname)) {
         itemsArr.push(params);
@@ -97,7 +97,7 @@
   //========== input ======================================================= E
 
   //========== search ======================================================= S
-  //검색 플랫펌, 닉네임 넘기기
+  //검색 플랫폼, 닉네임 넘기기
   const searchPlayer = (): void => {
     if (searchParams.value.platform && searchParams.value.nickname) {
       addLocalStorage(searchParams.value);

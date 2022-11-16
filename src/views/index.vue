@@ -6,9 +6,9 @@
   const route = useRouter();
 
   //전적 검색
-  async function search(params: ISearchForm) {
+  const search = (params: ISearchForm): void => {
     route.push(`/profile/${params.platform}/${params.nickname}`);
-  }
+  };
 </script>
 
 <template>
