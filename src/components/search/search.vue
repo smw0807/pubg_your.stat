@@ -145,7 +145,7 @@
             <el-select
               v-model="searchParams.platform"
               @change="changeGamePlatform"
-              placeholder="플랫폼 선택"
+              placeholder="플랫폼"
               style="width: 115px"
               size="large"
             >
