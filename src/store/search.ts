@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia';
-import { PlayersAPI, SeasonAPI } from '../apis';
-import { ISearchForm } from '../interfaces';
-import type { AxiosPromise } from 'axios';
-import type { IPlayerSeason, IPlayerSeasonRank, ISeason } from '../interfaces';
+import { PlayersAPI, SeasonAPI } from '@/apis';
+import type {
+  ISearchForm,
+  IPlayerSeason,
+  IPlayerSeasonRank,
+  ISeason,
+} from '@/interfaces';
 /**
  * 검색 관련 스토어
  * nowSeasons : 모든 시즌 정보들

@@ -8,15 +8,15 @@
   import { ref, computed, reactive, onMounted, nextTick } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import { useSearchStore } from '../../store/search';
+  import { useSearchStore } from '@/store/search';
   import type {
     ISearchForm,
     IGameRankStats,
     IPlayerSeasonRank,
-  } from '../../interfaces';
+  } from '@/interfaces';
 
   //컴포넌트
-  import rankStatCard from '../../components/card/rankStat.vue';
+  import rankStatCard from '@/components/card/rankStat.vue';
 
   //테스트 데이터
   import testData from '../../../test/rankStatSample.json';
@@ -78,6 +78,7 @@
       </el-col>
       <el-col :span="10">
         <rank-stat-card squad tpp :data="tppRankSquad" />
+        <!-- <rank-stat-card squad tpp :data="testData.squad" /> -->
       </el-col>
     </el-row>
     <!-- 3인칭 일반 솔로, 듀오, 스쿼드 -->

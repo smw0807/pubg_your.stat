@@ -6,8 +6,8 @@
    */
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { IGameRankStats } from '../../interfaces';
-  import { useSearchStore } from '../../store/search';
+  import { IGameRankStats } from '@/interfaces';
+  import { useSearchStore } from '@/store/search';
 
   const store = useSearchStore();
 
@@ -20,9 +20,18 @@
     fpp?: boolean; //1인칭
   }
   const props = defineProps<Props>();
-  // console.log(props);
+  console.log(props);
 
-  const mode: Ref<string> = ref('');
+  const modeName = (): string => {
+    let result = '';
+    if (props.solo) {
+      result = '솔로';
+    } else if (props.squad) {
+      result = '스쿼드';
+    }
+    return result;
+  };
+  const mode: Ref<string> = ref(modeName());
 
   // TIer
   const currentTier = computed(() => props.data?.currentTier || '-');
@@ -47,7 +56,7 @@
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() => props.data?.damageDealt || 0);
+  const damageDealt = computed(() => (props.data?.damageDealt).toFixed(0) || 0);
 </script>
 <template>
   <el-card class="box-card">
