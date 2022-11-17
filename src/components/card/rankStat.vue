@@ -3,6 +3,7 @@
    * 이 컴포넌트 만들면서 참고한 사이트들
    * https://vuejs.org/guide/typescript/composition-api.html
    * https://element-plus.org/en-US/component/divider.html
+   * https://element-plus.org/en-US/component/empty.html#basic-usage
    */
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
@@ -21,6 +22,9 @@
   }
   const props = defineProps<Props>();
   console.log(props);
+
+  // 데이터 존재 유무
+  let hasNoData = computed(() => (props.data === undefined ? true : false));
 
   const modeName = (): string => {
     let result = '';
@@ -56,60 +60,66 @@
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() => (props.data?.damageDealt).toFixed(0) || 0);
+  const damageDealt = computed(() => (props.data?.damageDealt || 0).toFixed(0));
 </script>
 <template>
   <el-card class="box-card">
     <el-divider> {{ mode }} </el-divider>
-    <el-divider content-position="left">
-      <el-tag type="success" effect="dark">티어</el-tag>
-    </el-divider>
-    <el-row :gutter="20">
-      <el-col :span="5">현재</el-col>
-      <el-col :span="15">
-        {{ currentTier?.tier }}
-        {{ currentTier?.subTier }} (RP:{{ currentRankPoint }})
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="5">최고</el-col>
-      <el-col :span="15">
-        {{ bestTier?.tier }}
-        {{ bestTier?.subTier }} (RP:{{ bestRankPoint }})
-      </el-col>
-    </el-row>
+    <div v-if="hasNoData">
+      <el-empty :image-size="176" description="게임 기록이 없습니다." />
+    </div>
 
-    <el-divider content-position="left"> 게임 </el-divider>
-    <el-row :gutter="20">
-      <el-col :span="5">총게임 </el-col>
-      <el-col :span="5">{{ roundsPlayed }} 회</el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="5">치킨</el-col>
-      <el-col :span="5">{{ wins }} 승</el-col>
-      <el-col :span="5">승률</el-col>
-      <el-col :span="5">{{ winRatio }}%</el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="5">탑10</el-col>
-      <el-col :span="5">{{ top10Ratio }} %</el-col>
-      <el-col :span="5">평균 등수</el-col>
-      <el-col :span="5">{{ avgRank }} 등</el-col>
-    </el-row>
+    <div v-else>
+      <el-divider content-position="left">
+        <el-tag type="success" effect="dark">티어</el-tag>
+      </el-divider>
+      <el-row :gutter="20">
+        <el-col :span="5">현재</el-col>
+        <el-col :span="15">
+          {{ currentTier?.tier }}
+          {{ currentTier?.subTier }} (RP:{{ currentRankPoint }})
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">최고</el-col>
+        <el-col :span="15">
+          {{ bestTier?.tier }}
+          {{ bestTier?.subTier }} (RP:{{ bestRankPoint }})
+        </el-col>
+      </el-row>
 
-    <el-divider content-position="left"> 스탯 </el-divider>
-    <el-row :gutter="20">
-      <el-col :span="5">KAD</el-col>
-      <el-col :span="15">
-        {{ kda }} (K:{{ kills }} / D:{{ deaths }} / A:{{ assists }})
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="5">기절시킴</el-col>
-      <el-col :span="5">{{ dBNOs }}</el-col>
-      <el-col :span="5">누적딜량</el-col>
-      <el-col :span="5">{{ damageDealt }}</el-col>
-    </el-row>
+      <el-divider content-position="left"> 게임 </el-divider>
+      <el-row :gutter="20">
+        <el-col :span="5">총게임 </el-col>
+        <el-col :span="5">{{ roundsPlayed }} 회</el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">치킨</el-col>
+        <el-col :span="5">{{ wins }} 승</el-col>
+        <el-col :span="5">승률</el-col>
+        <el-col :span="5">{{ winRatio }}%</el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">탑10</el-col>
+        <el-col :span="5">{{ top10Ratio }} %</el-col>
+        <el-col :span="5">평균 등수</el-col>
+        <el-col :span="5">{{ avgRank }} 등</el-col>
+      </el-row>
+
+      <el-divider content-position="left"> 스탯 </el-divider>
+      <el-row :gutter="20">
+        <el-col :span="5">KAD</el-col>
+        <el-col :span="15">
+          {{ kda }} (K:{{ kills }} / D:{{ deaths }} / A:{{ assists }})
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="5">기절시킴</el-col>
+        <el-col :span="5">{{ dBNOs }}</el-col>
+        <el-col :span="5">누적딜량</el-col>
+        <el-col :span="5">{{ damageDealt }}</el-col>
+      </el-row>
+    </div>
   </el-card>
 </template>
 <style scope>
