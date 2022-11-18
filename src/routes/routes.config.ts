@@ -27,7 +27,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/map',
-    name: '맵별 차량 고정젠',
+    name: '맵별 차량 위치',
     meta: {
       transition: 'fade',
     },
