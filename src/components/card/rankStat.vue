@@ -11,6 +11,8 @@
   import { IGameRankStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
   import { insertComma } from '@/utils';
+  //icon
+  import { Warning } from '@element-plus/icons-vue';
 
   const store = useSearchStore();
 
@@ -195,6 +197,14 @@
           width="40px"
         >
           {{ insertComma(damageDealt) }}
+          <el-tooltip>
+            <template #content>
+              순수 적에게 가한 데미지만 포함된 수치입니다.<br />
+              자기 자신한테 가한 피해는 제외합니다.<br />
+              (예: 수류탄으로 인한 자해, 차량에서 뛰어내려 받은 딜 등)
+            </template>
+            <el-icon><Warning /></el-icon>
+          </el-tooltip>
         </el-descriptions-item>
       </el-descriptions>
     </div>
