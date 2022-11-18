@@ -39,7 +39,7 @@ export class PlayersAPI extends PubgAPI {
         this._userInfo = player.data;
       }
     } catch (err) {
-      // console.error(err);
+      console.error(err);
     }
     return this._userInfo;
   }
@@ -53,7 +53,7 @@ export class PlayersAPI extends PubgAPI {
         `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
       );
     } catch (err) {
-      // console.error(err);
+      console.error(err);
     }
     return result;
   }

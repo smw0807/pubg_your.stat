@@ -90,7 +90,9 @@ export interface IPlayerSeasonRank {
     attributes: {
       rankedGameModeStats: {
         solo: IGameRankStats;
+        'solo-fpp': IGameRankStats;
         squad: IGameRankStats;
+        'squad-fpp': IGameRankStats;
       };
     };
     relationships: {
