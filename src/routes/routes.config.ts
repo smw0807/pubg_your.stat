@@ -48,6 +48,14 @@ export const routes: Array<RouteRecordRaw> = [
           transition: 'fade',
         },
       },
+      {
+        path: '/map/taego',
+        name: '태이고',
+        component: () => import('@/views/map/taego.vue'),
+        meta: {
+          transition: 'fade',
+        },
+      },
       // {
       //   path: '/map/taego',
       //   name: '태이고',
