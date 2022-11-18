@@ -73,14 +73,18 @@
 </script>
 <template>
   <el-card class="box-card">
-    <el-divider> {{ mode }} </el-divider>
+    <el-divider>
+      <span :style="`font-size: var(--el-font-size-extra-large)`">
+        {{ mode }}
+      </span>
+    </el-divider>
     <div v-if="hasNoData">
       <el-empty :image-size="270" description="게임 기록이 없습니다." />
     </div>
 
     <div v-else>
       <el-divider content-position="left">
-        <el-tag type="success" effect="dark">티어</el-tag>
+        <span :style="`font-size: var(--el-font-size-large)`"> 티어 </span>
       </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
@@ -107,7 +111,9 @@
         </el-descriptions-item>
       </el-descriptions>
 
-      <el-divider content-position="left"> 게임 </el-divider>
+      <el-divider content-position="left">
+        <span :style="`font-size: var(--el-font-size-large)`"> 게임 </span>
+      </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
           label="총게임"
@@ -162,7 +168,9 @@
         </el-descriptions-item>
       </el-descriptions>
 
-      <el-divider content-position="left"> 스탯 </el-divider>
+      <el-divider content-position="left">
+        <span :style="`font-size: var(--el-font-size-large)`"> 스탯 </span>
+      </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
           label="KDA"
