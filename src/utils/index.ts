@@ -1,0 +1,1 @@
+export { insertComma } from './number';
