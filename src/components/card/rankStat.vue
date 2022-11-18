@@ -4,11 +4,13 @@
    * https://vuejs.org/guide/typescript/composition-api.html
    * https://element-plus.org/en-US/component/divider.html
    * https://element-plus.org/en-US/component/empty.html#basic-usage
+   * https://element-plus.org/en-US/component/descriptions.html#descriptions-attributes
    */
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameRankStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
+  import { insertComma } from '@/utils';
 
   const store = useSearchStore();
 
@@ -28,10 +30,15 @@
 
   const modeName = (): string => {
     let result = '';
+    if (props.tpp) {
+      result += '3인칭 ';
+    } else if (props.fpp) {
+      result += '1인칭 ';
+    }
     if (props.solo) {
-      result = '솔로';
+      result += '솔로';
     } else if (props.squad) {
-      result = '스쿼드';
+      result += '스쿼드';
     }
     return result;
   };
@@ -44,15 +51,15 @@
   const bestRankPoint = computed(() => props.data?.bestRankPoint || 0);
 
   //Game
-  const roundsPlayed = computed(() => props.data?.roundsPlayed || 0);
-  const wins = computed(() => props.data?.wins || 0);
+  const roundsPlayed = computed(() => (props.data?.roundsPlayed || 0) + '회');
+  const wins = computed(() => (props.data?.wins || 0) + '번');
   const winRatio = computed(
-    () => ((props.data?.winRatio || 0) * 100).toFixed(1) || 0
+    () => (((props.data?.winRatio || 0) * 100).toFixed(1) || 0) + '%'
   );
   const top10Ratio = computed(
-    () => ((props.data?.top10Ratio || 0) * 100).toFixed(1) || 0
+    () => (((props.data?.top10Ratio || 0) * 100).toFixed(1) || 0) + '%'
   );
-  const avgRank = computed(() => (props.data?.avgRank || 0).toFixed(1));
+  const avgRank = computed(() => (props.data?.avgRank || 0).toFixed(1) + '등');
 
   //Stat
   const kda = computed(() => (props.data?.kda || 0).toFixed(1));
@@ -66,64 +73,138 @@
   <el-card class="box-card">
     <el-divider> {{ mode }} </el-divider>
     <div v-if="hasNoData">
-      <el-empty :image-size="176" description="게임 기록이 없습니다." />
+      <el-empty :image-size="270" description="게임 기록이 없습니다." />
     </div>
 
     <div v-else>
       <el-divider content-position="left">
         <el-tag type="success" effect="dark">티어</el-tag>
       </el-divider>
-      <el-row :gutter="20">
-        <el-col :span="5">현재</el-col>
-        <el-col :span="15">
+      <el-descriptions :column="1" border>
+        <el-descriptions-item
+          label="현재"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="30px"
+        >
           {{ currentTier?.tier }}
           {{ currentTier?.subTier }} (RP:{{ currentRankPoint }})
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="5">최고</el-col>
-        <el-col :span="15">
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="최고"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="30px"
+        >
           {{ bestTier?.tier }}
           {{ bestTier?.subTier }} (RP:{{ bestRankPoint }})
-        </el-col>
-      </el-row>
+        </el-descriptions-item>
+      </el-descriptions>
 
       <el-divider content-position="left"> 게임 </el-divider>
-      <el-row :gutter="20">
-        <el-col :span="5">총게임 </el-col>
-        <el-col :span="5">{{ roundsPlayed }} 회</el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="5">치킨</el-col>
-        <el-col :span="5">{{ wins }} 승</el-col>
-        <el-col :span="5">승률</el-col>
-        <el-col :span="5">{{ winRatio }}%</el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="5">탑10</el-col>
-        <el-col :span="5">{{ top10Ratio }} %</el-col>
-        <el-col :span="5">평균 등수</el-col>
-        <el-col :span="5">{{ avgRank }} 등</el-col>
-      </el-row>
+      <el-descriptions :column="1" border>
+        <el-descriptions-item
+          label="총게임"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="40px"
+        >
+          {{ roundsPlayed }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions :column="2" border>
+        <el-descriptions-item
+          label="치킨"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="60px"
+        >
+          {{ wins }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="승률"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ winRatio }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="탑10"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="60px"
+        >
+          {{ top10Ratio }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="평균 등수"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="60px"
+        >
+          {{ avgRank }}
+        </el-descriptions-item>
+      </el-descriptions>
 
       <el-divider content-position="left"> 스탯 </el-divider>
-      <el-row :gutter="20">
-        <el-col :span="5">KAD</el-col>
-        <el-col :span="15">
-          {{ kda }} (K:{{ kills }} / D:{{ deaths }} / A:{{ assists }})
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="5">기절시킴</el-col>
-        <el-col :span="5">{{ dBNOs }}</el-col>
-        <el-col :span="5">누적딜량</el-col>
-        <el-col :span="5">{{ damageDealt }}</el-col>
-      </el-row>
+      <el-descriptions :column="1" border>
+        <el-descriptions-item
+          label="KDA"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ kda }}
+          ( K:{{ insertComma(kills) }} / D:{{ insertComma(deaths) }} / A:{{
+            insertComma(assists)
+          }})
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions :column="2" border>
+        <el-descriptions-item
+          label="기절시킴"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="45px"
+        >
+          {{ insertComma(dBNOs) }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="누적딜량"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="40px"
+        >
+          {{ insertComma(damageDealt) }}
+        </el-descriptions-item>
+      </el-descriptions>
     </div>
   </el-card>
 </template>
 <style scope>
-  .el-row {
-    margin-bottom: 10px;
+  .my-label {
+    background: var(--el-color-success-light-9);
   }
+  /* .my-content {
+    background: var(--el-color-danger-light-9);
+  } */
 </style>
