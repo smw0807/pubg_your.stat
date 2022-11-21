@@ -116,7 +116,7 @@
       </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
-          label="총게임"
+          label="총 플레이수"
           label-align="center"
           align="center"
           label-class-name="my-label"
