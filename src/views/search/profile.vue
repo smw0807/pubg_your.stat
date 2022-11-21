@@ -63,8 +63,8 @@
   };
 
   onMounted(async () => {
-    // await setSeason();
-    // await searchPlayer();
+    await setSeason();
+    await searchPlayer();
     tppRankSolo.value = rankStat('solo');
     tppRankSquad.value = rankStat('squad');
 
@@ -126,8 +126,8 @@
             <stat-card duo tpp :data="tppDuo" />
           </el-col>
           <el-col :span="24">
-            <stat-card squad tpp :data="testData2.squad" />
-            <!-- <stat-card squad tpp :data="tppSquad" /> -->
+            <!-- <stat-card squad tpp :data="testData2.squad" /> -->
+            <stat-card squad tpp :data="tppSquad" />
           </el-col>
         </el-row>
       </el-tab-pane>
