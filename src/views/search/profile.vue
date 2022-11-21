@@ -15,12 +15,15 @@
     IGameStats,
     IPlayerSeasonRank,
   } from '@/interfaces';
+  import { normalStat, rankStat } from '@/utils';
 
   //컴포넌트
   import rankStatCard from '@/components/card/rankStat.vue';
+  import statCard from '@/components/card/stat.vue';
 
   //테스트 데이터
   import testData from '../../../test/rankStatSample.json';
+  import testData2 from '../../../test/statSample.json';
 
   const store = useSearchStore();
   const route = useRoute();
@@ -29,6 +32,8 @@
     platform: route.params.platform as string,
     nickname: route.params.nickname as string,
   };
+
+  const activeName = ref('rank');
 
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
@@ -57,103 +62,76 @@
     await store.searchPlayer(params);
   };
 
-  // 스탯 데이터
-  const createdRankStat = (mode: string): IGameRankStats | object => {
-    let result: IGameRankStats | object = {};
-    switch (mode) {
-      case 'solo':
-        result = store.rank.data?.attributes.rankedGameModeStats.solo;
-        break;
-      case 'solo-fpp':
-        result = store.rank.data?.attributes.rankedGameModeStats['solo-fpp'];
-        break;
-      case 'squad':
-        result = store.rank.data?.attributes.rankedGameModeStats.squad;
-        break;
-      case 'squad-fpp':
-        result = store.rank.data?.attributes.rankedGameModeStats['squad-fpp'];
-        break;
-      default:
-        result = {};
-        break;
-    }
-    return result;
-  };
-  const createdStat = (mode: string): IGameStats | object => {
-    let result: IGameStats | object = {};
-    switch (mode) {
-      case 'solo':
-        result = store.normal.data?.attributes.gameModeStats.solo;
-        break;
-      case 'solo-fpp':
-        result = store.normal.data?.attributes.gameModeStats['solo-fpp'];
-        break;
-      case 'duo':
-        result = store.normal.data?.attributes.gameModeStats.duo;
-        break;
-      case 'duo-fpp':
-        result = store.normal.data?.attributes.gameModeStats['duo-fpp'];
-        break;
-      case 'squad':
-        result = store.normal.data?.attributes.gameModeStats.squad;
-        break;
-      case 'squad-fpp':
-        result = store.normal.data?.attributes.gameModeStats['squad-fpp'];
-        break;
-      default:
-        result = {};
-        break;
-    }
-    return result;
-  };
-
   onMounted(async () => {
-    await setSeason();
-    await searchPlayer();
-    tppRankSolo.value = createdRankStat('solo');
-    tppRankSquad.value = createdRankStat('squad');
+    // await setSeason();
+    // await searchPlayer();
+    tppRankSolo.value = rankStat('solo');
+    tppRankSquad.value = rankStat('squad');
 
-    tppSolo.value = createdStat('solo');
-    tppDuo.value = createdStat('tppDuo');
-    tppSquad.value = createdStat('tppSquad');
+    tppSolo.value = normalStat('solo');
+    tppDuo.value = normalStat('duo');
+    tppSquad.value = normalStat('squad');
 
     if (hasFPP) {
-      fppRankSolo.value = createdRankStat('solo-fpp');
-      fppRankSquad.value = createdRankStat('squad-fpp');
+      fppRankSolo.value = rankStat('solo-fpp');
+      fppRankSquad.value = rankStat('squad-fpp');
 
-      fppSolo.value = createdStat('solo-fpp');
-      fppDuo.value = createdStat('duo-fpp');
-      fppSquad.value = createdStat('squad-fpp');
+      fppSolo.value = normalStat('solo-fpp');
+      fppDuo.value = normalStat('duo-fpp');
+      fppSquad.value = normalStat('squad-fpp');
     }
   });
 </script>
 
 <template>
   <div class="main">
-    <!-- 3인칭 영역 -->
-    <!-- 3인칭 랭크 솔로, 스쿼드 -->
-    <el-row :gutter="20" align="middle" justify="center">
-      <el-col :span="10">
-        <rank-stat-card solo tpp :data="tppRankSolo" />
-      </el-col>
-      <el-col :span="10">
-        <rank-stat-card squad tpp :data="tppRankSquad" />
-        <!-- <rank-stat-card squad tpp :data="testData.squad" /> -->
-      </el-col>
-    </el-row>
-    <!-- 3인칭 일반 솔로, 듀오, 스쿼드 -->
+    <el-tabs v-model="activeName" class="demo-tabs">
+      <!-- 3인칭 솔로, 스쿼드, 1인칭 솔로, 스쿼드 랭크 스탯 카드 -->
+      <el-tab-pane label="랭크" name="rank">
+        <el-row :gutter="24" align="middle" justify="space-evenly">
+          <el-col :span="12" :sm="24" :md="12">
+            <rank-stat-card solo tpp :data="tppRankSolo" />
+            <!-- <rank-stat-card solo tpp :data="testData.squad" /> -->
+          </el-col>
+          <el-col :span="12" :sm="24" :md="12">
+            <!-- <rank-stat-card squad tpp :data="tppRankSquad" /> -->
+            <rank-stat-card squad tpp :data="testData.squad" />
+          </el-col>
+        </el-row>
 
-    <!-- 1인칭 영역 -->
-    <el-row v-if="hasFPP" :gutter="20" align="middle" justify="center">
-      <el-col :span="10">
-        <rank-stat-card solo fpp :data="fppRankSolo" />
-      </el-col>
-      <el-col :span="10">
-        <rank-stat-card squad fpp :data="fppRankSquad" />
-      </el-col>
-    </el-row>
-    <!-- 1인칭 랭크 솔로, 스쿼드 -->
-    <!-- 1인칭 일반 솔로, 듀오, 스쿼드 -->
+        <el-row
+          v-if="hasFPP"
+          :gutter="24"
+          align="middle"
+          justify="space-evenly"
+        >
+          <el-col :span="12" :sm="24" :md="12">
+            <rank-stat-card solo fpp :data="fppRankSolo" />
+          </el-col>
+          <el-col :span="12" :sm="24" :md="12">
+            <rank-stat-card squad fpp :data="fppRankSquad" />
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+      <!-- 3인칭 솔로, 듀오, 스쿼드, 1인칭 솔로, 듀오, 스쿼드 일반 스탯 카드 -->
+      <el-tab-pane label="일반" name="normal">
+        <el-row :gutter="24" justify="space-between">
+          <el-col :sm="24" :md="8">
+            <!-- <stat-card solo fpp :data="testData2" /> -->
+            <stat-card solo tpp :data="tppSolo" />
+          </el-col>
+          <el-col :sm="24" :md="8">
+            <!-- <stat-card duo fpp :data="testData2" /> -->
+            <stat-card duo tpp :data="tppDuo" />
+          </el-col>
+          <el-col :sm="24" :md="8">
+            <stat-card squad tpp :data="testData2" />
+            <!-- <stat-card squad tpp :data="tppSquad" /> -->
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
