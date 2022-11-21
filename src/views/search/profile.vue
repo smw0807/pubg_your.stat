@@ -117,16 +117,16 @@
       <!-- 3인칭 솔로, 듀오, 스쿼드, 1인칭 솔로, 듀오, 스쿼드 일반 스탯 카드 -->
       <el-tab-pane label="일반" name="normal">
         <el-row :gutter="24" justify="space-between">
-          <el-col :sm="24" :md="8">
+          <el-col :span="24">
             <!-- <stat-card solo fpp :data="testData2" /> -->
             <stat-card solo tpp :data="tppSolo" />
           </el-col>
-          <el-col :sm="24" :md="8">
+          <el-col :span="24">
             <!-- <stat-card duo fpp :data="testData2" /> -->
             <stat-card duo tpp :data="tppDuo" />
           </el-col>
-          <el-col :sm="24" :md="8">
-            <stat-card squad tpp :data="testData2" />
+          <el-col :span="24">
+            <stat-card squad tpp :data="testData2.squad" />
             <!-- <stat-card squad tpp :data="tppSquad" /> -->
           </el-col>
         </el-row>
@@ -137,6 +137,9 @@
 
 <style scoped>
   .el-row {
+    margin-bottom: 10px;
+  }
+  .el-col {
     margin-bottom: 10px;
   }
 </style>
