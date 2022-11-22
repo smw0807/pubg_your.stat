@@ -1,5 +1,10 @@
 import { PubgAPI } from '.';
-import { ISearchForm, IPlayerList, IPlayer } from '../interfaces';
+import {
+  ISearchForm,
+  IPlayerList,
+  IPlayerSeasonRank,
+  IPlayerSeason,
+} from '../interfaces';
 import { AxiosPromise } from 'axios';
 
 /**
@@ -32,43 +37,49 @@ export class PlayersAPI extends PubgAPI {
   }
 
   //유저 정보 가져오기
-  async getUserInfo() {
-    try {
-      if (!this._userInfo) {
-        const player = await this.playerInfo;
-        this._userInfo = player.data;
+  getUserInfo(): Promise<IPlayerList | null> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!this._userInfo) {
+          const player = await this.playerInfo;
+          this._userInfo = player.data;
+        }
+        resolve(this._userInfo);
+      } catch (err) {
+        reject(err);
       }
-    } catch (err) {
-      console.error(err);
-    }
-    return this._userInfo;
+    });
   }
 
   //랭크 스탯 가져오기
-  async getRankStat() {
-    let result = null;
-    try {
-      const user = await this.getUserInfo();
-      result = await this.axios(
-        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
-      );
-    } catch (err) {
-      console.error(err);
-    }
-    return result;
+  getRankStat(): AxiosPromise<IPlayerSeasonRank> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let result = null;
+        const user = await this.getUserInfo();
+        result = await this.axios(
+          `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
+        );
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   //일반 스탯 가져오기
-  async getStat() {
-    let result = null;
-    try {
-      const user = await this.getUserInfo();
-      result = await this.axios(
-        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}`
-      );
-    } catch (err) {
-      // console.error(err);
-    }
-    return result;
+  getStat(): AxiosPromise<IPlayerSeason> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let result = null;
+        const user = await this.getUserInfo();
+        result = await this.axios(
+          `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}`
+        );
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 }
