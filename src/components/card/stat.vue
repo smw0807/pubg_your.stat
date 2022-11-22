@@ -29,7 +29,9 @@
   console.log(props);
 
   // 데이터 존재 유무
-  let hasNoData = computed(() => (props.data === undefined ? true : false));
+  let hasNoData = computed(() =>
+    props.data.roundsPlayed === 0 ? true : false
+  );
 
   const modeName = (): string => {
     let result = '';
@@ -128,7 +130,7 @@
 
     <div v-else>
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`"> 게임 </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 게임 </span>
       </el-divider>
       <el-descriptions :column="3" border>
         <el-descriptions-item
@@ -251,7 +253,7 @@
       </el-descriptions> -->
 
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`"> 스탯 </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 스탯 </span>
       </el-divider>
       <el-descriptions :column="2" border>
         <el-descriptions-item
@@ -376,7 +378,7 @@
         </el-descriptions-item>
       </el-descriptions>
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`"> 생존 </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 생존 </span>
       </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
@@ -409,7 +411,7 @@
       </el-descriptions>
 
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`"> 파괴 </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 파괴 </span>
       </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
@@ -433,7 +435,7 @@
       </el-descriptions>
 
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`">
+        <span :style="`font-size: var(--el-font-size-medium)`">
           아이템 사용
         </span>
       </el-divider>
@@ -468,7 +470,7 @@
       </el-descriptions>
 
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`"> 이동거리 </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 이동거리 </span>
       </el-divider>
       <el-descriptions :column="3" border>
         <el-descriptions-item
