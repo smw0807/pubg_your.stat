@@ -16,6 +16,7 @@
     IPlayerSeasonRank,
   } from '@/interfaces';
   import { normalStat, rankStat } from '@/utils';
+  import { errorCode } from '@/utils';
 
   //컴포넌트
   import rankStatCard from '@/components/card/rankStat.vue';
@@ -34,6 +35,8 @@
   };
 
   const activeName = ref('rank');
+
+  let isError: Ref<boolean> = ref(false);
 
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
@@ -55,11 +58,21 @@
 
   // 플랫폼 시즌 정보 세팅
   const setSeason = async () => {
-    await store.setSeason(params.platform);
+    try {
+      await store.setSeason(params.platform);
+    } catch (err) {
+      const code = errorCode(err);
+      console.log(code);
+    }
   };
   // 전적 검색
   const searchPlayer = async () => {
-    await store.searchPlayer(params);
+    try {
+      await store.searchPlayer(params);
+    } catch (err) {
+      const code = errorCode(err);
+      console.log(code);
+    }
   };
 
   onMounted(async () => {
@@ -94,8 +107,8 @@
             <!-- <rank-stat-card solo tpp :data="testData.squad" /> -->
           </el-col>
           <el-col :span="12" :sm="24" :md="12">
-            <!-- <rank-stat-card squad tpp :data="tppRankSquad" /> -->
-            <rank-stat-card squad tpp :data="testData.squad" />
+            <rank-stat-card squad tpp :data="tppRankSquad" />
+            <!-- <rank-stat-card squad tpp :data="testData.squad" /> -->
           </el-col>
         </el-row>
 
