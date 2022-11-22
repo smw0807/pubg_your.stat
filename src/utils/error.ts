@@ -1,4 +1,4 @@
-export const errorCode = (error: any): number => {
+export const errorCode = (error: unknown): number => {
   let result = 0;
   let message = '';
   if (error instanceof Error) message = error.message;
