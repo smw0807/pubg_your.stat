@@ -5,18 +5,12 @@
    * platform으로 해당 시즌 정보 가져옴
    * nickname으로 아이이디 검색 후 아이디로 현재 시즌 스탯 정보를 가져옴
    */
-  import { ref, computed, reactive, onMounted, nextTick } from 'vue';
+  import { ref, onMounted } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useSearchStore } from '@/store/search';
-  import type {
-    ISearchForm,
-    IGameRankStats,
-    IGameStats,
-    IPlayerSeasonRank,
-  } from '@/interfaces';
+  import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
   import { normalStat, rankStat } from '@/utils';
-  import { errorCode } from '@/utils';
 
   //컴포넌트
   import rankStatCard from '@/components/card/rankStat.vue';
@@ -56,28 +50,7 @@
   let fppDuo: Ref<IGameStats | object> = ref({});
   let fppSquad: Ref<IGameStats | object> = ref({});
 
-  // 플랫폼 시즌 정보 세팅
-  const setSeason = async () => {
-    try {
-      await store.setSeason(params.platform);
-    } catch (err) {
-      const code = errorCode(err);
-      console.log(code);
-    }
-  };
-  // 전적 검색
-  const searchPlayer = async () => {
-    try {
-      await store.searchPlayer(params);
-    } catch (err) {
-      const code = errorCode(err);
-      console.log(code);
-    }
-  };
-
   onMounted(async () => {
-    await setSeason();
-    await searchPlayer();
     tppRankSolo.value = rankStat('solo');
     tppRankSquad.value = rankStat('squad');
 
