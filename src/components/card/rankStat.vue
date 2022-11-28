@@ -64,7 +64,7 @@
   const avgRank = computed(() => (props.data?.avgRank || 0).toFixed(1) + '등');
 
   //Stat
-  const kda = computed(() => (props.data?.kda || 0).toFixed(1));
+  const kda = computed(() => (props.data?.kda || 0).toFixed(2));
   const kills = computed(() => props.data?.kills || 0);
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
