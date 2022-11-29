@@ -1,4 +1,4 @@
-import { useSearchStore } from '@/store/Search';
+import { useSearchStore } from '@/store';
 import { IGameStats, IGameRankStats } from '@/interfaces';
 const store = useSearchStore();
 

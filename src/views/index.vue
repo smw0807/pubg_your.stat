@@ -6,7 +6,7 @@
 
   import mainSearch from '@/components/search/Search.vue';
 
-  import { useSearchStore } from '@/store/Search';
+  import { useSearchStore } from '@/store';
   const store = useSearchStore();
 
   const route = useRouter();

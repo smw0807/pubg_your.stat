@@ -8,7 +8,6 @@
   import { ref, onMounted } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
-  import { useSearchStore } from '@/store/search';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
   import { normalStat, rankStat } from '@/utils';
 
@@ -20,7 +19,6 @@
   import testData from '../../../test/rankStatSample.json';
   import testData2 from '../../../test/statSample.json';
 
-  const store = useSearchStore();
   const route = useRoute();
 
   const params: ISearchForm = {
@@ -29,8 +27,6 @@
   };
 
   const activeName = ref('rank');
-
-  let isError: Ref<boolean> = ref(false);
 
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
