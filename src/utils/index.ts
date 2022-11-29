@@ -1,3 +1,3 @@
-export { normalStat, rankStat } from './createdStat';
-export { errorCode } from './error';
-export { insertComma } from './number';
+export { normalStat, rankStat } from './CreatedStat';
+export { errorCode } from './Error';
+export { insertComma } from './Number';

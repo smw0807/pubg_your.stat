@@ -1,4 +1,4 @@
-export type { IAPIObject, ISimpleAPIObject } from './common';
+export type { IAPIObject, ISimpleAPIObject } from './Common';
 export type { ISearchForm } from './SearchForm';
 export type { ISeason, ISeasonList } from './Season';
 export type {

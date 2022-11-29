@@ -3,8 +3,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import { setupRouter } from './routes';
-import { setupElementPlus } from './plugins/element-plus';
-import { setupPinia } from './plugins/pinia';
+import { setupElementPlus } from './plugins/ElementPlus';
+import { setupPinia } from './plugins/Pinia';
 
 const app = createApp(App);
 setupRouter(app); //vue-router apply

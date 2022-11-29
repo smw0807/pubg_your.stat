@@ -13,8 +13,8 @@
   import { normalStat, rankStat } from '@/utils';
 
   //컴포넌트
-  import rankStatCard from '@/components/card/rankStat.vue';
-  import statCard from '@/components/card/stat.vue';
+  import rankStatCard from '@/components/card/RankStat.vue';
+  import statCard from '@/components/card/Stat.vue';
 
   //테스트 데이터
   import testData from '../../../test/rankStatSample.json';

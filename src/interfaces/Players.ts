@@ -1,4 +1,4 @@
-import { IAPIObject, ISimpleAPIObject } from './common';
+import { IAPIObject, ISimpleAPIObject } from './Common';
 
 export interface IPlayerAttributes {
   name: string;
