@@ -17,14 +17,14 @@ export const routes: Array<RouteRecordRaw> = [
       transition: 'fade',
     },
   },
-  {
-    path: '/bookmark',
-    name: '즐겨찾기',
-    component: () => import('@/views/index.vue'),
-    meta: {
-      transition: 'fade',
-    },
-  },
+  // {
+  //   path: '/bookmark',
+  //   name: '즐겨찾기',
+  //   component: () => import('@/views/index.vue'),
+  //   meta: {
+  //     transition: 'fade',
+  //   },
+  // },
   {
     path: '/map',
     name: '맵별 차량 위치',

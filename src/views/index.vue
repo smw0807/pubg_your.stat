@@ -2,35 +2,11 @@
   import { useRouter } from 'vue-router';
   import type { ISearchForm } from '@/interfaces';
   import { ElLoading } from 'element-plus';
-  import { errorCode, _429, player404 } from '@/utils';
+  import { _429, player404, setSeason, searchPlayer } from '@/utils';
 
   import mainSearch from '@/components/search/Search.vue';
 
-  import { useSearchStore } from '@/store';
-  const store = useSearchStore();
-
   const route = useRouter();
-
-  // 시즌
-  const setSeason = async (params: ISearchForm): Promise<number> => {
-    try {
-      await store.setSeason(params.platform);
-      return 200;
-    } catch (err) {
-      const code = errorCode(err);
-      return code;
-    }
-  };
-  // 유저
-  const searchPlayer = async (params: ISearchForm): Promise<number> => {
-    try {
-      await store.searchPlayer(params);
-      return 200;
-    } catch (err) {
-      const code = errorCode(err);
-      return code;
-    }
-  };
 
   //전적 검색
   const search = async (params: ISearchForm): Promise<void> => {

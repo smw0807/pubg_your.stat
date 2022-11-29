@@ -8,8 +8,10 @@
   import { ref, onMounted } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
+  import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
-  import { normalStat, rankStat } from '@/utils';
+  import { normalStat, rankStat, setSeason, searchPlayer } from '@/utils';
+  import { useSearchStore } from '@/store';
 
   //컴포넌트
   import rankStatCard from '@/components/card/RankStat.vue';
@@ -20,6 +22,18 @@
   import testData2 from '../../../test/statSample.json';
 
   const route = useRoute();
+  const store = useSearchStore();
+
+  let isReload: Ref<boolean> = ref(false);
+  console.log(Object.keys(store.rank).length);
+  console.log(Object.keys(store.normal).length);
+
+  if (
+    Object.keys(store.rank).length === 0 &&
+    Object.keys(store.normal).length === 0
+  ) {
+    isReload.value = true;
+  }
 
   const params: ISearchForm = {
     platform: route.params.platform as string,
@@ -47,6 +61,19 @@
   let fppSquad: Ref<IGameStats | object> = ref({});
 
   onMounted(async () => {
+    if (isReload.value === true) {
+      const loading = ElLoading.service({
+        lock: true,
+        text: '잠시만 기다려주세요...',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
+
+      await setSeason(params);
+      await searchPlayer(params);
+
+      isReload.value = false;
+      loading.close();
+    }
     tppRankSolo.value = rankStat('solo');
     tppRankSquad.value = rankStat('squad');
 
