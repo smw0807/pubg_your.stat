@@ -1,5 +1,6 @@
 import { useSearchStore } from '@/store';
 import { IGameStats, IGameRankStats } from '@/interfaces';
+import { normalStatData, rankStatData } from '.';
 const store = useSearchStore();
 
 /**
@@ -7,8 +8,8 @@ const store = useSearchStore();
  * @param mode 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp'
  * @returns IGameStats | {}
  */
-export const normalStat = (mode: string): IGameStats | object => {
-  let result: IGameStats | object = {};
+export const normalStat = (mode: string): IGameStats => {
+  let result: IGameStats = normalStatData;
   switch (mode) {
     case 'solo':
       result = store.normal.data?.attributes.gameModeStats.solo;
@@ -32,7 +33,6 @@ export const normalStat = (mode: string): IGameStats | object => {
       console.warn(
         `'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp' 중 하나 필요`
       );
-      result = {};
       break;
   }
   return result;
@@ -43,8 +43,8 @@ export const normalStat = (mode: string): IGameStats | object => {
  * @param mode 'solo' | 'solo-fpp' | 'squad' | 'squad-fpp'
  * @returns IGameRankStats | {}
  */
-export const rankStat = (mode: string): IGameRankStats | object => {
-  let result: IGameRankStats | object = {};
+export const rankStat = (mode: string): IGameRankStats => {
+  let result: IGameRankStats = rankStatData;
   switch (mode) {
     case 'solo':
       result = store.rank.data?.attributes.rankedGameModeStats.solo;
@@ -60,7 +60,6 @@ export const rankStat = (mode: string): IGameRankStats | object => {
       break;
     default:
       console.warn(`'solo' | 'solo-fpp' | 'squad' | 'squad-fpp' 중 하나 필요`);
-      result = {};
       break;
   }
   return result;

@@ -10,7 +10,14 @@
   import { useRoute } from 'vue-router';
   import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
-  import { normalStat, rankStat, setSeason, searchPlayer } from '@/utils';
+  import {
+    normalStat,
+    rankStat,
+    setSeason,
+    searchPlayer,
+    normalStatData,
+    rankStatData,
+  } from '@/utils';
   import { useSearchStore } from '@/store';
 
   //컴포넌트
@@ -25,8 +32,6 @@
   const store = useSearchStore();
 
   let isReload: Ref<boolean> = ref(false);
-  console.log(Object.keys(store.rank).length);
-  console.log(Object.keys(store.normal).length);
 
   if (
     Object.keys(store.rank).length === 0 &&
@@ -46,19 +51,19 @@
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
 
   // 3인칭 랭크 데이터
-  let tppRankSolo: Ref<IGameRankStats | object> = ref({});
-  let tppRankSquad: Ref<IGameRankStats | object> = ref({});
+  let tppRankSolo: Ref<IGameRankStats> = ref(rankStatData);
+  let tppRankSquad: Ref<IGameRankStats> = ref(rankStatData);
   // 1인칭 랭크 데이터
-  let fppRankSolo: Ref<IGameRankStats | object> = ref({});
-  let fppRankSquad: Ref<IGameRankStats | object> = ref({});
+  let fppRankSolo: Ref<IGameRankStats> = ref(rankStatData);
+  let fppRankSquad: Ref<IGameRankStats> = ref(rankStatData);
   // 3인칭 일반 데이터
-  let tppSolo: Ref<IGameStats | object> = ref({});
-  let tppDuo: Ref<IGameStats | object> = ref({});
-  let tppSquad: Ref<IGameStats | object> = ref({});
+  let tppSolo: Ref<IGameStats> = ref(normalStatData);
+  let tppDuo: Ref<IGameStats> = ref(normalStatData);
+  let tppSquad: Ref<IGameStats> = ref(normalStatData);
   // 1인칭 일반 데이터
-  let fppSolo: Ref<IGameStats | object> = ref({});
-  let fppDuo: Ref<IGameStats | object> = ref({});
-  let fppSquad: Ref<IGameStats | object> = ref({});
+  let fppSolo: Ref<IGameStats> = ref(normalStatData);
+  let fppDuo: Ref<IGameStats> = ref(normalStatData);
+  let fppSquad: Ref<IGameStats> = ref(normalStatData);
 
   onMounted(async () => {
     if (isReload.value === true) {
