@@ -6,7 +6,7 @@
    * https://element-plus.org/en-US/component/empty.html#basic-usage
    * https://element-plus.org/en-US/component/descriptions.html#descriptions-attributes
    */
-  import { defineProps, ref, computed } from 'vue';
+  import { ref, computed, defineProps } from 'vue';
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
@@ -257,7 +257,7 @@
       <el-divider content-position="left">
         <span :style="`font-size: var(--el-font-size-medium)`"> 스탯 </span>
       </el-divider>
-      <el-descriptions :column="2" border>
+      <el-descriptions :column="4" border>
         <el-descriptions-item
           label="킬"
           label-align="center"
@@ -332,7 +332,7 @@
         </el-descriptions-item>
       </el-descriptions>
       <br />
-      <el-descriptions :column="2" border>
+      <el-descriptions :column="3" border>
         <el-descriptions-item
           label="로드킬"
           label-align="center"
@@ -382,7 +382,7 @@
       <el-divider content-position="left">
         <span :style="`font-size: var(--el-font-size-medium)`"> 생존 </span>
       </el-divider>
-      <el-descriptions :column="1" border>
+      <el-descriptions :column="2" border>
         <el-descriptions-item
           label="총 생존 시간"
           label-align="center"
@@ -422,6 +422,7 @@
           align="center"
           label-class-name="my-label"
           class-name="my-content"
+          width="300"
         >
           {{ insertComma(vehicleDestroys) }}
         </el-descriptions-item>

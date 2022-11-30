@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import type { Ref } from 'vue';
 
-  const titleName: Ref<string> = 'PUBG Your Stat';
+  const titleName: Ref<string> = ref('PUBG Your Stat');
 </script>
 <template>
   <div>
