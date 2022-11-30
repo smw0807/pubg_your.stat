@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-const route = useRoute();
-const path = computed(() => route.path);
+  import { computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { routes } from '@/routes/routes.config';
+  import type { RouteRecordRaw } from 'vue-router';
+  const route = useRoute();
+  const path = computed(() => route.path);
 
-import { routes } from '@/routes/routes.config';
-const menus: Array<object> = routes.filter(() => true);
+  const menus: Array<RouteRecordRaw> = routes.filter(() => true);
 </script>
 <template>
   <el-row>
@@ -15,12 +16,8 @@ const menus: Array<object> = routes.filter(() => true);
         class="el-menu-vertical-demo"
         :router="true"
       >
-        <template v-for="(menu, idx) in menus" :index="menu.path">
-          <el-menu-item
-            v-if="!menu.children && !menu.props"
-            :index="menu.path"
-            :key="idx"
-          >
+        <template v-for="(menu, idx) in menus" :index="menu.path" :key="idx">
+          <el-menu-item v-if="!menu.children && !menu.props" :index="menu.path">
             <span>{{ menu.name }}</span>
           </el-menu-item>
           <el-sub-menu
@@ -34,9 +31,9 @@ const menus: Array<object> = routes.filter(() => true);
               v-for="(subMenu, sIdx) in menu.children"
               :key="sIdx"
             >
-              <el-menu-item :index="subMenu.path">{{
-                subMenu.name
-              }}</el-menu-item>
+              <el-menu-item :index="subMenu.path">
+                {{ subMenu.name }}
+              </el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </template>
@@ -44,5 +41,4 @@ const menus: Array<object> = routes.filter(() => true);
     </el-col>
   </el-row>
 </template>
-<style>
-</style>
+<style></style>
