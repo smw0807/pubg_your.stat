@@ -28,7 +28,7 @@
   console.log(props);
 
   // 데이터 존재 유무
-  let hasNoData = computed(() => (props.data === undefined ? true : false));
+  const hasNoData = computed(() => (props.data === undefined ? true : false));
 
   const modeName = (): string => {
     let result = '';
@@ -69,7 +69,9 @@
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() => (props.data?.damageDealt || 0).toFixed(0));
+  const damageDealt = computed(() =>
+    Number((props.data?.damageDealt || 0).toFixed(0))
+  );
 </script>
 <template>
   <el-card class="box-card">

@@ -61,7 +61,9 @@
   const kills = computed(() => props.data?.kills || 0);
   const assists = computed(() => props.data?.assists || 0);
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() => (props.data?.damageDealt || 0).toFixed(0));
+  const damageDealt = computed(() =>
+    Number((props.data?.damageDealt || 0).toFixed(0))
+  );
 
   const revives = computed(() => props.data?.revives || 0);
   const suicides = computed(() => props.data?.suicides || 0);
@@ -69,21 +71,21 @@
 
   const roadKills = computed(() => props.data?.roadKills || 0);
   const headshotKills = computed(() => props.data?.headshotKills || 0);
-  const longestKill = computed(
-    () => (props.data?.longestKill || 0).toFixed(1) + 'm'
+  const longestKill = computed(() =>
+    Number((props.data?.longestKill || 0).toFixed(1))
   );
   const maxKillStreaks = computed(() => props.data?.maxKillStreaks || 0);
   const roundMostKills = computed(() => props.data?.roundMostKills || 0);
 
   //이동거리
-  const walkDistance = computed(
-    () => (props.data?.walkDistance || 0).toFixed(1) + 'm'
+  const walkDistance = computed(() =>
+    Number((props.data?.walkDistance || 0).toFixed(1))
   );
-  const rideDistance = computed(
-    () => (props.data?.rideDistance || 0).toFixed(1) + 'm'
+  const rideDistance = computed(() =>
+    Number((props.data?.rideDistance || 0).toFixed(1))
   );
-  const swimDistance = computed(
-    () => (props.data?.swimDistance || 0).toFixed(1) + 'm'
+  const swimDistance = computed(() =>
+    Number((props.data?.swimDistance || 0).toFixed(1))
   );
 
   //아이템
@@ -356,7 +358,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(longestKill) }}
+          {{ insertComma(longestKill) }}m
         </el-descriptions-item>
         <el-descriptions-item
           label="최대연속킬"
@@ -480,7 +482,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(walkDistance) }}
+          {{ insertComma(walkDistance) }}m
         </el-descriptions-item>
         <el-descriptions-item
           label="탈것"
@@ -489,7 +491,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(rideDistance) }}
+          {{ insertComma(rideDistance) }}m
         </el-descriptions-item>
         <el-descriptions-item
           label="수영"
@@ -498,7 +500,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(swimDistance) }}
+          {{ insertComma(swimDistance) }}m
         </el-descriptions-item>
       </el-descriptions>
     </div>
