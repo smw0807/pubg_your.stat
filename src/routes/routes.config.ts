@@ -17,14 +17,6 @@ export const routes: Array<RouteRecordRaw> = [
       transition: 'fade',
     },
   },
-  // {
-  //   path: '/bookmark',
-  //   name: '즐겨찾기',
-  //   component: () => import('@/views/index.vue'),
-  //   meta: {
-  //     transition: 'fade',
-  //   },
-  // },
   {
     path: '/map',
     name: '맵별 차량 위치',
@@ -56,14 +48,31 @@ export const routes: Array<RouteRecordRaw> = [
           transition: 'fade',
         },
       },
-      // {
-      //   path: '/map/taego',
-      //   name: '태이고',
-      //   component: () => import('@/views/map/taego.vue'),
-      //   meta: {
-      //     transition: 'fade',
-      //   },
-      // },
+    ],
+  },
+  {
+    path: '/jobsearch',
+    name: '팀 구하기',
+    meta: {
+      transition: 'fade',
+    },
+    children: [
+      {
+        path: '/jobsearch/kakao',
+        name: '카카오',
+        component: () => import('@/views/map/erangel.vue'),
+        meta: {
+          transition: 'fade',
+        },
+      },
+      {
+        path: '/jobsearch/steam',
+        name: '스팀',
+        component: () => import('@/views/map/miramar.vue'),
+        meta: {
+          transition: 'fade',
+        },
+      },
     ],
   },
 ];
