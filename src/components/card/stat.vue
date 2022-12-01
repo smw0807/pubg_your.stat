@@ -191,69 +191,6 @@
         </el-descriptions-item>
       </el-descriptions>
 
-      <!-- <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`">
-          데일리
-          <el-tooltip>
-            <template #content>
-              가장 최근 플레이한 날의 승리 수와 킬 수
-            </template>
-            <el-icon class="title-in-tooltip"><Warning /></el-icon>
-          </el-tooltip>
-        </span>
-      </el-divider>
-      <el-descriptions :column="2" border>
-        <el-descriptions-item
-          label="승"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ dailyWins }}
-        </el-descriptions-item>
-        <el-descriptions-item
-          label="킬"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ dailyKills }}
-        </el-descriptions-item>
-      </el-descriptions> -->
-      <!-- <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-large)`">
-          위클리
-          <el-tooltip>
-            <template #content>
-              가장 최근 플레이한 주의 승리 수와 킬 수
-            </template>
-            <el-icon class="title-in-tooltip"><Warning /></el-icon>
-          </el-tooltip>
-        </span>
-      </el-divider>
-      <el-descriptions :column="2" border>
-        <el-descriptions-item
-          label="승"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ weeklyWins }}
-        </el-descriptions-item>
-        <el-descriptions-item
-          label="킬"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ weeklyKills }}
-        </el-descriptions-item>
-      </el-descriptions> -->
-
       <el-divider content-position="left">
         <span :style="`font-size: var(--el-font-size-medium)`"> 스탯 </span>
       </el-divider>
@@ -401,15 +338,6 @@
         >
           {{ longestTimeSurvived }}
         </el-descriptions-item>
-        <!-- <el-descriptions-item
-          label="한 경기에서 오래 살아남은 시간"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ mostSurvivalTime }}
-        </el-descriptions-item> -->
       </el-descriptions>
 
       <el-divider content-position="left">
@@ -426,15 +354,6 @@
         >
           {{ insertComma(vehicleDestroys) }}
         </el-descriptions-item>
-        <!-- <el-descriptions-item
-          label="???"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ insertComma(days) }}
-        </el-descriptions-item> -->
       </el-descriptions>
 
       <el-divider content-position="left">
