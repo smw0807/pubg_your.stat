@@ -65,6 +65,13 @@
 
   //Stat
   const kda = computed(() => (props.data?.kda || 0).toFixed(2));
+  const kd = computed(() => {
+    const kill = props.data?.kills || 0;
+    const death = props.data?.deaths || 0;
+    let a = kill / death;
+    if (isNaN(a)) a = 0;
+    return a.toFixed(1);
+  });
   const kills = computed(() => props.data?.kills || 0);
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
@@ -180,13 +187,13 @@
       </el-divider>
       <el-descriptions :column="1" border>
         <el-descriptions-item
-          label="KDA"
+          label="KDA / KD"
           label-align="center"
           align="center"
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ kda }}<br />
+          {{ kda }} / {{ kd }}<br />
           ( K:{{ insertComma(kills) }} / D:{{ insertComma(deaths) }} / A:{{
             insertComma(assists)
           }})
