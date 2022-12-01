@@ -6,7 +6,7 @@
    * https://element-plus.org/en-US/component/empty.html#basic-usage
    * https://element-plus.org/en-US/component/descriptions.html#descriptions-attributes
    */
-  import { ref, computed, defineProps } from 'vue';
+  import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
@@ -58,24 +58,38 @@
   const roundsPlayed = computed(() => props.data?.roundsPlayed || 0);
 
   //스탯 & 킬
+  const kda = 0;
+  const kd = 0;
+  const avgDamage = computed(() => {
+    let avg = (props.data?.damageDealt || 0) / (props.data?.roundsPlayed || 0);
+    if (isNaN(avg)) avg = 0;
+    return avg.toFixed(0);
+  });
   const kills = computed(() => props.data?.kills || 0);
+  const deaths = 0;
   const assists = computed(() => props.data?.assists || 0);
-  const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() =>
-    Number((props.data?.damageDealt || 0).toFixed(0))
-  );
-
-  const revives = computed(() => props.data?.revives || 0);
-  const suicides = computed(() => props.data?.suicides || 0);
-  const teamKills = computed(() => props.data?.teamKills || 0);
-
-  const roadKills = computed(() => props.data?.roadKills || 0);
   const headshotKills = computed(() => props.data?.headshotKills || 0);
+  const headshotRatio = computed(() => {
+    const headshot = props.data?.headshotKills || 0;
+    const kill = props.data?.kills || 0;
+    let ratio = (headshot / kill) * 100;
+    if (isNaN(ratio)) ratio = 0;
+    return ratio.toFixed(1);
+  });
+  const dBNOs = computed(() => props.data?.dBNOs || 0);
   const longestKill = computed(() =>
     Number((props.data?.longestKill || 0).toFixed(1))
   );
   const maxKillStreaks = computed(() => props.data?.maxKillStreaks || 0);
   const roundMostKills = computed(() => props.data?.roundMostKills || 0);
+  const damageDealt = computed(() =>
+    Number((props.data?.damageDealt || 0).toFixed(0))
+  );
+
+  const revives = computed(() => props.data?.revives || 0);
+  const roadKills = computed(() => props.data?.roadKills || 0);
+  const suicides = computed(() => props.data?.suicides || 0);
+  const teamKills = computed(() => props.data?.teamKills || 0);
 
   //이동거리
   const walkDistance = computed(() =>
@@ -194,7 +208,34 @@
       <el-divider content-position="left">
         <span :style="`font-size: var(--el-font-size-medium)`"> 스탯 </span>
       </el-divider>
-      <el-descriptions :column="4" border>
+      <el-descriptions :column="3" border>
+        <el-descriptions-item
+          label="KDA"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ kda }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="KD"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ kd }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="평균딜량"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ avgDamage }}
+        </el-descriptions-item>
         <el-descriptions-item
           label="킬"
           label-align="center"
@@ -202,82 +243,25 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ kills }}
+          {{ insertComma(kills) }}
         </el-descriptions-item>
         <el-descriptions-item
-          label="어시"
+          label="데스"
           label-align="center"
           align="center"
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ assists }}
+          {{ insertComma(deaths) }}
         </el-descriptions-item>
         <el-descriptions-item
-          label="적기절"
+          label="어시스트"
           label-align="center"
           align="center"
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ dBNOs }}
-        </el-descriptions-item>
-        <el-descriptions-item
-          label="누적딜량"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ insertComma(damageDealt) }}
-        </el-descriptions-item>
-      </el-descriptions>
-      <br />
-      <el-descriptions :column="3" border>
-        <el-descriptions-item
-          label="팀원살림"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ revives }}
-        </el-descriptions-item>
-        <el-descriptions-item
-          label="자살"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ suicides }}
-        </el-descriptions-item>
-        <el-descriptions-item
-          label="팀킬"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ teamKills }}
-          <el-tooltip>
-            <template #content>
-              고의 뿐만 아니라 실수로 인한 팀킬도 모두 포함입니다.
-            </template>
-            <el-icon><Warning /></el-icon>
-          </el-tooltip>
-        </el-descriptions-item>
-      </el-descriptions>
-      <br />
-      <el-descriptions :column="3" border>
-        <el-descriptions-item
-          label="로드킬"
-          label-align="center"
-          align="center"
-          label-class-name="my-label"
-          class-name="my-content"
-        >
-          {{ roadKills }}
+          {{ insertComma(assists) }}
         </el-descriptions-item>
         <el-descriptions-item
           label="헤드샷킬"
@@ -287,6 +271,24 @@
           class-name="my-content"
         >
           {{ headshotKills }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="헤드샷비율"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ headshotRatio }}%
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="적기절"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ dBNOs }}
         </el-descriptions-item>
         <el-descriptions-item
           label="최장거리킬"
@@ -314,6 +316,63 @@
           class-name="my-content"
         >
           {{ roundMostKills }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="누적딜량"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ insertComma(damageDealt) }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <br />
+      <!-- <el-descriptions :column="3" border>
+      </el-descriptions>
+      <br /> -->
+      <el-descriptions :column="4" border>
+        <el-descriptions-item
+          label="팀원살림"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ revives }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="로드킬"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ roadKills }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="자살"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ suicides }}
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="팀킬"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+        >
+          {{ teamKills }}
+          <el-tooltip>
+            <template #content>
+              고의 뿐만 아니라 실수로 인한 팀킬도 모두 포함입니다.
+            </template>
+            <el-icon><Warning /></el-icon>
+          </el-tooltip>
         </el-descriptions-item>
       </el-descriptions>
       <el-divider content-position="left">
