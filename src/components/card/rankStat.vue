@@ -72,6 +72,11 @@
   const damageDealt = computed(() =>
     Number((props.data?.damageDealt || 0).toFixed(0))
   );
+  const avgDamage = computed(() => {
+    let avg = (props.data?.damageDealt || 0) / (props.data?.roundsPlayed || 0);
+    if (isNaN(avg)) avg = 0;
+    return avg.toFixed(0);
+  });
 </script>
 <template>
   <el-card class="box-card">
@@ -81,7 +86,7 @@
       </span>
     </el-divider>
     <div v-if="hasNoData">
-      <el-empty :image-size="270" description="게임 기록이 없습니다." />
+      <el-empty :image-size="365" description="게임 기록이 없습니다." />
     </div>
 
     <div v-else>
@@ -181,22 +186,21 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ kda }}
+          {{ kda }}<br />
           ( K:{{ insertComma(kills) }} / D:{{ insertComma(deaths) }} / A:{{
             insertComma(assists)
           }})
         </el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions :column="2" border>
+
         <el-descriptions-item
-          label="기절시킴"
+          label="평균딜량"
           label-align="center"
           align="center"
           label-class-name="my-label"
           class-name="my-content"
           width="45px"
         >
-          {{ insertComma(dBNOs) }}
+          {{ avgDamage }}
         </el-descriptions-item>
         <el-descriptions-item
           label="누적딜량"
@@ -215,6 +219,16 @@
             </template>
             <el-icon><Warning /></el-icon>
           </el-tooltip>
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="기절시킴"
+          label-align="center"
+          align="center"
+          label-class-name="my-label"
+          class-name="my-content"
+          width="45px"
+        >
+          {{ insertComma(dBNOs) }}
         </el-descriptions-item>
       </el-descriptions>
     </div>
