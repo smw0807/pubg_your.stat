@@ -56,6 +56,12 @@
   const losses = computed(() => props.data?.losses || 0);
   const top10s = computed(() => props.data?.top10s || 0);
   const roundsPlayed = computed(() => props.data?.roundsPlayed || 0);
+  const winsRatio = computed(() =>
+    ((wins.value / roundsPlayed.value) * 100).toFixed(1)
+  );
+  const top10Ratio = computed(() =>
+    ((top10s.value / roundsPlayed.value) * 100).toFixed(1)
+  );
 
   //스탯 & 킬
   const kda = 0;
@@ -192,7 +198,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ ((wins / roundsPlayed) * 100).toFixed(1) }}%
+          {{ winsRatio }}%
         </el-descriptions-item>
         <el-descriptions-item
           label="탑10률"
@@ -201,7 +207,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ ((top10s / roundsPlayed) * 100).toFixed(1) }}%
+          {{ top10Ratio }}%
         </el-descriptions-item>
       </el-descriptions>
 
