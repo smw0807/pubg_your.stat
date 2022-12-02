@@ -5,7 +5,18 @@
 </script>
 <template>
   <div class="main">
-    <card imgName="taego-car" :source="taego" />
+    <card imgName="taego-car" :source="taego">
+      <template #tag>
+        <el-tag class="mx-1" effect="dark" color="#f00">포니(100%) </el-tag>
+        <el-tag class="mx-1" effect="dark" color="#dda0dd">포터(100%) </el-tag>
+        <el-tag class="mx-1" effect="dark" color="#f5dfb3">탈것(53%) </el-tag>
+      </template>
+    </card>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+  .el-tag {
+    border: 0;
+    color: black;
+  }
+</style>

@@ -5,7 +5,21 @@
 </script>
 <template>
   <div class="main">
-    <card imgName="erangel-car" :source="erangel" />
+    <card imgName="erangel-car" :source="erangel">
+      <template #tag>
+        <el-tag class="mx-1" effect="dark" color="#dda0dd">UAZ(100%) </el-tag>
+        <el-tag class="mx-1" effect="dark" color="#800080"
+          >다시아(100%)
+        </el-tag>
+        <el-tag class="mx-1" effect="dark" color="#f00">탈것(50%) </el-tag>
+        <el-tag class="mx-1" effect="dark" color="#9370db">보트(100%) </el-tag>
+      </template>
+    </card>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+  .el-tag {
+    border: 0;
+    color: black;
+  }
+</style>
