@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import sourceText from '@/public/car-respone/sources?raw';
   import card from '@/components/map/MapCard.vue';
-  const miramar = sourceText.split('miramar-car=');
+  const miramar =
+    'https://battlegrounds.party/map/?Desert/2.32/408000x408000/Vcy/b/o0:4/lBall';
 </script>
 <template>
   <div class="main">
-    <card imgName="miramar-car" :source="miramar[1]" />
+    <card imgName="miramar-car" :source="miramar" />
   </div>
 </template>
 <style scoped></style>
