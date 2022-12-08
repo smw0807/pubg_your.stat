@@ -10,7 +10,7 @@
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
-  import { insertComma } from '@/utils';
+  import { insertComma, changeSeconds } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
 
@@ -116,14 +116,14 @@
   //생존
   //가장 오래 생존한 시간
   const longestTimeSurvived = computed(
-    () => (props.data?.longestTimeSurvived || 0) + '분'
+    () => props.data?.longestTimeSurvived || 0
   );
   //한 경기에서 오래 살아 남은 시간
   // const mostSurvivalTime = computed(
   //   () => (props.data?.mostSurvivalTime || 0) + '분'
   // );
   //총 생존 시간
-  const timeSurvived = computed(() => (props.data?.timeSurvived || 0) + '분');
+  const timeSurvived = computed(() => props.data?.timeSurvived || 0);
 
   //! 데일리 위클리는 화면에 보여줄지 말지 고민해보기...
   //데일리
@@ -392,7 +392,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ timeSurvived }}
+          {{ changeSeconds(timeSurvived) }}
         </el-descriptions-item>
         <el-descriptions-item
           label="가장 오래 생존한 시간"
@@ -401,7 +401,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ longestTimeSurvived }}
+          {{ changeSeconds(longestTimeSurvived) }}
         </el-descriptions-item>
       </el-descriptions>
 
