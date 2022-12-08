@@ -8,6 +8,7 @@
  */
 export { normalStat, rankStat } from './CreatedStat';
 export { changeSeconds } from './Date';
+export { meterToKm } from './Distance';
 export { errorCode } from './Error';
 export { _429, player404 } from './Notification';
 export { insertComma } from './Number';

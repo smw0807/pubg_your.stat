@@ -10,7 +10,7 @@
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
   import { useSearchStore } from '@/store/search';
-  import { insertComma, changeSeconds } from '@/utils';
+  import { insertComma, changeSeconds, meterToKm } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
 
@@ -303,7 +303,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(longestKill) }}m
+          {{ meterToKm(longestKill) }}
         </el-descriptions-item>
         <el-descriptions-item
           label="최대연속킬"
@@ -467,7 +467,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(walkDistance) }}m
+          {{ meterToKm(walkDistance) }}
         </el-descriptions-item>
         <el-descriptions-item
           label="탈것"
@@ -476,7 +476,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(rideDistance) }}m
+          {{ meterToKm(rideDistance) }}
         </el-descriptions-item>
         <el-descriptions-item
           label="수영"
@@ -485,7 +485,7 @@
           label-class-name="my-label"
           class-name="my-content"
         >
-          {{ insertComma(swimDistance) }}m
+          {{ meterToKm(swimDistance) }}
         </el-descriptions-item>
       </el-descriptions>
     </div>
