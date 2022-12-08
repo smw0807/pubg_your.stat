@@ -4,7 +4,6 @@ export const changeSeconds = (seconds: number): string => {
   let m = Math.floor(seconds / 60);
   let s = Math.floor(seconds % 60);
   if (m < 60) {
-    if (m === 0) return `${m}분`;
     return `${m}분 ${s}초`;
   }
 
