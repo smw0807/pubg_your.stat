@@ -32,6 +32,16 @@
 VITE_PUBG_API_URL=
 # 펍지 API 키 (발급 받아야 함)
 VITE_PUBG_API_KEY=
+
+# FireBase Config
+VITE_FB_apiKey=
+VITE_FB_authDomain=
+VITE_FB_databaseURL=
+VITE_FB_projectId=
+VITE_FB_storageBucket=
+VITE_FB_messagingSenderId=
+VITE_FB_appId=
+VITE_FB_measurementId=
 ```
 
 ## 3. 실행 명령어
