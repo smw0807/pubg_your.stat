@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { PlayersAPI, SeasonAPI, FireStore } from '@/apis';
+import { PlayersAPI, SeasonAPI } from '@/apis';
 import type {
   ISearchForm,
   IPlayerSeason,
@@ -49,9 +49,6 @@ export const useSearchStore = defineStore({
     searchPlayer(params: ISearchForm): Promise<void> {
       return new Promise(async (resolve, reject) => {
         try {
-          const fireStore = new FireStore();
-          const find = await fireStore.searchRankStat(params);
-          console.log('test : ', find);
           params.seasonID = this.nowSeason.id;
           const searchAPI = new PlayersAPI(params);
           const stat = await searchAPI.allStat;
