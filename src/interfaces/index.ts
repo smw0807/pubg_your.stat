@@ -10,4 +10,4 @@ export type {
   IGameRankStats,
 } from './Players';
 
-export type { IRoom } from './Room';
+export type { IFindTeam } from './FindTeam';

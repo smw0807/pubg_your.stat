@@ -2,22 +2,23 @@ interface member {
   uid: string;
 }
 /**
+ * 팀 찾기
  * roomLeader: 방장
  * flatform: 플랫폼 [kakao | steam]
  * gameMode: 게임 모드 [solo | solo-fpp | duo | duo-fpp | squad |squad-fpp]
  * gameType: 게임 유형 [ normal | rank]
  */
-export interface IRoom {
+export interface IFindTeam {
   roomLeader: string;
   flatform: string;
   gameMode: string;
   gameType: string;
   members: member[];
   title: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
-const exampleData1: IRoom = {
+const exampleData1: IFindTeam = {
   roomLeader: 'sdfasdfasdfasdfasdfas',
   flatform: 'kakao',
   gameMode: 'tpp',
@@ -26,7 +27,7 @@ const exampleData1: IRoom = {
   title: '골플 200++ ㄱㄱ 오더 있음',
   createdAt: '2022-12-10 17:40:32',
 };
-const exampleData2: IRoom = {
+const exampleData2: IFindTeam = {
   roomLeader: 'szxcvzxcvzxcvzxcvzxcv',
   flatform: 'kakao',
   gameMode: 'tpp',
