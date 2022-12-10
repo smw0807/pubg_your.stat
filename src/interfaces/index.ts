@@ -9,3 +9,5 @@ export type {
   IGameStats,
   IGameRankStats,
 } from './Players';
+
+export type { IRoom } from './Room';
