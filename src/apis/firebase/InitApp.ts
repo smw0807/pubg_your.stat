@@ -5,7 +5,6 @@
  * Storage??
  * Hosting
  */
-import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import { initializeApp } from 'firebase/app';
 
 const {
@@ -18,7 +17,6 @@ const {
   VITE_FB_appId,
   VITE_FB_measurementId,
 } = import.meta.env;
-console.log('hihi', import.meta.env);
 
 const firebaseConfig = {
   apiKey: VITE_FB_apiKey,
@@ -31,4 +29,4 @@ const firebaseConfig = {
   measurementId: VITE_FB_measurementId,
 };
 
-export const app = initializeApp(firebaseConfig);
+export default initializeApp(firebaseConfig);

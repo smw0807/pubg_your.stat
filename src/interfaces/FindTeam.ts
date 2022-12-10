@@ -7,6 +7,9 @@ interface member {
  * flatform: 플랫폼 [kakao | steam]
  * gameMode: 게임 모드 [solo | solo-fpp | duo | duo-fpp | squad |squad-fpp]
  * gameType: 게임 유형 [ normal | rank]
+ * members: 팀 구성원들 uid
+ * title: 팀 제목?
+ * createdAt: 팀 생성일
  */
 export interface IFindTeam {
   roomLeader: string;
