@@ -1,4 +1,4 @@
-import { PubgAPI } from '..';
+import { PubgAPI } from '.';
 import {
   ISearchForm,
   IPlayerList,

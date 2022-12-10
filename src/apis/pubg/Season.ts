@@ -1,4 +1,4 @@
-import { PubgAPI } from '..';
+import { PubgAPI } from '.';
 import { AxiosPromise } from 'axios';
 import { ISeasonList } from '../../interfaces';
 
