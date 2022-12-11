@@ -1,4 +1,3 @@
-// import axios from '../plugins/axios';
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
 const api = import.meta.env.VITE_PUBG_API_URL;
 

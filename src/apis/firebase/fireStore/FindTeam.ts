@@ -1,5 +1,5 @@
 //팀 구하기에서 사용할...
-import { FireStore } from '.';
+import { FireStore } from '@/apis/firebase';
 import { IFindTeam } from '@/interfaces';
 
 const collection = 'teams';
@@ -9,10 +9,8 @@ interface ITeamFilter {
   gameMode: string;
   gameType: string;
 }
-export class FindTeamAPI extends FireStore {
-  constructor() {
-    super();
-  }
+export class FindTeamAPI {
+  private db = FireStore;
 
   //팀 리스트 가져오기
   async teamList(params: ITeamFilter) {}

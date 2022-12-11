@@ -6,6 +6,7 @@
  * Hosting
  */
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const {
   VITE_FB_apiKey,
@@ -29,4 +30,7 @@ const firebaseConfig = {
   measurementId: VITE_FB_measurementId,
 };
 
-export default initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+export const FireStore = getFirestore(app);
+// export const Storage = null;

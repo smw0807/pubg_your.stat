@@ -1,10 +1,8 @@
 //팀 안에서 사용할...
-import { FireStore } from '.';
+import { FireStore } from '@/apis/firebase';
 
-export class TeamAPI extends FireStore {
-  constructor() {
-    super();
-  }
+export class TeamAPI {
+  private db = FireStore;
 
   //팀원 리스트?
   async memberList() {}

@@ -1,1 +1,2 @@
-export { FindTeamAPI, TeamAPI } from './fireStore';
+export { FireStore } from './InitApp';
+export { FindTeamAPI, TeamAPI, PlayerStatsAPI } from './fireStore';
