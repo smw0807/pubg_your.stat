@@ -10,12 +10,10 @@
    */
   import { ref, onMounted, defineEmits, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { useSearchStore } from '@/store/search';
   import { ISearchForm } from '@/interfaces';
   //icon
   import { Search } from '@element-plus/icons-vue';
 
-  const store = useSearchStore();
   const $emit = defineEmits(['searchInfo']);
 
   // 넘길 데이터
