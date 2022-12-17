@@ -4,7 +4,7 @@ interface member {
 /**
  * 팀 찾기
  * roomLeader: 방장
- * flatform: 플랫폼 [kakao | steam]
+ * platform: 플랫폼 [kakao | steam]
  * gameMode: 게임 모드 [solo | solo-fpp | duo | duo-fpp | squad |squad-fpp]
  * gameType: 게임 유형 [ normal | rank]
  * members: 팀 구성원들 uid
@@ -13,7 +13,7 @@ interface member {
  */
 export interface IFindTeam {
   roomLeader: string;
-  flatform: string;
+  platform: string;
   gameMode: string;
   gameType: string;
   members: member[];
@@ -23,7 +23,7 @@ export interface IFindTeam {
 
 const exampleData1: IFindTeam = {
   roomLeader: 'sdfasdfasdfasdfasdfas',
-  flatform: 'kakao',
+  platform: 'kakao',
   gameMode: 'tpp',
   gameType: 'rank',
   members: [{ uid: 'sdfasdfasdfasdfasdfas' }, { uid: 'qweqweqweqweqweqweqwe' }],
@@ -32,7 +32,7 @@ const exampleData1: IFindTeam = {
 };
 const exampleData2: IFindTeam = {
   roomLeader: 'szxcvzxcvzxcvzxcvzxcv',
-  flatform: 'kakao',
+  platform: 'kakao',
   gameMode: 'tpp',
   gameType: 'normal',
   members: [

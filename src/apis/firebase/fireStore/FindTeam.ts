@@ -5,7 +5,7 @@ import { IFindTeam } from '@/interfaces';
 const collection = 'teams';
 interface ITeamFilter {
   createdAt: string;
-  flatform: string;
+  platform: string;
   gameMode: string;
   gameType: string;
 }
