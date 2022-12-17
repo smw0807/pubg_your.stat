@@ -9,7 +9,7 @@
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameRankStats } from '@/interfaces';
-  import { useSearchStore } from '@/store/search';
+  import { useSearchStore } from '@/store';
   import { insertComma } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
