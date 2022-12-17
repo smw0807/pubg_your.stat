@@ -30,9 +30,7 @@ export const normalStat = (mode: string): IGameStats => {
       result = store.normal.data?.attributes.gameModeStats['squad-fpp'];
       break;
     default:
-      console.warn(
-        `'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp' 중 하나 필요`
-      );
+      console.warn(`'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp' 중 하나 필요`);
       break;
   }
   return result;

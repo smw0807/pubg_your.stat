@@ -10,14 +10,7 @@
   import { useRoute } from 'vue-router';
   import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
-  import {
-    normalStat,
-    rankStat,
-    setSeason,
-    searchPlayer,
-    normalStatData,
-    rankStatData,
-  } from '@/utils';
+  import { normalStat, rankStat, normalStatData, rankStatData, getStats } from '@/utils';
   import { useSearchStore } from '@/store';
 
   //컴포넌트
@@ -33,10 +26,7 @@
 
   let isReload: Ref<boolean> = ref(false);
 
-  if (
-    Object.keys(store.rank).length === 0 &&
-    Object.keys(store.normal).length === 0
-  ) {
+  if (Object.keys(store.rank).length === 0 && Object.keys(store.normal).length === 0) {
     isReload.value = true;
   }
 
@@ -73,8 +63,7 @@
         background: 'rgba(0, 0, 0, 0.7)',
       });
 
-      await setSeason(params);
-      await searchPlayer(params);
+      await getStats(params);
 
       isReload.value = false;
       loading.close();
@@ -113,12 +102,7 @@
           </el-col>
         </el-row>
 
-        <el-row
-          v-if="hasFPP"
-          :gutter="24"
-          align="middle"
-          justify="space-evenly"
-        >
+        <el-row v-if="hasFPP" :gutter="24" align="middle" justify="space-evenly">
           <el-col :span="12" :sm="24" :md="12">
             <rank-stat-card solo fpp :data="fppRankSolo" />
           </el-col>

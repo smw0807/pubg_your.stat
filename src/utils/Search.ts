@@ -1,25 +1,15 @@
 import { useSearchStore } from '@/store';
 import { ISearchForm } from '@/interfaces';
-import { errorCode } from '.';
+// import { errorCode } from '.';
 
 const store = useSearchStore();
-// 시즌
-export const setSeason = async (params: ISearchForm): Promise<number> => {
+
+// 파이어베이스 저장소에서 검색
+export const getStats = async (params: ISearchForm): Promise<number> => {
   try {
-    await store.setSeason(params.platform);
+    await store.getStats(params);
     return 200;
   } catch (err) {
-    const code = errorCode(err);
-    return code;
-  }
-};
-// 유저
-export const searchPlayer = async (params: ISearchForm): Promise<number> => {
-  try {
-    await store.searchPlayer(params);
-    return 200;
-  } catch (err) {
-    const code = errorCode(err);
-    return code;
+    return 503;
   }
 };

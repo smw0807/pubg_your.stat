@@ -2,7 +2,7 @@
   import { useRouter } from 'vue-router';
   import type { ISearchForm } from '@/interfaces';
   import { ElLoading } from 'element-plus';
-  import { _429, player404, setSeason, searchPlayer } from '@/utils';
+  import { getStats } from '@/utils';
 
   import mainSearch from '@/components/search/Search.vue';
 
@@ -16,16 +16,12 @@
       background: 'rgba(0, 0, 0, 0.7)',
     });
 
-    const season = await setSeason(params);
-    const player = await searchPlayer(params);
+    const getStat = await getStats(params);
+    console.log(getStat);
 
     loading.close();
 
-    if (season === 200 && player === 200)
-      route.push(`/profile/${params.platform}/${params.nickname}`);
-
-    if (player === 404) player404();
-    if (season === 429 || player === 429) _429();
+    if (getStat === 200) route.push(`/profile/${params.platform}/${params.nickname}`);
   };
 </script>
 

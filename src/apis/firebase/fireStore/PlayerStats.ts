@@ -1,16 +1,20 @@
 import { FireStore } from '@/apis/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
+import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/interfaces';
 
+/**
+ * 플레이서 스탯 저장소 관련
+ */
 export class PlayerStatsAPI {
   private db = FireStore;
-  private rankCollection: string = 'player-rank-stats';
-  private normalCollection: string = 'player-normal-stats';
+  private collection: string = 'player-stats';
 
-  getStat(isRank: boolean, flatform: string, nickName: string): Promise<any> {
+  //저장소에 저장된 정보 가져오기
+  getStats(params: ISearchForm): Promise<DocumentData> {
     return new Promise(async (resolve, reject) => {
       try {
-        const collection = isRank ? this.rankCollection : this.normalCollection;
-        const docRef = doc(this.db, collection, `${flatform}-${nickName}`);
+        const docRef = doc(this.db, this.collection, `${params.platform}-${params.nickname}`);
         const docSnap = await getDoc(docRef);
         resolve(docSnap);
       } catch (err) {
@@ -18,5 +22,76 @@ export class PlayerStatsAPI {
         reject(err);
       }
     });
+  }
+
+  //저장소에 스탯 및 기타 정보들 저장
+  setStats(params: ISearchForm, rank: IPlayerSeasonRank, normal: IPlayerSeason): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const id = `${params.platform}-${params.nickname}`;
+        const data: IPlayerStats = {
+          normal: JSON.stringify(normal),
+          rank: JSON.stringify(rank),
+          kda: this.extractKDA(rank),
+          avgDmg: this.extractAVG(rank),
+          'last-update-date': new Date(),
+          platform: params.platform,
+        };
+        await setDoc(doc(this.db, this.collection, id), data);
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  //스탯에서 모드별 KDA
+  extractKDA(rank: IPlayerSeasonRank) {
+    const result = {
+      solo: 0,
+      'solo-fpp': 0,
+      squad: 0,
+      'squad-fpp': 0,
+    };
+    result.solo = rank.data.attributes.rankedGameModeStats.solo?.kda || 0;
+    result['solo-fpp'] = rank.data.attributes.rankedGameModeStats['solo-fpp']?.kda || 0;
+    result.squad = rank.data.attributes.rankedGameModeStats?.squad?.kda || 0;
+    result['squad-fpp'] = rank.data.attributes.rankedGameModeStats['squad-fpp']?.kda || 0;
+    return result;
+  }
+
+  //스탯에서 모드별 평균딜량
+  extractAVG(rank: IPlayerSeasonRank) {
+    const result = {
+      solo: 0,
+      'solo-fpp': 0,
+      squad: 0,
+      'squad-fpp': 0,
+    };
+    //3인칭 솔로
+    const solo = rank.data.attributes.rankedGameModeStats.solo?.damageDealt || 0;
+    const soloPlays = rank.data.attributes.rankedGameModeStats.solo?.roundsPlayed || 0;
+    if (solo === 0) result.solo = solo;
+    else result.solo = Number((solo / soloPlays).toFixed(0));
+
+    //1인칭 솔로
+    const soloFpp = rank.data.attributes.rankedGameModeStats['solo-fpp']?.damageDealt || 0;
+    const soloFppPlays = rank.data.attributes.rankedGameModeStats['solo-fpp']?.roundsPlayed || 0;
+    if (soloFpp === 0) result['solo-fpp'] = soloFpp;
+    else result['solo-fpp'] = Number((soloFpp / soloFppPlays).toFixed(0));
+
+    //3인칭 스쿼드
+    const squad = rank.data.attributes.rankedGameModeStats.squad?.damageDealt || 0;
+    const squadPlays = rank.data.attributes.rankedGameModeStats.squad?.roundsPlayed || 0;
+    if (squad === 0) result.squad = squad;
+    else result.squad = Number((squad / squadPlays).toFixed(0));
+
+    //1인칭 스쿼드
+    const squadFpp = rank.data.attributes.rankedGameModeStats['squad-fpp']?.damageDealt || 0;
+    const squadFppPlays = rank.data.attributes.rankedGameModeStats['squad-fpp']?.roundsPlayed || 0;
+    if (squadFpp === 0) result['squad-fpp'] = squadFpp;
+    else result['squad-fpp'] = Number((squadFpp / squadFppPlays).toFixed(0));
+
+    return result;
   }
 }
