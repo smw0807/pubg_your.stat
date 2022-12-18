@@ -21,50 +21,6 @@
     platform: '',
     nickname: '',
   });
-  // 검색 기록 담을 변수
-  const history: Ref<ISearchForm[]> = ref([]);
-
-  // 로컬스토리지에 있는 검색 기록 가져오기
-  const getHistory = (): ISearchForm[] => {
-    const items = localStorage.getItem('yourstat_search_history');
-    if (items) {
-      const itemsArr: ISearchForm[] = JSON.parse(items as string);
-      return itemsArr;
-    } else {
-      return [];
-    }
-  };
-
-  // 검색 기록 로컬스토리지에 저장
-  const setLocalStorage = (items: ISearchForm | ISearchForm[]): void => {
-    // 로컬스토리지가 없으면 바로 추가
-    if (!localStorage.getItem('yourstat_search_history')) {
-      localStorage.setItem('yourstat_search_history', JSON.stringify([items]));
-      return;
-    }
-    localStorage.setItem('yourstat_search_history', JSON.stringify(items));
-  };
-
-  // 검색 기록 로컬스토리지 데이터 10개까지만 유지하게 하기.
-  const checkLocalStorage = (): void => {
-    const items = getHistory();
-    if (items.length !== 0 && items.length > 10) {
-      items.shift();
-      setLocalStorage(items);
-    }
-  };
-
-  // 검색 기록 로컬스토리지에 추가
-  const addLocalStorage = (params: ISearchForm): void => {
-    const itemsArr = getHistory();
-    if (itemsArr.length === 0) {
-      setLocalStorage(params);
-    } else if (!itemsArr.some(v => v.nickname === params.nickname)) {
-      itemsArr.push({ platform: params.platform, nickname: params.nickname });
-      setLocalStorage(itemsArr);
-    }
-    history.value = getHistory();
-  };
 
   //========== select ======================================================= S
   interface gamePlatform {
@@ -117,9 +73,55 @@
   };
   //========== search ======================================================= E
 
+  //========== localStorage ======================================================= S
+  // 검색 기록 담을 변수
+  const history: Ref<ISearchForm[]> = ref([]);
+
+  // 로컬스토리지에 있는 검색 기록 가져오기
+  const getHistory = (): ISearchForm[] => {
+    const items = localStorage.getItem('yourstat_search_history');
+    if (items) {
+      const itemsArr: ISearchForm[] = JSON.parse(items as string);
+      return itemsArr;
+    } else {
+      return [];
+    }
+  };
+
+  // 검색 기록 로컬스토리지에 저장
+  const setLocalStorage = (items: ISearchForm | ISearchForm[]): void => {
+    // 로컬스토리지가 없으면 바로 추가
+    if (!localStorage.getItem('yourstat_search_history')) {
+      localStorage.setItem('yourstat_search_history', JSON.stringify([items]));
+      return;
+    }
+    localStorage.setItem('yourstat_search_history', JSON.stringify(items));
+  };
+
+  // 검색 기록 로컬스토리지 데이터 10개까지만 유지하게 하기.
+  const checkLocalStorage = (): void => {
+    const items = getHistory();
+    if (items.length !== 0 && items.length > 10) {
+      items.shift();
+      setLocalStorage(items);
+    }
+  };
+
+  // 검색 기록 로컬스토리지에 추가
+  const addLocalStorage = (params: ISearchForm): void => {
+    const itemsArr = getHistory();
+    if (itemsArr.length === 0) {
+      setLocalStorage(params);
+    } else if (!itemsArr.some(v => v.nickname === params.nickname)) {
+      itemsArr.push({ platform: params.platform, nickname: params.nickname });
+      setLocalStorage(itemsArr);
+    }
+    history.value = getHistory();
+  };
+  //========== localStorage ======================================================= E
+
   onMounted(() => {
-    searchParams.value.platform =
-      localStorage.getItem('yourstat_search_platform') || '';
+    searchParams.value.platform = localStorage.getItem('yourstat_search_platform') || '';
     searchParams.value.nickname = '';
     history.value = [...getHistory()];
   });

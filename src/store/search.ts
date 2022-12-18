@@ -28,14 +28,13 @@ export const useSearchStore = defineStore({
   },
   actions: {
     //파이어베이스 저장소에 저장된 데이터 가져오기
-    getStats(params: ISearchForm): Promise<void | any> {
+    getStats(params: ISearchForm): Promise<number> {
       return new Promise(async (resolve, reject) => {
         let result: number = 0;
         try {
           const rs = await firestore.getStats(params);
           //저장소에 데이터가 있을 경우
           if (rs.data()) {
-            console.log('oo');
             this.rank = JSON.parse(rs.data().rank);
             this.normal = JSON.parse(rs.data().normal);
             this.lastUpdateDate = rs.data()['last-update-date'];

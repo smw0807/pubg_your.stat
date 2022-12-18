@@ -1,6 +1,5 @@
 import { useSearchStore } from '@/store';
 import { ISearchForm } from '@/interfaces';
-// import { errorCode } from '.';
 
 const store = useSearchStore();
 

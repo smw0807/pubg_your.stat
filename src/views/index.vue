@@ -17,7 +17,6 @@
     });
 
     const getStat = await getStats(params);
-    console.log(getStat);
 
     loading.close();
 
