@@ -19,6 +19,25 @@
 - Pinia (https://pinia.vuejs.org/introduction.html)
 - Element Plus (https://element-plus.org/en-US/)
 - PUBG API (https://documentation.pubg.com/en/introduction.html)
+- Firebase (https://firebase.google.com/)
+  - Firestore (https://firebase.google.com/docs/firestore)
+  - Auth (https://firebase.google.com/docs/auth)
+
+# 기능 구성
+
+- 로그인 (구현중)
+  - 파이어베이스 인증 기능을 이용한 구글 로그인
+- 플레이어 검색 (완성)
+  - 검색 시 파이어베이스에 저장된 데이터 있는지 확인
+  - 있을 경우 : 해당 데이터를 가져와서 화면에 보여줌
+  - 없을 경우 : PUBG API에 요청해서 최신 데이터를 가져옴
+    1. 결과 데이터를 파이어베이스에 저장
+    2. 결과 데이터를 화면에 보여줌
+  - 검색 결과 화면에서 갱신 버튼을 통해 [없을 경우]의 로직이 다시 실행됨(구현중)
+- 팀구하기 방 카드형식 리드트 화면 (미완성)
+- 팀구하기 방 생성 (미완성)
+- 팀구하기 방 참여 (미완성)
+- 팀구하기 방 채팅 기능 (미완성)
 
 # 실행 방법
 
