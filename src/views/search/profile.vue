@@ -5,7 +5,7 @@
    * platform으로 해당 시즌 정보 가져옴
    * nickname으로 아이이디 검색 후 아이디로 현재 시즌 스탯 정보를 가져옴
    */
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { ElLoading } from 'element-plus';
@@ -16,10 +16,6 @@
   //컴포넌트
   import rankStatCard from '@/components/card/RankStat.vue';
   import statCard from '@/components/card/Stat.vue';
-
-  //테스트 데이터
-  import testData from '../../../test/rankStatSample.json';
-  import testData2 from '../../../test/statSample.json';
 
   const route = useRoute();
   const store = useSearchStore();
@@ -36,6 +32,9 @@
   };
 
   const activeName = ref('rank');
+
+  // 파이어베이스 저장소에 마지막으로 업데이트한 날짜
+  const lastUpdateDate = computed(() => store.lastUpdateDate);
 
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
@@ -88,6 +87,19 @@
 
 <template>
   <div class="main">
+    <el-row>
+      <el-col :span="8">
+        <el-card :body-style="{ padding: '0px' }">
+          <div style="padding: 14px">
+            <span>닉네임 : {{ params.nickname }}</span>
+            <div class="bottom">
+              <time class="time">최근 업데이트 : {{ lastUpdateDate }}</time>
+              <el-button class="button">갱신하기</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-tabs v-model="activeName" class="demo-tabs">
       <!-- 3인칭 솔로, 스쿼드, 1인칭 솔로, 스쿼드 랭크 스탯 카드 -->
       <el-tab-pane label="랭크" name="rank">
@@ -116,15 +128,12 @@
       <el-tab-pane label="일반" name="normal">
         <el-row :gutter="24" justify="space-between">
           <el-col :span="24">
-            <!-- <stat-card solo fpp :data="testData2" /> -->
             <stat-card solo tpp :data="tppSolo" />
           </el-col>
           <el-col :span="24">
-            <!-- <stat-card duo fpp :data="testData2" /> -->
             <stat-card duo tpp :data="tppDuo" />
           </el-col>
           <el-col :span="24">
-            <!-- <stat-card squad tpp :data="testData2.squad" /> -->
             <stat-card squad tpp :data="tppSquad" />
           </el-col>
         </el-row>
@@ -139,5 +148,22 @@
   }
   .el-col {
     margin-bottom: 10px;
+  }
+  .time {
+    font-size: 12px;
+    color: #999;
+  }
+
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .button {
+    padding: 0;
+    min-height: auto;
   }
 </style>

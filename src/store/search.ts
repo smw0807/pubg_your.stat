@@ -77,9 +77,12 @@ export const useSearchStore = defineStore({
 
           //파이어베이스에 검색한 스탯정보 저장
           await firestore.setStats(params, stat[0].data, stat[1].data);
+          //파이어베이스에 저장된 데이터 가져오기
+          const rs = await firestore.getStats(params);
 
-          this.rank = stat[0]?.data;
-          this.normal = stat[1]?.data;
+          this.rank = JSON.parse(rs.data().rank);
+          this.normal = JSON.parse(rs.data().normal);
+          this.lastUpdateDate = rs.data()['last-update-date'];
           resolve(200);
         } catch (err) {
           reject(errorCode(err));
