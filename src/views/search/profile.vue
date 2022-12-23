@@ -54,6 +54,18 @@
   let fppDuo: Ref<IGameStats> = ref(normalStatData);
   let fppSquad: Ref<IGameStats> = ref(normalStatData);
 
+  const reloadStats = async (): Promise<void> => {
+    console.log('hi');
+    const loading = ElLoading.service({
+      lock: true,
+      text: '잠시만 기다려주세요...',
+      background: 'rgba(0, 0, 0, 0.7)',
+    });
+    await store.reloadStats(params);
+    isReload.value = false;
+    loading.close();
+  };
+
   onMounted(async () => {
     if (isReload.value === true) {
       const loading = ElLoading.service({
@@ -67,6 +79,7 @@
       isReload.value = false;
       loading.close();
     }
+
     tppRankSolo.value = rankStat('solo');
     tppRankSquad.value = rankStat('squad');
 
@@ -91,10 +104,10 @@
       <el-col :span="8">
         <el-card :body-style="{ padding: '0px' }">
           <div style="padding: 14px">
-            <span>닉네임 : {{ params.nickname }}</span>
+            <span>{{ params.nickname }}</span>
             <div class="bottom">
               <time class="time">최근 업데이트 : {{ lastUpdateDate }}</time>
-              <el-button class="button">갱신하기</el-button>
+              <el-button class="button" @click="reloadStats">갱신하기</el-button>
             </div>
           </div>
         </el-card>

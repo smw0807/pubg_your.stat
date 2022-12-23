@@ -37,7 +37,7 @@ export const useSearchStore = defineStore({
           if (rs.data()) {
             this.rank = JSON.parse(rs.data().rank);
             this.normal = JSON.parse(rs.data().normal);
-            this.lastUpdateDate = rs.data()['last-update-date'];
+            this.lastUpdateDate = rs.data()['last-update-date'].toDate();
             result = 200;
           } else {
             //데이터가 없을 경우 pubg api에다 검색 요청 후 저장소에 저장
@@ -45,6 +45,20 @@ export const useSearchStore = defineStore({
             await this.searchPlayer(params);
           }
           resolve(result);
+        } catch (err) {
+          if (err === 404) player404();
+          if (err === 429) _429();
+          reject(err);
+        }
+      });
+    },
+    //데이터 리로드
+    reloadStats(params: ISearchForm): Promise<void> {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await this.setSeason(params.platform);
+          await this.searchPlayer(params);
+          resolve();
         } catch (err) {
           if (err === 404) player404();
           if (err === 429) _429();
@@ -82,7 +96,7 @@ export const useSearchStore = defineStore({
 
           this.rank = JSON.parse(rs.data().rank);
           this.normal = JSON.parse(rs.data().normal);
-          this.lastUpdateDate = rs.data()['last-update-date'];
+          this.lastUpdateDate = rs.data()['last-update-date'].toDate();
           resolve(200);
         } catch (err) {
           reject(errorCode(err));
