@@ -9,12 +9,9 @@
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
-  import { useSearchStore } from '@/store';
   import { insertComma, changeSeconds, meterToKm } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
-
-  const store = useSearchStore();
 
   interface Props {
     data: IGameStats;
@@ -29,9 +26,7 @@
   console.log(props);
 
   // 데이터 존재 유무
-  let hasNoData = computed(() =>
-    props.data.roundsPlayed === 0 ? true : false
-  );
+  let hasNoData = computed(() => (props.data.roundsPlayed === 0 ? true : false));
 
   const modeName = (): string => {
     let result = '';
@@ -56,12 +51,8 @@
   const losses = computed(() => props.data?.losses || 0);
   const top10s = computed(() => props.data?.top10s || 0);
   const roundsPlayed = computed(() => props.data?.roundsPlayed || 0);
-  const winsRatio = computed(() =>
-    ((wins.value / roundsPlayed.value) * 100).toFixed(1)
-  );
-  const top10Ratio = computed(() =>
-    ((top10s.value / roundsPlayed.value) * 100).toFixed(1)
-  );
+  const winsRatio = computed(() => ((wins.value / roundsPlayed.value) * 100).toFixed(1));
+  const top10Ratio = computed(() => ((top10s.value / roundsPlayed.value) * 100).toFixed(1));
 
   //스탯 & 킬
   const kda = 0;
@@ -83,14 +74,10 @@
     return ratio.toFixed(1);
   });
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const longestKill = computed(() =>
-    Number((props.data?.longestKill || 0).toFixed(1))
-  );
+  const longestKill = computed(() => Number((props.data?.longestKill || 0).toFixed(1)));
   const maxKillStreaks = computed(() => props.data?.maxKillStreaks || 0);
   const roundMostKills = computed(() => props.data?.roundMostKills || 0);
-  const damageDealt = computed(() =>
-    Number((props.data?.damageDealt || 0).toFixed(0))
-  );
+  const damageDealt = computed(() => Number((props.data?.damageDealt || 0).toFixed(0)));
 
   const revives = computed(() => props.data?.revives || 0);
   const roadKills = computed(() => props.data?.roadKills || 0);
@@ -98,15 +85,9 @@
   const teamKills = computed(() => props.data?.teamKills || 0);
 
   //이동거리
-  const walkDistance = computed(() =>
-    Number((props.data?.walkDistance || 0).toFixed(1))
-  );
-  const rideDistance = computed(() =>
-    Number((props.data?.rideDistance || 0).toFixed(1))
-  );
-  const swimDistance = computed(() =>
-    Number((props.data?.swimDistance || 0).toFixed(1))
-  );
+  const walkDistance = computed(() => Number((props.data?.walkDistance || 0).toFixed(1)));
+  const rideDistance = computed(() => Number((props.data?.rideDistance || 0).toFixed(1)));
+  const swimDistance = computed(() => Number((props.data?.swimDistance || 0).toFixed(1)));
 
   //아이템
   const heals = computed(() => props.data?.heals || 0);
@@ -115,9 +96,7 @@
 
   //생존
   //가장 오래 생존한 시간
-  const longestTimeSurvived = computed(
-    () => props.data?.longestTimeSurvived || 0
-  );
+  const longestTimeSurvived = computed(() => props.data?.longestTimeSurvived || 0);
   //한 경기에서 오래 살아 남은 시간
   // const mostSurvivalTime = computed(
   //   () => (props.data?.mostSurvivalTime || 0) + '분'
@@ -374,9 +353,7 @@
         >
           {{ teamKills }}
           <el-tooltip>
-            <template #content>
-              고의 뿐만 아니라 실수로 인한 팀킬도 모두 포함입니다.
-            </template>
+            <template #content> 고의 뿐만 아니라 실수로 인한 팀킬도 모두 포함입니다. </template>
             <el-icon><Warning /></el-icon>
           </el-tooltip>
         </el-descriptions-item>
@@ -422,9 +399,7 @@
       </el-descriptions>
 
       <el-divider content-position="left">
-        <span :style="`font-size: var(--el-font-size-medium)`">
-          아이템 사용
-        </span>
+        <span :style="`font-size: var(--el-font-size-medium)`"> 아이템 사용 </span>
       </el-divider>
       <el-descriptions :column="3" border>
         <el-descriptions-item
