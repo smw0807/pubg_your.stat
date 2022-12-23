@@ -9,12 +9,9 @@
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameRankStats } from '@/interfaces';
-  import { useSearchStore } from '@/store';
   import { insertComma } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
-
-  const store = useSearchStore();
 
   interface Props {
     data: IGameRankStats;
@@ -55,12 +52,8 @@
   //Game
   const roundsPlayed = computed(() => (props.data?.roundsPlayed || 0) + '회');
   const wins = computed(() => (props.data?.wins || 0) + '번');
-  const winRatio = computed(
-    () => (((props.data?.winRatio || 0) * 100).toFixed(1) || 0) + '%'
-  );
-  const top10Ratio = computed(
-    () => (((props.data?.top10Ratio || 0) * 100).toFixed(1) || 0) + '%'
-  );
+  const winRatio = computed(() => (((props.data?.winRatio || 0) * 100).toFixed(1) || 0) + '%');
+  const top10Ratio = computed(() => (((props.data?.top10Ratio || 0) * 100).toFixed(1) || 0) + '%');
   const avgRank = computed(() => (props.data?.avgRank || 0).toFixed(1) + '등');
 
   //Stat
@@ -76,9 +69,7 @@
   const assists = computed(() => props.data?.assists || 0);
   const deaths = computed(() => props.data?.deaths || 0);
   const dBNOs = computed(() => props.data?.dBNOs || 0);
-  const damageDealt = computed(() =>
-    Number((props.data?.damageDealt || 0).toFixed(0))
-  );
+  const damageDealt = computed(() => Number((props.data?.damageDealt || 0).toFixed(0)));
   const avgDamage = computed(() => {
     let avg = (props.data?.damageDealt || 0) / (props.data?.roundsPlayed || 0);
     if (isNaN(avg)) avg = 0;
@@ -194,9 +185,7 @@
           class-name="my-content"
         >
           {{ kda }} / {{ kd }}<br />
-          ( K:{{ insertComma(kills) }} / D:{{ insertComma(deaths) }} / A:{{
-            insertComma(assists)
-          }})
+          ( K:{{ insertComma(kills) }} / D:{{ insertComma(deaths) }} / A:{{ insertComma(assists) }})
         </el-descriptions-item>
 
         <el-descriptions-item
