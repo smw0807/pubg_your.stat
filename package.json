@@ -17,6 +17,7 @@
     "pinia": "^2.0.23",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5",
+    "vue-timeago3": "^2.3.0",
     "vue-zoomer": "^0.4.0-beta.2"
   },
   "devDependencies": {
