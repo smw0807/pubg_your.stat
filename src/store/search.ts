@@ -16,7 +16,7 @@ export const useSearchStore = defineStore({
     nowSeason: {} as ISeason,
     rank: {} as IPlayerSeasonRank,
     normal: {} as IPlayerSeason,
-    lastUpdateDate: null,
+    lastUpdateDate: '',
   }),
   getters: {
     getAllSeason(): ISeason[] {

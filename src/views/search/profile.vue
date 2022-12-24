@@ -14,6 +14,7 @@
   import { useSearchStore } from '@/store';
 
   //컴포넌트
+  import nickNameCard from '@/components/card/NickName.vue';
   import rankStatCard from '@/components/card/RankStat.vue';
   import statCard from '@/components/card/Stat.vue';
 
@@ -54,32 +55,21 @@
   let fppDuo: Ref<IGameStats> = ref(normalStatData);
   let fppSquad: Ref<IGameStats> = ref(normalStatData);
 
+  // 스탯 데이터 다시 가져오기(PUBG API에 재요청)
   const reloadStats = async (): Promise<void> => {
-    console.log('hi');
     const loading = ElLoading.service({
       lock: true,
       text: '잠시만 기다려주세요...',
       background: 'rgba(0, 0, 0, 0.7)',
     });
     await store.reloadStats(params);
+    getStatData();
     isReload.value = false;
     loading.close();
   };
 
-  onMounted(async () => {
-    if (isReload.value === true) {
-      const loading = ElLoading.service({
-        lock: true,
-        text: '잠시만 기다려주세요...',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
-
-      await getStats(params);
-
-      isReload.value = false;
-      loading.close();
-    }
-
+  // store에서 데이터 가져오기
+  const getStatData = (): void => {
     tppRankSolo.value = rankStat('solo');
     tppRankSquad.value = rankStat('squad');
 
@@ -95,25 +85,39 @@
       fppDuo.value = normalStat('duo-fpp');
       fppSquad.value = normalStat('squad-fpp');
     }
+  };
+
+  onMounted(async () => {
+    if (isReload.value === true) {
+      const loading = ElLoading.service({
+        lock: true,
+        text: '잠시만 기다려주세요...',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
+
+      await getStats(params);
+
+      isReload.value = false;
+      loading.close();
+    }
+    getStatData();
   });
 </script>
 
 <template>
   <div class="main">
-    <el-row>
-      <el-col :span="8">
-        <el-card :body-style="{ padding: '0px' }">
-          <div style="padding: 14px">
-            <span>{{ params.nickname }}</span>
-            <div class="bottom">
-              <time class="time">최근 업데이트 : {{ lastUpdateDate }}</time>
-              <el-button class="button" @click="reloadStats">갱신하기</el-button>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-tabs v-model="activeName" class="demo-tabs">
+    <el-tabs v-model="activeName" class="demo-tabs" type="border-card">
+      <el-row>
+        <el-col :span="6">
+          <nick-name-card
+            :platform="params.platform"
+            :nickname="params.nickname"
+            :updatedate="lastUpdateDate"
+            @reload="reloadStats"
+          />
+        </el-col>
+      </el-row>
+
       <!-- 3인칭 솔로, 스쿼드, 1인칭 솔로, 스쿼드 랭크 스탯 카드 -->
       <el-tab-pane label="랭크" name="rank">
         <el-row :gutter="24" align="middle" justify="space-evenly">
