@@ -6,8 +6,7 @@
  * 1. 사이트 최초 로그인 시 플랫폼 별 닉네임 입력 시키는 기능
  * 2. 이미 있으면 패스..?
  */
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import type { Auth } from 'firebase/auth';
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 export class GooleAuthAPI {
   private auth: Auth;
   private provider: GoogleAuthProvider;
