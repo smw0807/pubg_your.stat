@@ -1,8 +1,14 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import type { Ref } from 'vue';
+  import { GooleAuthAPI } from '@/apis';
 
   const titleName: Ref<string> = ref('PUBG Your Stat');
+  const login = async () => {
+    console.log('login');
+    const auth = new GooleAuthAPI();
+    const signin = await auth.signIn();
+  };
 </script>
 <template>
   <div>
@@ -23,7 +29,7 @@
           <el-menu-item index="2-4-3">item three</el-menu-item>
         </el-sub-menu>
       </el-sub-menu> -->
-      <el-menu-item index="0">로그인</el-menu-item>
+      <el-menu-item index="0" @click="login">로그인</el-menu-item>
       <el-menu-item index="4">Orders</el-menu-item>
     </el-menu>
   </div>
