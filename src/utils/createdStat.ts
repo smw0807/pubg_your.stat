@@ -1,7 +1,6 @@
-import { useSearchStore } from '@/store';
 import { IGameStats, IGameRankStats } from '@/interfaces';
 import { normalStatData, rankStatData } from '.';
-const store = useSearchStore();
+import { useSearchStore } from '@/store';
 
 /**
  * store에 저장된 일반 스탯 리턴
@@ -9,6 +8,7 @@ const store = useSearchStore();
  * @returns IGameStats | {}
  */
 export const normalStat = (mode: string): IGameStats => {
+  const store = useSearchStore();
   let result: IGameStats = normalStatData;
   switch (mode) {
     case 'solo':
@@ -42,6 +42,7 @@ export const normalStat = (mode: string): IGameStats => {
  * @returns IGameRankStats | {}
  */
 export const rankStat = (mode: string): IGameRankStats => {
+  const store = useSearchStore();
   let result: IGameRankStats = rankStatData;
   switch (mode) {
     case 'solo':
