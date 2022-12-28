@@ -9,17 +9,13 @@
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameRankStats } from '@/interfaces';
-  import { insertComma } from '@/utils';
+  import { insertComma, gameModeName } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
 
   interface Props {
     data: IGameRankStats;
-    mode?: string; //solo, duo, squad
-    solo?: boolean;
-    squad?: boolean;
-    tpp?: boolean; //3인칭
-    fpp?: boolean; //1인칭
+    mode: string;
   }
   const props = defineProps<Props>();
   console.log(props);
@@ -27,21 +23,7 @@
   // 데이터 존재 유무
   const hasNoData = computed(() => (props.data === undefined ? true : false));
 
-  const modeName = (): string => {
-    let result = '';
-    if (props.tpp) {
-      result += '3인칭 ';
-    } else if (props.fpp) {
-      result += '1인칭 ';
-    }
-    if (props.solo) {
-      result += '솔로';
-    } else if (props.squad) {
-      result += '스쿼드';
-    }
-    return result;
-  };
-  const mode: Ref<string> = ref(modeName());
+  const mode: Ref<string> = ref(gameModeName(props.mode));
 
   // TIer
   const currentTier = computed(() => props.data?.currentTier || '-');

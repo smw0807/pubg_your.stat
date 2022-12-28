@@ -108,7 +108,7 @@
   <div class="main">
     <el-tabs v-model="activeName" class="demo-tabs" type="border-card">
       <el-row>
-        <el-col :span="6">
+        <el-col>
           <nick-name-card
             :platform="params.platform"
             :nickname="params.nickname"
@@ -121,37 +121,71 @@
       <!-- 3인칭 솔로, 스쿼드, 1인칭 솔로, 스쿼드 랭크 스탯 카드 -->
       <el-tab-pane label="랭크" name="rank">
         <el-row :gutter="24" align="middle" justify="space-evenly">
-          <el-col :span="12" :sm="24" :md="12">
-            <rank-stat-card solo tpp :data="tppRankSolo" />
-            <!-- <rank-stat-card solo tpp :data="testData.squad" /> -->
+          <el-col :span="12" :xs="24" :sm="24" :md="12">
+            <rank-stat-card mode="solo" :data="tppRankSolo" />
           </el-col>
-          <el-col :span="12" :sm="24" :md="12">
-            <rank-stat-card squad tpp :data="tppRankSquad" />
-            <!-- <rank-stat-card squad tpp :data="testData.squad" /> -->
+          <el-col :span="12" :xs="24" :sm="24" :md="12">
+            <rank-stat-card mode="squad" :data="tppRankSquad" />
           </el-col>
         </el-row>
+      </el-tab-pane>
 
-        <el-row v-if="hasFPP" :gutter="24" align="middle" justify="space-evenly">
-          <el-col :span="12" :sm="24" :md="12">
-            <rank-stat-card solo fpp :data="fppRankSolo" />
+      <el-tab-pane label="1인칭 랭크" name="fpp-rank" v-if="hasFPP">
+        <el-row :gutter="24" align="middle" justify="space-evenly">
+          <el-col :span="12" :xs="24" :sm="24" :md="12">
+            <rank-stat-card mode="solo-fpp" :data="fppRankSolo" />
           </el-col>
-          <el-col :span="12" :sm="24" :md="12">
-            <rank-stat-card squad fpp :data="fppRankSquad" />
+          <el-col :span="12" :xs="24" :sm="24" :md="12">
+            <rank-stat-card mode="squad-fpp" :data="fppRankSquad" />
           </el-col>
         </el-row>
       </el-tab-pane>
 
       <!-- 3인칭 솔로, 듀오, 스쿼드, 1인칭 솔로, 듀오, 스쿼드 일반 스탯 카드 -->
-      <el-tab-pane label="일반" name="normal">
-        <el-row :gutter="24" justify="space-between">
-          <el-col :span="24">
-            <stat-card solo tpp :data="tppSolo" />
+      <el-tab-pane label="솔로" name="solo">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="solo" :data="tppSolo" />
           </el-col>
-          <el-col :span="24">
-            <stat-card duo tpp :data="tppDuo" />
+        </el-row>
+      </el-tab-pane>
+
+      <el-tab-pane label="듀오" name="duo">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="duo" :data="tppDuo" />
           </el-col>
-          <el-col :span="24">
-            <stat-card squad tpp :data="tppSquad" />
+        </el-row>
+      </el-tab-pane>
+
+      <el-tab-pane label="스쿼드" name="squad">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="squad" :data="tppSquad" />
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+      <el-tab-pane label="1인칭 솔로" name="solo-fpp" v-if="hasFPP">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="squad" :data="fppSolo" />
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+      <el-tab-pane label="1인칭 듀오" name="duo-fpp" v-if="hasFPP">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="squad" :data="fppDuo" />
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+      <el-tab-pane label="1인칭 스쿼드" name="squad-fpp" v-if="hasFPP">
+        <el-row :gutter="24">
+          <el-col>
+            <stat-card mode="squad" :data="fppSquad" />
           </el-col>
         </el-row>
       </el-tab-pane>

@@ -9,18 +9,14 @@
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameStats } from '@/interfaces';
-  import { insertComma, changeSeconds, meterToKm } from '@/utils';
+  import { insertComma, changeSeconds, meterToKm, gameModeName } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
 
+  //fpp 붙으면 1인칭
   interface Props {
     data: IGameStats;
-    mode?: string; //solo, duo, squad
-    solo?: boolean;
-    duo?: boolean;
-    squad?: boolean;
-    tpp?: boolean; //3인칭
-    fpp?: boolean; //1인칭
+    mode: string;
   }
   const props = defineProps<Props>();
   console.log(props);
@@ -28,23 +24,7 @@
   // 데이터 존재 유무
   let hasNoData = computed(() => (props.data.roundsPlayed === 0 ? true : false));
 
-  const modeName = (): string => {
-    let result = '';
-    if (props.tpp) {
-      result += '3인칭 ';
-    } else if (props.fpp) {
-      result += '1인칭 ';
-    }
-    if (props.solo) {
-      result += '솔로';
-    } else if (props.duo) {
-      result += '듀오';
-    } else if (props.squad) {
-      result += '스쿼드';
-    }
-    return result;
-  };
-  const mode: Ref<string> = ref(modeName());
+  const mode: Ref<string> = ref(gameModeName(props.mode));
 
   //게임
   const wins = computed(() => props.data?.wins || 0);
@@ -392,7 +372,7 @@
           align="center"
           label-class-name="my-label"
           class-name="my-content"
-          width="300"
+          width="100px"
         >
           {{ insertComma(vehicleDestroys) }}
         </el-descriptions-item>

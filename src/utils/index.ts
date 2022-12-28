@@ -10,6 +10,7 @@ export { normalStat, rankStat } from './CreatedStat';
 export { changeSeconds } from './Date';
 export { meterToKm } from './Distance';
 export { errorCode } from './Error';
+export { gameModeName } from './Mappings';
 export { _429, player404 } from './Notification';
 export { insertComma } from './Number';
 export { normalStatData, rankStatData } from './Sample';
