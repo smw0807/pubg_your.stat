@@ -53,9 +53,7 @@
             v-if="updatedate != ''"
           />
         </span>
-      </el-col>
-      <el-divider direction="vertical" />
-      <el-col :span="4">
+        <el-divider direction="vertical" />
         <el-button color="#626aef" plain dark @click="reload">스탯 갱신</el-button>
       </el-col>
     </el-row>
