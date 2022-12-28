@@ -6,7 +6,15 @@
  * 1. 사이트 최초 로그인 시 플랫폼 별 닉네임 입력 시키는 기능
  * 2. 이미 있으면 패스..?
  */
-import { Auth, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  Auth,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  AuthError,
+  signOut,
+} from 'firebase/auth';
+type authError = AuthError;
 export class GooleAuthAPI {
   private auth: Auth;
   private provider: GoogleAuthProvider;
@@ -14,6 +22,14 @@ export class GooleAuthAPI {
     this.auth = getAuth();
     this.provider = new GoogleAuthProvider();
     this.auth.languageCode = 'ko';
+  }
+
+  get authInfo() {
+    return this.auth;
+  }
+
+  signOut() {
+    return signOut(this.auth);
   }
 
   async signIn() {
@@ -33,7 +49,6 @@ export class GooleAuthAPI {
       console.groupEnd();
     } catch (error: unknown) {
       console.log('error!!');
-      console.log(error);
     }
   }
 }
