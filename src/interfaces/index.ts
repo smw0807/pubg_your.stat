@@ -12,3 +12,4 @@ export type {
 
 export type { IFindTeam } from './FindTeam';
 export type { IPlayerStats } from './FireStore';
+export type { IUsers } from './Users';

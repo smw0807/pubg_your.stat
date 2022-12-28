@@ -1,42 +1,33 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, defineEmits, defineProps } from 'vue';
   import type { Ref } from 'vue';
-  import { GooleAuthAPI } from '@/apis';
 
   const titleName: Ref<string> = ref('PUBG Your Stat');
-  const login = async () => {
-    console.log('login');
-    const auth = new GooleAuthAPI();
-    const signin = await auth.signIn();
-  };
+
+  const emit = defineEmits(['login', 'logout']);
+  const props = defineProps({
+    hasUser: {
+      type: Boolean,
+      default: false,
+    },
+  });
 </script>
 <template>
   <div>
-    <el-menu class="el-menu-demo" mode="horizontal">
-      <!-- @select="handleSelect" -->
-      <div class="logo">{{ titleName }}</div>
-      <!-- <el-menu-item index="1">Processing Center</el-menu-item> -->
-      <div class="flex-grow" />
-      <!-- <el-sub-menu index="2">
-        <template #title>Workspace</template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-        <el-menu-item index="2-2">item two</el-menu-item>
-        <el-menu-item index="2-3">item three</el-menu-item>
-        <el-sub-menu index="2-4">
-          <template #title>item four</template>
-          <el-menu-item index="2-4-1">item one</el-menu-item>
-          <el-menu-item index="2-4-2">item two</el-menu-item>
-          <el-menu-item index="2-4-3">item three</el-menu-item>
-        </el-sub-menu>
-      </el-sub-menu> -->
-      <el-menu-item index="0" @click="login">로그인</el-menu-item>
-      <el-menu-item index="4">Orders</el-menu-item>
-    </el-menu>
+    <el-row align="middle" justify="space-between">
+      <el-col :span="21">
+        <div class="logo">{{ titleName }}</div>
+      </el-col>
+      <el-col :span="3" align="end">
+        <el-button size="large" link v-if="hasUser" @click="emit('logout')">로그아웃</el-button>
+        <el-button size="large" link v-else @click="emit('login')">로그인</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <style scoped>
-  .flex-grow {
-    flex-grow: 1;
+  .el-row {
+    border-bottom: 1px solid rgb(180, 180, 180);
   }
   .logo {
     padding: 0.6em;
