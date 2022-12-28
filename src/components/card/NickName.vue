@@ -54,7 +54,7 @@
           />
         </span>
         <el-divider direction="vertical" />
-        <el-button color="#626aef" plain dark @click="reload">스탯 갱신</el-button>
+        <el-button color="#626aef" plain dark @click="reload">갱신</el-button>
       </el-col>
     </el-row>
   </el-card>
