@@ -1,7 +1,7 @@
 <script setup lang="ts">
   // This starter template is using Vue 3 <script setup> SFCs
   // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-  import { ref } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
 
@@ -10,34 +10,21 @@
 
   const store = useUserStore();
 
-  //사용자 정보 유무(로그인 했으면 true, 안했으면 false)
-  const hasUser: Ref<boolean> = ref(false);
+  const hasUser = computed(() => store.hasUser);
+  const userInfo = computed(() => store.getUser);
+  console.log(userInfo.value);
 
-  const login = async (): Promise<void> => {
-    console.log('login');
-    try {
-      await store.signin();
-    } catch (error) {
-      console.error(error);
-    }
+  //로그인
+  const signin = async (): Promise<void> => {
+    await store.signin();
   };
-  const logout = async () => {
-    console.log('logout');
-    try {
-      const rs = await store.signout();
-      console.log(rs);
-    } catch (error) {
-      console.error(error);
-    }
+  //로그아웃
+  const signout = () => {
+    store.signout();
   };
+
   const user = async () => {
-    console.log('user');
-    try {
-      const rs = await store.userInfo();
-      console.log(rs);
-    } catch (error) {
-      console.error(error);
-    }
+    await store.userInfo();
   };
 </script>
 
@@ -45,7 +32,8 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        <HeaderMenu @login="login" @logout="logout" @user="user" />
+        {{ hasUser }}
+        <HeaderMenu @signin="signin" @signout="signout" @user="user" :has-user="hasUser" />
       </el-header>
       <el-container>
         <el-aside width="200px">
