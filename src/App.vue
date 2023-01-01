@@ -21,8 +21,23 @@
       console.error(error);
     }
   };
-  const logout = () => {
+  const logout = async () => {
     console.log('logout');
+    try {
+      const rs = await store.signout();
+      console.log(rs);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const user = async () => {
+    console.log('user');
+    try {
+      const rs = await store.userInfo();
+      console.log(rs);
+    } catch (error) {
+      console.error(error);
+    }
   };
 </script>
 
@@ -30,7 +45,7 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        <HeaderMenu @login="login" @logout="logout" />
+        <HeaderMenu @login="login" @logout="logout" @user="user" />
       </el-header>
       <el-container>
         <el-aside width="200px">

@@ -4,7 +4,7 @@
 
   const titleName: Ref<string> = ref('PUBG Your Stat');
 
-  const emit = defineEmits(['login', 'logout']);
+  const emit = defineEmits(['login', 'logout', 'user']);
   const props = defineProps({
     hasUser: {
       type: Boolean,
@@ -21,6 +21,8 @@
       <el-col :span="3" align="end">
         <el-button size="large" link v-if="hasUser" @click="emit('logout')">로그아웃</el-button>
         <el-button size="large" link v-else @click="emit('login')">로그인</el-button>
+        <el-button size="large" link @click="emit('logout')">로그아웃</el-button>
+        <el-button size="large" link @click="emit('user')">내 정보</el-button>
       </el-col>
     </el-row>
   </div>
