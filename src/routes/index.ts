@@ -18,12 +18,12 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from) => {
-  console.group('router guard');
-  console.log(to);
-  console.log(from);
-  console.groupEnd();
-});
+// router.beforeEach((to, from) => {
+//   console.group('router guard');
+//   console.log(to);
+//   console.log(from);
+//   console.groupEnd();
+// });
 
 export const setupRouter = (app: App) => {
   app.use(router);

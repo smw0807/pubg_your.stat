@@ -1,8 +1,7 @@
 <script setup lang="ts">
   // This starter template is using Vue 3 <script setup> SFCs
   // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-  import { ref, computed, onMounted } from 'vue';
-  import type { Ref } from 'vue';
+  import { computed, nextTick } from 'vue';
   import { useUserStore } from '@/store';
 
   import HeaderMenu from '@/components/header/HeaderMenu.vue';
@@ -10,21 +9,27 @@
 
   const store = useUserStore();
 
+  //스토어에 유저 정보가 있는지
   const hasUser = computed(() => store.hasUser);
-  const userInfo = computed(() => store.getUser);
-  console.log(userInfo.value);
+  //스토어에 저장된 유저 정보
+  // const userInfo = computed(() => store.getUser);
+
+  const reloadUser = async () => await store.reloadUser();
+  nextTick(async () => {
+    await reloadUser();
+  });
 
   //로그인
   const signin = async (): Promise<void> => {
     await store.signin();
   };
   //로그아웃
-  const signout = () => {
+  const signout = (): void => {
     store.signout();
   };
-
-  const user = async () => {
-    await store.userInfo();
+  //현재 로그인 중인 사용자 정보 가져오기
+  const nowUser = (): void => {
+    store.nowUser();
   };
 </script>
 
@@ -32,8 +37,7 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        {{ hasUser }}
-        <HeaderMenu @signin="signin" @signout="signout" @user="user" :has-user="hasUser" />
+        <HeaderMenu @signin="signin" @signout="signout" @user="nowUser" :has-user="hasUser" />
       </el-header>
       <el-container>
         <el-aside width="200px">

@@ -9,11 +9,13 @@
 import {
   Auth,
   getAuth,
+  onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
   User,
   UserCredential,
+  updateProfile,
 } from 'firebase/auth';
 
 export class GooleAuthAPI {
@@ -24,27 +26,41 @@ export class GooleAuthAPI {
     this.provider = new GoogleAuthProvider();
     this.auth.languageCode = 'ko';
   }
+  // get auth(): Auth{
+  //   return getAuth();
+  // }
 
-  //로그인 한 유저 정보 가져오기
-  get userInfo(): User | null {
+  //현재 로그인 중인 유저 정보
+  get nowUser(): User | null {
     return this.auth.currentUser;
   }
-  //로그아웃
-  signOut(): void {
-    signOut(this.auth);
-  }
-
   //로그인
-  async signIn(): Promise<UserCredential> {
+  signIn(): Promise<UserCredential> {
     return new Promise(async (resolve, reject) => {
       try {
-        //팝업창으로 띄우기
-        const result = await signInWithPopup(this.auth, this.provider);
-        console.log(result);
-        resolve(result);
+        //로그인한 사용자 정보 반환
+        resolve(await signInWithPopup(this.auth, this.provider));
       } catch (error: unknown) {
         reject(error);
       }
     });
+  }
+  //로그인 유저 정보(웹페이지 새로고침시엔 이걸 써야 정보를 가져옴)
+  reloadUser(): Promise<User | null> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //async/await 방식으로 사용하는 방법을 못찾겠음.
+        onAuthStateChanged(this.auth, user => {
+          resolve(user);
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  //로그아웃
+  signOut(): void {
+    signOut(this.auth);
   }
 }

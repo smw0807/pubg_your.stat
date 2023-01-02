@@ -19,10 +19,9 @@
         <div class="logo">{{ titleName }}</div>
       </el-col>
       <el-col :span="3" align="end">
+        <el-button size="large" link v-if="hasUser" @click="emit('user')">내 정보</el-button>
         <el-button size="large" link v-if="hasUser" @click="emit('signout')">로그아웃</el-button>
         <el-button size="large" link v-else @click="emit('signin')">로그인</el-button>
-        <el-button size="large" link @click="emit('signout')">로그아웃</el-button>
-        <el-button size="large" link @click="emit('user')">내 정보</el-button>
       </el-col>
     </el-row>
   </div>

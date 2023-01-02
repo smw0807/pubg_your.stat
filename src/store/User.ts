@@ -20,16 +20,14 @@ import { GooleAuthAPI } from '@/apis';
 import { User } from 'firebase/auth';
 const auth = new GooleAuthAPI();
 
-type IUser = User | null;
-
 export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     hasUser: false,
-    user: null as IUser,
+    user: null as User | null,
   }),
   getters: {
-    getUser(): IUser {
+    getUser(): User | null {
       return this.user;
     },
   },
@@ -37,27 +35,30 @@ export const useUserStore = defineStore({
     //로그인
     async signin(): Promise<void> {
       try {
-        //todo 로그인 후 파이어스토어에 플레이 닉네임 저장된 데이터 있는지 확인하는 로칙 추가 필요
-        console.group('signin');
-        console.log(this.user);
         const rs = await auth.signIn();
         this.user = rs.user;
-        console.log(this.user);
-        console.groupEnd();
+        this.hasUser = true;
+        //todo 로그인 후 파이어스토어에 플레이 닉네임 저장된 데이터 있는지 확인하는 로칙 추가 필요
       } catch (error) {
         console.error(error);
       }
     },
-    //로그인 유저 정보 가져오기
-    async userInfo(): Promise<void> {
+    //현재 로그인 중인 사용자 정보 가져오기(새로고침 시엔 이거 안먹힘...)
+    nowUser(): void {
       try {
-        console.log('userInfo');
-        const rs = await auth.userInfo;
-        console.log(rs);
-        if (rs) {
-          this.hasUser = true;
-        }
-        this.user = rs;
+        const user = auth.nowUser;
+        this.hasUser = user ? true : false;
+        this.user = user;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    //로그인 유저 정보 가져오기(새로고침 시엔 이 함수 사용)
+    async reloadUser(): Promise<void> {
+      try {
+        const user = await auth.reloadUser();
+        this.hasUser = user ? true : false;
+        this.user = user;
       } catch (err) {
         console.error(err);
       }
