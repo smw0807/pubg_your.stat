@@ -35,8 +35,7 @@ export const useUserStore = defineStore({
     //로그인
     async signin(): Promise<void> {
       try {
-        const rs = await auth.signIn();
-        this.user = rs.user;
+        this.user = await auth.signIn();
         this.hasUser = true;
         //todo 로그인 후 파이어스토어에 플레이 닉네임 저장된 데이터 있는지 확인하는 로칙 추가 필요
       } catch (error) {

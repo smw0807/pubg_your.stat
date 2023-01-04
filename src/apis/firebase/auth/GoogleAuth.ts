@@ -2,6 +2,11 @@
  * 공식 문서
  * https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0#web-version-9
  *
+ * 구글 인증
+ * https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
+ *
+ * 인증 상태 지속성
+ * https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
  * todo
  * 1. 사이트 최초 로그인 시 플랫폼 별 닉네임 입력 시키는 기능
  * 2. 이미 있으면 패스..?
@@ -14,7 +19,7 @@ import {
   signInWithPopup,
   signOut,
   User,
-  UserCredential,
+  UserCredential, //삭제 예정
   updateProfile,
 } from 'firebase/auth';
 
@@ -26,20 +31,18 @@ export class GooleAuthAPI {
     this.provider = new GoogleAuthProvider();
     this.auth.languageCode = 'ko';
   }
-  // get auth(): Auth{
-  //   return getAuth();
-  // }
 
   //현재 로그인 중인 유저 정보
   get nowUser(): User | null {
     return this.auth.currentUser;
   }
   //로그인
-  signIn(): Promise<UserCredential> {
+  signIn(): Promise<User> {
     return new Promise(async (resolve, reject) => {
       try {
         //로그인한 사용자 정보 반환
-        resolve(await signInWithPopup(this.auth, this.provider));
+        const { user } = await signInWithPopup(this.auth, this.provider);
+        resolve(user);
       } catch (error: unknown) {
         reject(error);
       }
