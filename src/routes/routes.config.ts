@@ -51,24 +51,24 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/jobsearch',
+    path: '/teams',
     name: '팀 구하기',
     meta: {
       transition: 'fade',
     },
     children: [
       {
-        path: '/jobsearch/kakao',
+        path: '/teams/kakao',
         name: '카카오',
-        component: () => import('@/views/map/erangel.vue'),
+        component: () => import('@/views/teams/kakao.vue'),
         meta: {
           transition: 'fade',
         },
       },
       {
-        path: '/jobsearch/steam',
+        path: '/teams/steam',
         name: '스팀',
-        component: () => import('@/views/map/miramar.vue'),
+        component: () => import('@/views/teams/steam.vue'),
         meta: {
           transition: 'fade',
         },
