@@ -1,4 +1,4 @@
-import { IGameStats, IGameRankStats } from '@/interfaces';
+import { IGameStats, IGameRankStats, ModeType } from '@/interfaces';
 import { normalStatData, rankStatData } from '.';
 import { useSearchStore } from '@/store';
 
@@ -7,7 +7,7 @@ import { useSearchStore } from '@/store';
  * @param mode 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp'
  * @returns IGameStats | {}
  */
-export const normalStat = (mode: string): IGameStats => {
+export const normalStat = (mode: ModeType): IGameStats => {
   const store = useSearchStore();
   let result: IGameStats = normalStatData;
   switch (mode) {
@@ -41,7 +41,7 @@ export const normalStat = (mode: string): IGameStats => {
  * @param mode 'solo' | 'solo-fpp' | 'squad' | 'squad-fpp'
  * @returns IGameRankStats | {}
  */
-export const rankStat = (mode: string): IGameRankStats => {
+export const rankStat = (mode: ModeType): IGameRankStats => {
   const store = useSearchStore();
   let result: IGameRankStats = rankStatData;
   switch (mode) {

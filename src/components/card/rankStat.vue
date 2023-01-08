@@ -8,14 +8,14 @@
    */
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { IGameRankStats } from '@/interfaces';
+  import { IGameRankStats, ModeType } from '@/interfaces';
   import { insertComma, gameModeName } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
 
   interface Props {
     data: IGameRankStats;
-    mode: string;
+    mode: ModeType;
   }
   const props = defineProps<Props>();
   console.log(props);

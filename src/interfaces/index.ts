@@ -13,3 +13,5 @@ export type {
 export type { IFindTeam } from './FindTeam';
 export type { IPlayerStats } from './FireStore';
 export type { IUsers } from './Users';
+
+export type ModeType = 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp';

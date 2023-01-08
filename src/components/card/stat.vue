@@ -8,7 +8,7 @@
    */
   import { defineProps, ref, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { IGameStats } from '@/interfaces';
+  import { IGameStats, ModeType } from '@/interfaces';
   import { insertComma, changeSeconds, meterToKm, gameModeName } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';
@@ -16,7 +16,7 @@
   //fpp 붙으면 1인칭
   interface Props {
     data: IGameStats;
-    mode: string;
+    mode: ModeType;
   }
   const props = defineProps<Props>();
   console.log(props);
