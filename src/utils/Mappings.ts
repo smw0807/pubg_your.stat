@@ -1,9 +1,10 @@
+import { ModeType } from '@/interfaces';
 /**
  * 맵핑 관련
  */
 
 // 게임모드 한글 맵핑
-export const gameModeName = (mode: string): string => {
+export const gameModeName = (mode: ModeType): string => {
   let result = '';
   switch (mode) {
     case 'solo':
