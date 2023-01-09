@@ -7,6 +7,9 @@ export class TeamAPI {
   //팀원 리스트?
   async memberList() {}
 
+  //팀 만들기
+  async createdTeam() {}
+
   //메세지 내역 가져오기
   async getMessages() {}
 
