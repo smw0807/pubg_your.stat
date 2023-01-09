@@ -16,7 +16,7 @@
   //컴포넌트
   import nickNameCard from '@/components/card/NickName.vue';
   import rankStatCard from '@/components/card/RankStat.vue';
-  import statCard from '@/components/card/Stat.vue';
+  import statCard from '@/components/card/NormalStat.vue';
 
   const route = useRoute();
   const store = useSearchStore();
