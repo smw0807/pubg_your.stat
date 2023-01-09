@@ -1,5 +1,4 @@
 export type { IAPIObject, ISimpleAPIObject } from './Common';
-export type { ISearchForm } from './SearchForm';
 export type { ISeason, ISeasonList } from './Season';
 export type {
   IPlayer,
@@ -15,3 +14,9 @@ export type { IPlayerStats } from './FireStore';
 export type { IUsers } from './Users';
 
 export type ModeType = 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp';
+export type PlatformType = 'kakao' | 'steam';
+export interface ISearchForm {
+  platform: PlatformType;
+  nickname: string;
+  seasonID?: string;
+}
