@@ -10,43 +10,32 @@
    */
   import { ref, reactive, defineProps, defineEmits } from 'vue';
   import type { Ref } from 'vue';
-  import { PlatformType, ModeType } from '@/interfaces';
+  import { PlatformType, ITeamForm } from '@/interfaces';
 
   type Props = {
     platform: PlatformType;
-  };
-  type TeamForm = {
-    title: string;
-    isRank: boolean;
-    mode: ModeType;
   };
 
   const props = defineProps<Props>();
   const emit = defineEmits(['input-data']);
 
-  // 다이얼로그 관련 ===== S
   const open: Ref<boolean> = ref(false);
+
+  // 데이터 폼
+  const form: ITeamForm = reactive({
+    title: '',
+    isRank: true,
+    mode: 'solo',
+  });
 
   //데이터 보내기
   const sendData = () => {
     console.log(form);
     emit('input-data', form);
   };
-  // 다이얼로그 관련 ===== E
 
-  // 폼 관련 =========== S
   // 라벨 넓이
   const labelWidth: string = '140px';
-  // 데이터 폼
-  const form: TeamForm = reactive({
-    title: '',
-    isRank: true,
-    mode: 'solo',
-  });
-  const test = (e: any) => {
-    console.log(e);
-  };
-  // 폼 관련 =========== E
 </script>
 <template>
   <el-button @click="open = true"> 팀 만들기 </el-button>
@@ -57,7 +46,7 @@
         <el-input v-model="form.title" autocomplete="off" />
       </el-form-item>
       <el-form-item label="게임 유형" :label-width="labelWidth">
-        <el-radio-group v-model="form.isRank" @change="test">
+        <el-radio-group v-model="form.isRank">
           <el-radio :label="true">랭크 게임</el-radio>
           <el-radio :label="false">일반 게임</el-radio>
         </el-radio-group>

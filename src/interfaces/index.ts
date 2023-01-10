@@ -9,7 +9,7 @@ export type {
   IGameRankStats,
 } from './Players';
 
-export type { IFindTeam } from './FindTeam';
+export type { ITeamForm, ITeamInfo } from './Team';
 export type { IPlayerStats } from './FireStore';
 export type { IUsers } from './Users';
 
