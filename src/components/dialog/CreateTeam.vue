@@ -25,7 +25,7 @@
   const form: ITeamForm = reactive({
     title: '',
     isRank: true,
-    mode: 'solo',
+    mode: 'squad',
   });
 
   //데이터 보내기
@@ -53,10 +53,8 @@
       </el-form-item>
       <el-form-item label="게임 모드" :label-width="labelWidth">
         <el-select v-model="form.mode">
-          <el-option label="솔로" value="solo" />
           <el-option v-show="form.isRank === false" label="듀오" value="duo" />
           <el-option label="스쿼드" value="squad" />
-          <el-option v-show="platform === 'steam'" label="1인칭 솔로" value="solo-fpp" />
           <el-option
             v-show="form.isRank === false && platform === 'steam'"
             label="1인칭 듀오"
