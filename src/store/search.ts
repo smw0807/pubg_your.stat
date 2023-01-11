@@ -30,7 +30,6 @@ export const useSearchStore = defineStore({
     //파이어베이스 저장소에 저장된 데이터 가져오기
     getStats(params: ISearchForm): Promise<number> {
       return new Promise(async (resolve, reject) => {
-        let result: number = 0;
         try {
           const rs = await firestore.getStats(params);
           //저장소에 데이터가 있을 경우
@@ -38,13 +37,12 @@ export const useSearchStore = defineStore({
             this.rank = JSON.parse(rs.data().rank);
             this.normal = JSON.parse(rs.data().normal);
             this.lastUpdateDate = rs.data()['last-update-date'].toDate();
-            result = 200;
           } else {
             //데이터가 없을 경우 pubg api에다 검색 요청 후 저장소에 저장
             await this.setSeason(params.platform);
             await this.searchPlayer(params);
           }
-          resolve(result);
+          resolve(200);
         } catch (err) {
           if (err === 404) player404();
           if (err === 429) _429();

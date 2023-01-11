@@ -2,7 +2,7 @@
   import { useRouter } from 'vue-router';
   import type { ISearchForm } from '@/interfaces';
   import { ElLoading } from 'element-plus';
-  import { getStats } from '@/utils';
+  import { getPlayerStats } from '@/utils';
 
   import mainSearch from '@/components/search/Search.vue';
 
@@ -16,7 +16,7 @@
       background: 'rgba(0, 0, 0, 0.7)',
     });
 
-    const getStat = await getStats(params);
+    const getStat = await getPlayerStats(params);
 
     loading.close();
 

@@ -14,4 +14,4 @@ export { gameModeName } from './Mappings';
 export { _429, player404 } from './Notification';
 export { insertComma } from './Number';
 export { normalStatData, rankStatData } from './Sample';
-export { getStats } from './Search';
+export { getPlayerStats } from './Search';

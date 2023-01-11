@@ -10,7 +10,7 @@
   import { useRoute } from 'vue-router';
   import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
-  import { normalStat, rankStat, normalStatData, rankStatData, getStats } from '@/utils';
+  import { normalStat, rankStat, normalStatData, rankStatData, getPlayerStats } from '@/utils';
   import { useSearchStore } from '@/store';
 
   //컴포넌트
@@ -95,7 +95,7 @@
         background: 'rgba(0, 0, 0, 0.7)',
       });
 
-      await getStats(params);
+      await getPlayerStats(params);
 
       isReload.value = false;
       loading.close();
