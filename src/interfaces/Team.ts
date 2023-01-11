@@ -10,7 +10,7 @@
  * createdAt: 팀 생성일
  */
 
-import { ModeType } from '.';
+import { ModeType, PlatformType } from '.';
 
 interface member {
   uid: string;
@@ -25,17 +25,14 @@ export interface ITeamFilter {
 //팀 만들기 폼
 export interface ITeamForm {
   title: string;
+  platform: PlatformType;
   isRank: boolean;
   mode: ModeType;
 }
-//팀 정보
-export interface ITeamInfo {
-  roomLeader: string;
-  platform: string;
-  mode: ModeType;
-  isRank: boolean;
-  members: member[];
-  title: string;
+//팀 정보 [팀만들기 폼과 중복된는 속성이 있어서 extends함]
+export interface ITeamInfo extends ITeamForm {
+  roomLeader?: string;
+  members?: member[];
   createdAt?: string;
 }
 

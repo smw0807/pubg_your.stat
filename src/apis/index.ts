@@ -1,2 +1,2 @@
 export { PlayersAPI, SeasonAPI } from './pubg';
-export { PlayerStatsAPI, GooleAuthAPI } from './firebase';
+export { PlayerStatsAPI, GooleAuthAPI, TeamAPI } from './firebase';

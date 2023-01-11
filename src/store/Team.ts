@@ -5,11 +5,22 @@
  */
 
 import { defineStore } from 'pinia';
-import {} from '@/apis';
+import { TeamAPI } from '@/apis';
+import { ITeamForm } from '@/interfaces';
+
+const teamApi = new TeamAPI();
 
 export const useTeamStore = defineStore({
   id: 'team',
   state: () => ({}),
   getters: {},
-  actions: {},
+  actions: {
+    async createTeam(params: ITeamForm) {
+      try {
+        const create = await teamApi.createTeam(params);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  },
 });

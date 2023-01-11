@@ -2,13 +2,19 @@
   import { ref } from 'vue';
   import type { Ref } from 'vue';
   import { ITeamForm } from '@/interfaces';
+  import { useTeamStore } from '@/store';
+
+  //todo 열리고 닫히는거 프롭스로 바꾸기
 
   // 팀 만들기 컴포넌트
   import kakaoTeamDialog from '@/components/dialog/CreateTeam.vue';
 
+  const store = useTeamStore();
+
   // 팀 만들기
-  const createTeam = (form: ITeamForm) => {
-    console.log(form);
+  const createTeam = async (form: ITeamForm): Promise<void> => {
+    await store.createTeam(form);
+    //todo 결과 받아서 다이얼로그 닫게 하기?
   };
 </script>
 <template>

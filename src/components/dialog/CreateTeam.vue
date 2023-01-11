@@ -12,11 +12,9 @@
   import type { Ref } from 'vue';
   import { PlatformType, ITeamForm } from '@/interfaces';
 
-  type Props = {
+  const props = defineProps<{
     platform: PlatformType;
-  };
-
-  const props = defineProps<Props>();
+  }>();
   const emit = defineEmits(['input-data']);
 
   const open: Ref<boolean> = ref(false);
@@ -25,12 +23,12 @@
   const form: ITeamForm = reactive({
     title: '',
     isRank: true,
+    platform: props.platform,
     mode: 'squad',
   });
 
-  //데이터 보내기
+  //입력한 데이터 보내기
   const sendData = () => {
-    console.log(form);
     emit('input-data', form);
   };
 
