@@ -5,6 +5,7 @@
  */
 
 import { defineStore } from 'pinia';
+import {} from '@/apis';
 
 export const useTeamStore = defineStore({
   id: 'team',

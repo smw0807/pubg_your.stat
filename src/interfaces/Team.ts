@@ -15,6 +15,13 @@ import { ModeType } from '.';
 interface member {
   uid: string;
 }
+export interface ITeamFilter {
+  createdAt: string;
+  platform: string;
+  gameMode: string;
+  gameType: string;
+}
+
 //팀 만들기 폼
 export interface ITeamForm {
   title: string;
