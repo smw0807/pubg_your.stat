@@ -6,7 +6,7 @@
    * https://element-plus.org/en-US/component/empty.html#basic-usage
    * https://element-plus.org/en-US/component/descriptions.html#descriptions-attributes
    */
-  import { defineProps, ref, computed } from 'vue';
+  import { ref, computed } from 'vue';
   import type { Ref } from 'vue';
   import { IGameRankStats, ModeType } from '@/interfaces';
   import { insertComma, gameModeName } from '@/utils';

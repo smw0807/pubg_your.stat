@@ -8,7 +8,7 @@
    * ## 인원수는 모드에 맞춰 자동 설정
    * todo 데이터 검증
    */
-  import { ref, reactive, defineProps, defineEmits } from 'vue';
+  import { ref, reactive } from 'vue';
   import type { Ref } from 'vue';
   import { PlatformType, ITeamForm } from '@/interfaces';
 

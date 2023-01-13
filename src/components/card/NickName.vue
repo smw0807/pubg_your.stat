@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { defineProps, defineEmits } from 'vue';
   import { ko } from 'date-fns/locale';
 
   const emit = defineEmits(['reload']);

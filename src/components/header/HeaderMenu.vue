@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, defineEmits, defineProps } from 'vue';
+  import { ref } from 'vue';
   import type { Ref } from 'vue';
 
   const titleName: Ref<string> = ref('PUBG Your Stat');
