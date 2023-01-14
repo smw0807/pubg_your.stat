@@ -78,7 +78,7 @@ npm start
 타입스크립트 구현 중 인터페이스 관련해서 참고한 깃허브<br>
 https://github.com/martinsileno/pubg-typescript-api
 
-## 만들면서 참고 URL들
+## 만들면서 참고한 URL들
 
 - vue3 컴포져블
   - https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
