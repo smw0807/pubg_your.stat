@@ -13,8 +13,9 @@
 
   // 팀 만들기
   const createTeam = async (form: ITeamForm): Promise<void> => {
-    await store.createTeam(form);
-    //todo 결과 받아서 다이얼로그 닫게 하기?
+    const result = await store.createTeam(form);
+    console.log(result);
+    //todo 결과 받은걸로 대화방 url로 이동시키기
   };
 </script>
 <template>

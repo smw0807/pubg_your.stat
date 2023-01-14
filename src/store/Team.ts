@@ -15,12 +15,14 @@ export const useTeamStore = defineStore({
   state: () => ({}),
   getters: {},
   actions: {
-    async createTeam(params: ITeamForm) {
+    async createTeam(params: ITeamForm): Promise<string> {
+      let result = '';
       try {
-        const create = await teamApi.createTeam(params);
+        result = await teamApi.createTeam(params);
       } catch (err) {
         console.error(err);
       }
+      return result;
     },
   },
 });

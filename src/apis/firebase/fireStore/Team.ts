@@ -1,8 +1,10 @@
 //팀 안에서 사용할...
-import { FireStore } from '@/apis/firebase';
-import { ITeamFilter, ITeamInfo } from '@/interfaces';
+import { collection, addDoc } from 'firebase/firestore';
+import { FireStore, GooleAuthAPI } from '@/apis/firebase';
+import { ITeamFilter, ITeamInfo, ModeType } from '@/interfaces';
+import { nowDateFormat } from '@/utils';
 
-export class TeamAPI {
+export class TeamAPI extends GooleAuthAPI {
   private db = FireStore;
   private collection: string = 'teams';
 
@@ -10,18 +12,16 @@ export class TeamAPI {
   async teamList(params: ITeamFilter) {}
 
   //팀 만들기
-  createTeam(params: ITeamInfo) {
+  createTeam(params: ITeamInfo): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
-        // params.title
-        // params.platform
-        // params.isRank
-        // params.mode
-        // params.members = [] 고정
-        // params.createdAt = new Date();
-        // params.roomLeader = 로그인 유저 (값 뭘로 넣을지 고민하기)
-        console.log(params);
-        resolve(true);
+        const uid = this.nowUser?.uid as string;
+        params.members = [uid];
+        params.roomLeader = uid;
+        params.createdAt = nowDateFormat('YYYY-MM-DD HH:mm:ss');
+        params.maxCount = this.maxCount(params.mode);
+        const docRef = await addDoc(collection(this.db, this.collection), params);
+        resolve(docRef.id);
       } catch (err) {
         reject(err);
       }
@@ -48,4 +48,20 @@ export class TeamAPI {
 
   //팀원 내보내기
   async kickoutMember() {}
+
+  //모드에 따라 팀 최대 인원
+  maxCount(mode: ModeType): number {
+    let result = 0;
+    switch (mode) {
+      case 'duo':
+      case 'duo-fpp':
+        result = 2;
+        break;
+      case 'squad':
+      case 'squad-fpp':
+        result = 4;
+        break;
+    }
+    return result;
+  }
 }

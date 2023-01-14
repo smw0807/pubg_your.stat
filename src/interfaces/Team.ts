@@ -11,10 +11,8 @@
  */
 
 import { ModeType, PlatformType } from '.';
+import dayjs from 'dayjs';
 
-interface member {
-  uid: string;
-}
 export interface ITeamFilter {
   createdAt: string;
   platform: string;
@@ -32,29 +30,7 @@ export interface ITeamForm {
 //팀 정보 [팀만들기 폼과 중복된는 속성이 있어서 extends함]
 export interface ITeamInfo extends ITeamForm {
   roomLeader?: string;
-  members?: member[];
-  createdAt?: string;
+  members?: string[];
+  maxCount?: number;
+  createdAt?: string | Date | dayjs.Dayjs;
 }
-
-const exampleData1: ITeamInfo = {
-  roomLeader: 'sdfasdfasdfasdfasdfas',
-  platform: 'kakao',
-  mode: 'squad',
-  isRank: true,
-  members: [{ uid: 'sdfasdfasdfasdfasdfas' }, { uid: 'qweqweqweqweqweqweqwe' }],
-  title: '골플 200++ ㄱㄱ 오더 있음',
-  createdAt: '2022-12-10 17:40:32',
-};
-const exampleData2: ITeamInfo = {
-  roomLeader: 'szxcvzxcvzxcvzxcvzxcv',
-  platform: 'kakao',
-  mode: 'squad',
-  isRank: false,
-  members: [
-    { uid: 'szxcvzxcvzxcvzxcvzxcv' },
-    { uid: 'asdfasdfasdfasdf' },
-    { uid: 'asdfviubufvdaibfv' },
-  ],
-  title: '태이고 즐겜 스쿼드 ㄱㄱ',
-  createdAt: '2022-12-10 13:23:12',
-};
