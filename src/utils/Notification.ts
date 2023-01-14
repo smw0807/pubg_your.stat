@@ -1,6 +1,4 @@
 /**
- * https://element-plus.org/en-US/component/notification.html
- *
  * ## HTML 태그 사용할 수 있는 옵션
  * dangerouslyUseHTMLString: true
  * 알림 메시지 관련 함수들

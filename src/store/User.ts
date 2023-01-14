@@ -6,14 +6,6 @@
  * 사용자 정보 수정
  *  - 스팀 플레이 닉테임
  *  - 카카오 플레이 닉네임
- *
- * 공식문서 링크
- * 구글 로그인 관련
- * https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
- *
- * 사용자관리 관련
- * https://firebase.google.com/docs/auth/web/manage-users?authuser=0&hl=ko
- *
  */
 import { defineStore } from 'pinia';
 import { GooleAuthAPI } from '@/apis';

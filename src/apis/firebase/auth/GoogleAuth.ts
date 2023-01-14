@@ -1,12 +1,4 @@
 /**
- * 공식 문서
- * https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0#web-version-9
- *
- * 구글 인증
- * https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
- *
- * 인증 상태 지속성
- * https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
  * todo
  * 1. 사이트 최초 로그인 시 플랫폼 별 닉네임 입력 시키는 기능
  * 2. 이미 있으면 패스..?

@@ -77,3 +77,21 @@ npm start
 
 타입스크립트 구현 중 인터페이스 관련해서 참고한 깃허브<br>
 https://github.com/martinsileno/pubg-typescript-api
+
+## 만들면서 참고 URL들
+
+- vue3 컴포져블
+  - https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
+- Element Plus
+  - 알림 : https://element-plus.org/en-US/component/notification.html
+- vue-zoomer
+  - https://github.com/jarvisniu/vue-zoomer/tree/next
+- vue-timeago3
+  - https://mrdeerly.github.io/vue-timeago3/
+- firebase / GoogleAuth
+  - 공식문서 : https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0#web-version-9
+  - 사용자 관리 : https://firebase.google.com/docs/auth/web/manage-users?authuser=0&hl=ko
+  - 구글 인증 : https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
+  - 인증상태 지속성 : https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
+- firebase / firestore
+  - 데이터 추가 https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
