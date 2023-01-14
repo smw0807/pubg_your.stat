@@ -14,7 +14,10 @@
  * format(template?: string): string
  */
 import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/ko';
+dayjs.locale('ko');
+dayjs.extend(localizedFormat);
 
 //초 데이터 일,시간,분,초로 변환
 export const changeSeconds = (seconds: number): string => {
@@ -42,4 +45,9 @@ export const changeSeconds = (seconds: number): string => {
 //현재시간 포맷 형식으로 반환
 export const nowDateFormat = (format: string): string => {
   return dayjs().format(format);
+};
+
+//날짜 변환 https://day.js.org/docs/en/display/format
+export const dateFormat = (date: string, format: string): string => {
+  return dayjs(date).format(format);
 };
