@@ -1,10 +1,5 @@
 import { PubgAPI } from '.';
-import {
-  ISearchForm,
-  IPlayerList,
-  IPlayerSeasonRank,
-  IPlayerSeason,
-} from '../../interfaces';
+import { ISearchForm, IPlayerList, IPlayerSeasonRank, IPlayerSeason } from '../../interfaces';
 import { AxiosPromise } from 'axios';
 
 /**
@@ -24,16 +19,14 @@ export class PlayersAPI extends PubgAPI {
     this._userInfo = null;
   }
 
-  //시즌 랭크 스탯, 시즌 스탯 가져오기
+  //시즌 랭크 스탯, 시즌 스탯 가져오기 //??? Promise.all return type???
   get allStat() {
     return Promise.all([this.getRankStat(), this.getStat()]);
   }
 
   //닉네임 검색
   get playerInfo(): AxiosPromise<IPlayerList> {
-    return this.axios(
-      `/${this._platform}/players?filter[playerNames]=${this._nickname}`
-    );
+    return this.axios(`/${this._platform}/players?filter[playerNames]=${this._nickname}`);
   }
 
   //유저 정보 가져오기
