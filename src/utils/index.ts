@@ -7,7 +7,7 @@
  * 그리고 앞에 use를 붙여서 카멜케이스 방식의 작명이 관례라곤 하지만 이건 제외했음.
  */
 export { normalStat, rankStat } from './CreatedStat';
-export { changeSeconds, nowDateFormat } from './Date';
+export { changeSeconds, nowDateFormat, dateFormat } from './Date';
 export { meterToKm } from './Distance';
 export { errorCode } from './Error';
 export { gameModeName } from './Mappings';
