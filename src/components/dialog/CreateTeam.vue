@@ -14,6 +14,7 @@
 
   const props = defineProps<{
     platform: PlatformType;
+    disabled: boolean;
   }>();
   const emit = defineEmits(['input-data']);
 
@@ -36,7 +37,7 @@
   const labelWidth: string = '140px';
 </script>
 <template>
-  <el-button @click="open = true"> 팀 만들기 </el-button>
+  <el-button :disabled="disabled" @click="open = true"> 팀 만들기 </el-button>
 
   <el-dialog v-model="open" :show-close="false" title="팀 만들기" center>
     <el-form :model="form">
