@@ -10,6 +10,6 @@ export interface IPlayerStats {
   rank: string;
   kda: mode;
   avgDmg: mode;
-  'last-update-date': Date;
+  'last-update-date': Date | string;
   platform: string;
 }

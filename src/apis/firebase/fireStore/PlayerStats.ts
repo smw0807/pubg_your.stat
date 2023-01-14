@@ -2,6 +2,7 @@ import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
 import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/interfaces';
+import { nowDateFormat } from '@/utils';
 
 /**
  * 플레이서 스탯 저장소 관련
@@ -34,7 +35,7 @@ export class PlayerStatsAPI {
           rank: JSON.stringify(rank),
           kda: this.extractKDA(rank),
           avgDmg: this.extractAVG(rank),
-          'last-update-date': new Date(),
+          'last-update-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
           platform: params.platform,
         };
         await setDoc(doc(this.db, this.collection, id), data);
