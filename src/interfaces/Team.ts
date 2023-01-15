@@ -13,11 +13,12 @@
 import { ModeType, PlatformType } from '.';
 import dayjs from 'dayjs';
 
+//팀 검색 필터
 export interface ITeamFilter {
-  createdAt: string;
-  platform: string;
-  gameMode: string;
-  gameType: string;
+  createdAt: 'desc' | 'asc';
+  platform: 'kakao' | 'steam';
+  gameMode: ModeType | null;
+  gameType: string | null;
 }
 
 //팀 만들기 폼

@@ -1,5 +1,6 @@
 //팀 안에서 사용할...
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, query, onSnapshot } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 import { FireStore, GooleAuthAPI } from '@/apis/firebase';
 import { ITeamFilter, ITeamInfo, ModeType } from '@/interfaces';
 import { nowDateFormat } from '@/utils';
@@ -9,7 +10,26 @@ export class TeamAPI extends GooleAuthAPI {
   private collection: string = 'teams';
 
   //팀 리스트 가져오기
-  async teamList(params: ITeamFilter) {}
+  async teamList(params: ITeamFilter): Promise<DocumentData> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let lists: DocumentData = [];
+        // console.log('teamList', params);
+        const q = query(collection(this.db, this.collection));
+        const unsubscribe = onSnapshot(q, querySnapshot => {
+          console.log('???');
+          console.count('chekc');
+          querySnapshot.forEach(doc => {
+            lists.push(doc.data());
+          });
+          console.count('chekc');
+          resolve(lists);
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
 
   //팀 만들기
   createTeam(params: ITeamInfo): Promise<string> {
