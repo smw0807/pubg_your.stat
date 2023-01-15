@@ -95,3 +95,6 @@ https://github.com/martinsileno/pubg-typescript-api
   - 인증상태 지속성 : https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
 - firebase / firestore
   - 데이터 추가 https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
+  - 스냅샷 https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0#get_all_documents_in_a_collection
+- top level await
+- https://v8.dev/features/top-level-await
