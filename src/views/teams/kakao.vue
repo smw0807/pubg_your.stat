@@ -24,9 +24,9 @@
   //todo 필터 컾포넌트에서 넘기게 하기
   const filter: ITeamFilter = reactive({
     createdAt: 'desc',
-    gameMode: null,
-    gameType: null,
     platform: 'kakao',
+    mode: null,
+    isRank: null,
   });
 
   //팀 리스트

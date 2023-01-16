@@ -17,8 +17,8 @@ import dayjs from 'dayjs';
 export interface ITeamFilter {
   createdAt: 'desc' | 'asc';
   platform: 'kakao' | 'steam';
-  gameMode: ModeType | null;
-  gameType: string | null;
+  mode: ModeType | null;
+  isRank: boolean | null; //null일 경우는 모든게임
 }
 
 //팀 만들기 폼
