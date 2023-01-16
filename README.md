@@ -35,7 +35,7 @@
     2. 저장된 결과 데이터를 가져와서
   - 검색 결과 화면에서 갱신 버튼을 통해 [없을 경우]의 로직이 다시 실행됨
 - 팀구하기 방 카드형식 리스트 화면 (구현중)
-- 팀구하기 방 생성 (구현중)
+- 팀구하기 방 생성 (완성)
 - 팀구하기 방 참여 (미완성)
 - 팀구하기 방 채팅 기능 (미완성)
 
@@ -97,4 +97,4 @@ https://github.com/martinsileno/pubg-typescript-api
   - 데이터 추가 https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
   - 스냅샷 https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0#get_all_documents_in_a_collection
 - top level await
-- https://v8.dev/features/top-level-await
+  - https://v8.dev/features/top-level-await
