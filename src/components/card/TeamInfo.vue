@@ -1,24 +1,62 @@
 <script setup lang="ts">
   import {} from 'vue';
-  import { ITeamInfo } from '@/interfaces';
+  import { ITeamInfo, ModeType } from '@/interfaces';
+  import { gameModeName } from '@/utils';
 
   interface Props {
     info: ITeamInfo;
   }
   const props = defineProps<Props>();
+
+  const modeColor = (mode: ModeType): string => {
+    let result = '';
+    switch (mode) {
+      case 'duo':
+        result = '#9FC93C';
+        break;
+      case 'duo-fpp':
+        result = '#47C83E';
+        break;
+      case 'squad':
+        result = '#3DB7CC';
+        break;
+      case 'squad-fpp':
+        result = '#4374D9';
+        break;
+    }
+    return result;
+  };
 </script>
 <template>
-  <el-card class="box-card">
+  <el-card class="box-card" :body-style="{ padding: '10px' }">
     <template #header>
       <div class="card-header">
-        <span :style="`font-size: var(--el-font-size-large)`"> {{ info.title }} </span>
+        <span :style="`font-size: var(--el-font-size-small-title)`"> {{ info.title }} </span>
       </div>
     </template>
-    <div>게임 유형 : {{ info.isRank ? '랭크' : '일반' }}</div>
-    <div>모드 : {{ info.mode }}</div>
-    <div>참가인원 : {{ info.maxCount }}</div>
-    <div>버튼</div>
-    <!-- <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div> -->
+    <el-row>
+      <el-col>
+        <el-tag v-if="info.isRank === true" effect="dark" color="#CC3D3D">랭크</el-tag>
+        <el-tag v-else effect="dark" color="info">일반</el-tag>
+
+        <el-tag effect="dark" :color="modeColor(info.mode)">{{ gameModeName(info.mode) }}</el-tag>
+
+        <!-- <el-tag effect="light" type="warning">
+          ({{ info.members?.length || 0 }} / {{ info.maxCount }})
+        </el-tag> -->
+      </el-col>
+    </el-row>
+
+    <el-row justify="space-between">
+      <el-col :span="12">
+        <el-tag effect="light" type="warning">
+          참여인원 ({{ info.members?.length || 0 }} / {{ info.maxCount }})
+        </el-tag>
+      </el-col>
+      <el-col :span="12" align="end">
+        <el-button size="small">참가하기</el-button>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 <style scoped>
@@ -30,5 +68,12 @@
   }
   .el-card:hover {
     border: 1px solid rgb(116, 139, 250);
+  }
+  .el-tag {
+    border: 0px;
+    margin-right: 5px;
+  }
+  .el-row {
+    margin-bottom: 10px;
   }
 </style>
