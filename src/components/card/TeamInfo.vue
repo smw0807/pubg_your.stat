@@ -18,10 +18,10 @@
         result = '#47C83E';
         break;
       case 'squad':
-        result = '#3DB7CC';
+        result = '#4374D9';
         break;
       case 'squad-fpp':
-        result = '#4374D9';
+        result = '#3DB7CC';
         break;
     }
     return result;
@@ -40,10 +40,6 @@
         <el-tag v-else effect="dark" color="info">일반</el-tag>
 
         <el-tag effect="dark" :color="modeColor(info.mode)">{{ gameModeName(info.mode) }}</el-tag>
-
-        <!-- <el-tag effect="light" type="warning">
-          ({{ info.members?.length || 0 }} / {{ info.maxCount }})
-        </el-tag> -->
       </el-col>
     </el-row>
 
