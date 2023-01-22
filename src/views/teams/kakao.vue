@@ -2,6 +2,8 @@
   import { computed, reactive } from 'vue';
   import { ITeamForm, ITeamFilter } from '@/interfaces';
   import { useTeamStore, useUserStore } from '@/store';
+  // import { TeamAPI } from '@/apis';
+  // import type { DocumentData } from 'firebase/firestore';
 
   //todo 열리고 닫히는거 프롭스로 바꾸기
 
@@ -12,14 +14,7 @@
 
   const teamStore = useTeamStore();
   const userStore = useUserStore();
-
-  // 현재 로그인 유저 정보 유무
-  const hasUser = computed(() => userStore.hasUser);
-  // 팀 만들기
-  const createTeam = async (form: ITeamForm): Promise<void> => {
-    const result = await teamStore.createTeam(form);
-    //todo 결과 받은걸로 대화방 url로 이동시키기
-  };
+  // const teamApi = new TeamAPI();
 
   //todo 필터 컾포넌트에서 넘기게 하기
   const filter: ITeamFilter = reactive({
@@ -29,12 +24,22 @@
     isRank: null,
   });
 
-  //팀 리스트
-  const lists = computed(() => teamStore.getList);
-  console.log(lists);
+  // let teamList: DocumentData = [];
+
   (async () => {
     await teamStore.teamList(filter);
   })();
+
+  // 현재 로그인 유저 정보 유무
+  const hasUser = computed(() => userStore.hasUser);
+  // 팀 만들기
+  const createTeam = async (form: ITeamForm): Promise<void> => {
+    const result = await teamStore.createTeam(form);
+    //todo 결과 받은걸로 대화방 url로 이동시키기
+  };
+
+  //팀 리스트
+  const list = computed(() => teamStore.getList);
 </script>
 <template>
   <div>
@@ -46,8 +51,8 @@
     </el-row>
     <!-- 방 리스트 -->
     <el-row>
-      <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="list in lists">
-        <teamCard :info="list" />
+      <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="info in list">
+        <teamCard :info="info" />
       </el-col>
     </el-row>
   </div>

@@ -13,17 +13,14 @@ export class TeamAPI extends GooleAuthAPI {
   async teamList(params: ITeamFilter): Promise<DocumentData> {
     return new Promise(async (resolve, reject) => {
       try {
-        let lists: DocumentData = [];
+        let list: DocumentData = [];
         // console.log('teamList', params);
         const q = query(collection(this.db, this.collection));
         const unsubscribe = onSnapshot(q, querySnapshot => {
-          console.log('???');
-          console.count('chekc');
           querySnapshot.forEach(doc => {
-            lists.push(doc.data());
+            list.push(doc.data());
           });
-          console.count('chekc');
-          resolve(lists);
+          resolve(list);
         });
       } catch (err) {
         reject(err);
