@@ -80,8 +80,9 @@ https://github.com/martinsileno/pubg-typescript-api
 
 ## 만들면서 참고한 URL들
 
-- vue3 컴포져블
-  - https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
+- vue3
+  - 컴포져블 https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
+  - 계산된속성 https://v3-docs.vuejs-korea.org/guide/essentials/computed.html#best-practices
 - Element Plus
   - 알림 : https://element-plus.org/en-US/component/notification.html
 - vue-zoomer
