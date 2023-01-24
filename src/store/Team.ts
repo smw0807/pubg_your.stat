@@ -15,35 +15,16 @@ export const useTeamStore = defineStore({
   id: 'team',
   state: () => ({
     list: [] as DocumentData,
-    kakaoFilter: {
-      createdAt: 'desc',
-      gameMode: '',
-      gameType: '',
-      platform: 'kakao',
-    },
-    steamFilter: {
-      createdAt: 'desc',
-      gameMode: '',
-      gameType: '',
-      platform: 'kakao',
-    },
   }),
   getters: {
     getList(): DocumentData {
       return this.list;
     },
-    //   getKakaoFilter(): ITeamFilter {
-    //     return this.kakaoFilter;
-    //   },
-    //   getSteamFilter(): ITeamFilter {
-    //     return this.steamFilter;
-    //   },
   },
   actions: {
     async teamList(params: ITeamFilter): Promise<void> {
       try {
         this.list = await teamApi.teamList(params);
-        console.log(this.list);
       } catch (err) {
         console.error(err);
       }
