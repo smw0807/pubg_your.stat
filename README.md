@@ -93,6 +93,7 @@ https://github.com/martinsileno/pubg-typescript-api
   - 공식문서 : https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0#web-version-9
   - 사용자 관리 : https://firebase.google.com/docs/auth/web/manage-users?authuser=0&hl=ko
   - 구글 인증 : https://firebase.google.com/docs/auth/web/google-signin?hl=ko&authuser=0
+  - 인증상태 관찰자 : https://firebase.google.com/docs/auth/web/start?hl=ko&authuser=0
   - 인증상태 지속성 : https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
 - firebase / firestore
   - 데이터 추가 https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
