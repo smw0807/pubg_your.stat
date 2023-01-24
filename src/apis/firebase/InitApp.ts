@@ -30,7 +30,7 @@ const firebaseConfig = {
   measurementId: VITE_FB_measurementId,
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const FireStore = getFirestore(app);
 // export const Storage = null;
