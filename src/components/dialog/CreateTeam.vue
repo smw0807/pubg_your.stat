@@ -29,8 +29,9 @@
   });
 
   //입력한 데이터 보내기
-  const sendData = () => {
+  const sendData = (): void => {
     emit('input-data', form);
+    open.value = false;
   };
 
   // 라벨 넓이

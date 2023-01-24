@@ -1,11 +1,8 @@
 <script setup lang="ts">
-  import { computed, reactive } from 'vue';
+  import { computed, reactive, ref, watch } from 'vue';
+  import type { Ref } from 'vue';
   import { ITeamForm, ITeamFilter } from '@/interfaces';
   import { useTeamStore, useUserStore } from '@/store';
-  // import { TeamAPI } from '@/apis';
-  // import type { DocumentData } from 'firebase/firestore';
-
-  //todo 열리고 닫히는거 프롭스로 바꾸기
 
   // 팀 만들기 컴포넌트
   import kakaoTeamDialog from '@/components/dialog/CreateTeam.vue';
@@ -14,7 +11,6 @@
 
   const teamStore = useTeamStore();
   const userStore = useUserStore();
-  // const teamApi = new TeamAPI();
 
   //todo 필터 컾포넌트에서 넘기게 하기
   const filter: ITeamFilter = reactive({
@@ -24,22 +20,22 @@
     isRank: null,
   });
 
-  // let teamList: DocumentData = [];
-
   (async () => {
+    //팀 리스트 가져오기
     await teamStore.teamList(filter);
   })();
+  //팀 리스트
+  const list = computed(() => teamStore.getList);
 
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
+
   // 팀 만들기
   const createTeam = async (form: ITeamForm): Promise<void> => {
     const result = await teamStore.createTeam(form);
     //todo 결과 받은걸로 대화방 url로 이동시키기
+    await teamStore.teamList(filter);
   };
-
-  //팀 리스트
-  const list = computed(() => teamStore.getList);
 </script>
 <template>
   <div>

@@ -8,6 +8,7 @@
   }
   const props = defineProps<Props>();
 
+  //모드별 태그 컬러
   const modeColor = (mode: ModeType): string => {
     let result = '';
     switch (mode) {
