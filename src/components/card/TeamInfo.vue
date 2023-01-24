@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import {} from 'vue';
+  import { computed } from 'vue';
   import { ITeamInfo, ModeType } from '@/interfaces';
   import { gameModeName } from '@/utils';
 
@@ -27,6 +27,11 @@
     }
     return result;
   };
+  // 팀 꽉 찼는지 여부
+  const isFull = (): boolean => {
+    if (props.info.members || 0 === props.info.maxCount) return true;
+    return false;
+  };
 </script>
 <template>
   <el-card class="box-card" :body-style="{ padding: '10px' }">
@@ -46,7 +51,7 @@
 
     <el-row justify="space-between">
       <el-col :span="12">
-        <el-tag effect="light" type="warning">
+        <el-tag effect="light" :type="isFull() ? 'warning' : 'danger'">
           참여인원 ({{ info.members?.length || 0 }} / {{ info.maxCount }})
         </el-tag>
       </el-col>
