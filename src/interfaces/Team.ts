@@ -15,9 +15,9 @@ import dayjs from 'dayjs';
 
 //팀 검색 필터
 export interface ITeamFilter {
-  createdAt: 'desc' | 'asc';
+  orderBy: 'desc' | 'asc';
   platform: 'kakao' | 'steam';
-  mode: ModeType | null;
+  mode: ModeType | null | 'all';
   isRank: boolean | null; //null일 경우는 모든게임
 }
 
