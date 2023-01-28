@@ -22,6 +22,7 @@ export const useTeamStore = defineStore({
     },
   },
   actions: {
+    // 팀 리스트 불러오기
     async teamList(params: ITeamFilter): Promise<void> {
       try {
         this.list = await teamApi.teamList(params);
@@ -29,6 +30,7 @@ export const useTeamStore = defineStore({
         console.error(err);
       }
     },
+    // 팀 생성하기
     async createTeam(params: ITeamForm): Promise<string> {
       let result = '';
       try {

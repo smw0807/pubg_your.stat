@@ -6,7 +6,8 @@
   const props = defineProps<{
     platform: PlatformType;
   }>();
-  const emit = defineEmits(['select-data']);
+
+  const emit = defineEmits(['init-data', 'select-data']);
 
   const open: Ref<boolean> = ref(false);
 
@@ -26,6 +27,9 @@
 
   // 라벨 넓이
   const labelWidth: string = '140px';
+
+  // 최초 실행 시 필터 데이터 한번 전달
+  emit('init-data', form);
 </script>
 <template>
   <el-button @click="open = true"> 팀 리스트 필터 </el-button>

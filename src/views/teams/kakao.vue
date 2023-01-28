@@ -14,18 +14,6 @@
   const teamStore = useTeamStore();
   const userStore = useUserStore();
 
-  //todo 필터 컾포넌트에서 넘기게 하기
-  const filter: ITeamFilter = reactive({
-    orderBy: 'desc',
-    platform: 'kakao',
-    mode: null,
-    isRank: null,
-  });
-
-  (async () => {
-    // 팀 리스트 가져오기
-    await teamStore.teamList(filter);
-  })();
   // 팀 리스트
   const list = computed(() => teamStore.getList);
 
@@ -36,17 +24,10 @@
   const createTeam = async (form: ITeamForm): Promise<void> => {
     const result = await teamStore.createTeam(form);
     //todo 결과 받은걸로 대화방 url로 이동시키기
-    await teamStore.teamList(filter);
   };
 
-  // 필터값으로 팀 리스트 다시 부르기
-  const filterTeam = (data: ITeamFilter) => {
-    //todo 필터 처리 로직 만들고 리스트 불러오게 하기
-    console.log(data);
-  };
-
-  // 팀 리스트 다시 불러오기
-  const refresh = async (): Promise<void> => {
+  // 팀 리스트 불러오기
+  const getTeamList = async (filter: ITeamFilter): Promise<void> => {
     await teamStore.teamList(filter);
   };
 </script>
@@ -55,10 +36,10 @@
     <!-- 필터버튼, 방만들기 버튼 -->
     <el-row justify="end">
       <el-col align="end" :span="6">
-        <el-button @click="refresh">
+        <el-button @click="getTeamList">
           <el-icon><Refresh /></el-icon>
         </el-button>
-        <teamFilter platform="kakao" @select-data="filterTeam" />
+        <teamFilter platform="kakao" @init-data="getTeamList" @select-data="getTeamList" />
         <kakaoTeamDialog :disabled="!hasUser" platform="kakao" @input-data="createTeam" />
       </el-col>
     </el-row>
