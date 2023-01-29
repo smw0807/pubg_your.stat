@@ -11,7 +11,7 @@ export { changeSeconds, nowDateFormat, dateFormat } from './Date';
 export { meterToKm } from './Distance';
 export { errorCode } from './Error';
 export { gameModeName } from './Mappings';
-export { _429, player404 } from './Notification';
+export { _429, player404, notifSuccess, notifInfo, notifWarning, notifError } from './Notification';
 export { insertComma } from './Number';
 export { normalStatData, rankStatData } from './Sample';
 export { getPlayerStats } from './Search';
