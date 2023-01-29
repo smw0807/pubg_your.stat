@@ -1,5 +1,5 @@
 //팀 안에서 사용할...
-import { collection, addDoc, doc, query, onSnapshot, getDocs } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, orderBy, where } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
 import { FireStore, GooleAuthAPI } from '@/apis/firebase';
 import { ITeamFilter, ITeamInfo, ModeType } from '@/interfaces';
@@ -15,7 +15,14 @@ export class TeamAPI extends GooleAuthAPI {
       try {
         console.log('teamList params : ', params);
         let list: DocumentData = [];
-        const q = query(collection(this.db, this.collection));
+        let q = query(
+          collection(this.db, this.collection),
+          where('platform', '==', params.platform),
+          orderBy('createdAt', params.orderBy)
+        );
+        if (params.isRank !== null) q = query(q, where('isRank', '==', params.isRank));
+        if (params.mode !== 'all') q = query(q, where('mode', '==', params.mode));
+
         const querySnapshot = await getDocs(q);
         list = querySnapshot.docs.map(v => v.data());
         resolve(list);

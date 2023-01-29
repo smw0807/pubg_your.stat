@@ -32,7 +32,7 @@
   emit('init-data', form);
 </script>
 <template>
-  <el-button @click="open = true"> 팀 리스트 필터 </el-button>
+  <el-button @click="open = true"> 팀 필터 </el-button>
 
   <el-dialog v-model="open" :show-close="false" title="팀 리스트 필터" center>
     <el-form :model="form">
