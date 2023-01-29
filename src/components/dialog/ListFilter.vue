@@ -71,4 +71,8 @@
     </template>
   </el-dialog>
 </template>
-<style scoped></style>
+<style scoped>
+  .el-button {
+    margin-left: 0;
+  }
+</style>
