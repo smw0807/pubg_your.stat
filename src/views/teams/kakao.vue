@@ -14,11 +14,11 @@
   const teamStore = useTeamStore();
   const userStore = useUserStore();
 
-  // 팀 리스트
-  const list = computed(() => teamStore.getList);
-
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
+
+  // 팀 리스트
+  const list = computed(() => teamStore.getList);
 
   // 팀 만들기
   const createTeam = async (form: ITeamForm): Promise<void> => {
@@ -27,9 +27,17 @@
   };
 
   // 팀 리스트 불러오기
-  const getTeamList = async (filter: ITeamFilter): Promise<void> => {
-    await teamStore.teamList(filter);
+  const getTeamList = async (): Promise<void> => {
+    await teamStore.teamList(teamStore.kakaoFilter);
   };
+
+  // 필터값 저장
+  const setFilter = async (filter: ITeamFilter): Promise<void> => {
+    teamStore.kakaoFilter = filter;
+    await getTeamList();
+  };
+
+  (async () => await getTeamList())();
 </script>
 <template>
   <div>
@@ -39,7 +47,11 @@
         <el-button @click="getTeamList">
           <el-icon><Refresh /></el-icon>
         </el-button>
-        <teamFilter platform="kakao" @init-data="getTeamList" @select-data="getTeamList" />
+        <teamFilter
+          platform="kakao"
+          @select-data="setFilter"
+          :filter-data="teamStore.kakaoFilter"
+        />
         <kakaoTeamDialog :disabled="!hasUser" platform="kakao" @input-data="createTeam" />
       </el-col>
     </el-row>

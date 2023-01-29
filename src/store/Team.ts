@@ -15,6 +15,20 @@ export const useTeamStore = defineStore({
   id: 'team',
   state: () => ({
     list: [] as DocumentData,
+    // 페이지 이동해도 설정된 값 유지하기 위해 스토어 사용 ======= S
+    kakaoFilter: {
+      isRank: null,
+      mode: 'all',
+      orderBy: 'desc',
+      platform: 'kakao',
+    } as ITeamFilter,
+    steamFilter: {
+      isRank: null,
+      mode: 'all',
+      orderBy: 'desc',
+      platform: 'steam',
+    } as ITeamFilter,
+    // 페이지 이동해도 설정된 값 유지하기 위해 스토어 사용 ======= E
   }),
   getters: {
     getList(): DocumentData {

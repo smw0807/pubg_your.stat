@@ -9,12 +9,12 @@ export class TeamAPI extends GooleAuthAPI {
   private db = FireStore;
   private collection: string = 'teams';
 
-  //팀 리스트 가져오기
+  // 팀 리스트 가져오기
   async teamList(params: ITeamFilter): Promise<DocumentData> {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('teamList params : ', params);
         let list: DocumentData = [];
+        // 기본 쿼리
         let q = query(
           collection(this.db, this.collection),
           where('platform', '==', params.platform),
@@ -31,8 +31,7 @@ export class TeamAPI extends GooleAuthAPI {
       }
     });
   }
-
-  //팀 만들기
+  // 팀 만들기
   createTeam(params: ITeamInfo): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
