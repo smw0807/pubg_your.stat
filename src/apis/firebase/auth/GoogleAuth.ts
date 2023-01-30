@@ -12,8 +12,6 @@ import {
   signInWithPopup,
   signOut,
   User,
-  UserCredential, //삭제 예정
-  updateProfile,
 } from 'firebase/auth';
 
 export class GooleAuthAPI {
