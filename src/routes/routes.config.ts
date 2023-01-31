@@ -12,7 +12,7 @@ export const routes: Array<customRouteRecordRaw> = [
     path: '/profile/:platform/:nickname',
     name: '전적검색 결과',
     hide: true,
-    component: () => import('@/views/search/profile.vue'),
+    component: () => import('@/views/search/index.vue'),
     meta: {
       transition: 'fade',
     },
