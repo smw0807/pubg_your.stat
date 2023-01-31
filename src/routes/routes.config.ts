@@ -1,5 +1,5 @@
-import type { RouteRecordRaw } from 'vue-router';
-export const routes: Array<RouteRecordRaw> = [
+import { customRouteRecordRaw } from '@/interfaces';
+export const routes: Array<customRouteRecordRaw> = [
   {
     path: '/',
     name: '검색하기',
@@ -11,7 +11,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/profile/:platform/:nickname',
     name: '전적검색 결과',
-    props: true,
+    hide: true,
     component: () => import('@/views/search/profile.vue'),
     meta: {
       transition: 'fade',
