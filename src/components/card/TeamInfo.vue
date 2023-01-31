@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
   import { ITeamInfo, ModeType } from '@/interfaces';
   import { gameModeName } from '@/utils';
 
