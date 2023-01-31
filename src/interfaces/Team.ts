@@ -30,6 +30,7 @@ export interface ITeamForm {
 }
 //팀 정보 [팀만들기 폼과 중복된는 속성이 있어서 extends함]
 export interface ITeamInfo extends ITeamForm {
+  id?: string;
   roomLeader?: string;
   members?: string[];
   maxCount?: number;

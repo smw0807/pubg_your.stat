@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue';
+  import { useRouter } from 'vue-router';
   import { Refresh } from '@element-plus/icons-vue';
   import { ITeamForm, ITeamFilter } from '@/interfaces';
   import { useTeamStore, useUserStore } from '@/store';
@@ -13,6 +14,7 @@
 
   const teamStore = useTeamStore();
   const userStore = useUserStore();
+  const router = useRouter();
 
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
@@ -24,6 +26,7 @@
   const createTeam = async (form: ITeamForm): Promise<void> => {
     const result = await teamStore.createTeam(form);
     //todo 결과 받은걸로 대화방 url로 이동시키기
+    joinTeam(result);
   };
 
   // 팀 리스트 불러오기
@@ -35,6 +38,11 @@
   const setFilter = async (filter: ITeamFilter): Promise<void> => {
     teamStore.kakaoFilter = filter;
     await getTeamList();
+  };
+
+  // 참가하기
+  const joinTeam = (id: string): void => {
+    router.push(`/team-chatting/${id}`);
   };
 
   (async () => await getTeamList())();
@@ -58,7 +66,7 @@
     <!-- 방 리스트 -->
     <el-row>
       <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="info in list">
-        <teamCard :info="info" />
+        <teamCard :info="info" @join="joinTeam" />
       </el-col>
     </el-row>
   </div>

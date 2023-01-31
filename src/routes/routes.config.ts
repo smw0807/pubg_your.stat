@@ -18,6 +18,15 @@ export const routes: Array<customRouteRecordRaw> = [
     },
   },
   {
+    path: '/team-cahtting/:uid',
+    name: '팀 채팅방',
+    hide: true,
+    component: () => import('@/views/chat/index.vue'),
+    meta: {
+      transition: 'fade',
+    },
+  },
+  {
     path: '/map',
     name: '맵별 차량 위치',
     meta: {

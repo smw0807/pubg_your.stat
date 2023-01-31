@@ -24,7 +24,11 @@ export class TeamAPI extends GooleAuthAPI {
         if (params.mode !== 'all') q = query(q, where('mode', '==', params.mode));
 
         const querySnapshot = await getDocs(q);
-        list = querySnapshot.docs.map(v => v.data());
+        list = querySnapshot.docs.map(v => {
+          const rt = v.data();
+          rt.id = v.id;
+          return rt;
+        });
         resolve(list);
       } catch (err) {
         reject(err);

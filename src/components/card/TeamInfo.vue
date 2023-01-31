@@ -7,6 +7,7 @@
     info: ITeamInfo;
   }
   const props = defineProps<Props>();
+  const emit = defineEmits(['join']);
 
   //모드별 태그 컬러
   const modeColor = (mode: ModeType): string => {
@@ -56,7 +57,7 @@
         </el-tag>
       </el-col>
       <el-col :span="12" align="end">
-        <el-button size="small">참가하기</el-button>
+        <el-button @click="emit('join', info.id)" size="small">참가하기</el-button>
       </el-col>
     </el-row>
   </el-card>
