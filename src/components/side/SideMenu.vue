@@ -12,7 +12,7 @@
   <el-row>
     <el-col>
       <el-menu :default-active="path" class="el-menu-vertical-demo" :router="true">
-        <template v-for="menu in menus" :index="menu.path" :key="idx">
+        <template v-for="menu in menus" :index="menu.path" :key="menu.path">
           <el-menu-item v-if="!menu.children && !menu.hide" :index="menu.path">
             <span>{{ menu.name }}</span>
           </el-menu-item>
