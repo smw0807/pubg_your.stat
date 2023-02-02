@@ -8,7 +8,7 @@
    * 자동 완성 기능
    * https://element-plus.org/en-US/component/autocomplete.html
    */
-  import { ref, onMounted, defineEmits, computed } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
   import { ISearchForm } from '@/interfaces';
   //icon
