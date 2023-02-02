@@ -102,6 +102,7 @@ https://github.com/martinsileno/pubg-typescript-api
   - 계산된속성 https://v3-docs.vuejs-korea.org/guide/essentials/computed.html#best-practices
 - Element Plus
   - 알림 : https://element-plus.org/en-US/component/notification.html
+  - input 창 자동완성 기능 : https://element-plus.org/en-US/component/autocomplete.html
 - vue-zoomer
   - https://github.com/jarvisniu/vue-zoomer/tree/next
 - vue-timeago3

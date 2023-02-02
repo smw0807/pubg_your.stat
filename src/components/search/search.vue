@@ -3,10 +3,7 @@
    * 검색 컴포넌트
    * 플랫폼 선택 후 닉네임 입력 뒤 검색 누르면
    * platform, nickname을 (emit)searchInfo로 전달함
-   *
-   * 참고 URL
-   * 자동 완성 기능
-   * https://element-plus.org/en-US/component/autocomplete.html
+   * todo 컴포넌트 파일에 너무 많은 로직이 들어 있는 것 같아서 분리 고민해보기
    */
   import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
