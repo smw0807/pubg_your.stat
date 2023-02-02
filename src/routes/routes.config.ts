@@ -18,7 +18,7 @@ export const routes: Array<customRouteRecordRaw> = [
     },
   },
   {
-    path: '/team-cahtting/:uid',
+    path: '/team-chatting/:uid',
     name: '팀 채팅방',
     hide: true,
     component: () => import('@/views/chat/index.vue'),
