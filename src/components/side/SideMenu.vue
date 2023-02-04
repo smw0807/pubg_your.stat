@@ -2,22 +2,23 @@
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   import { routes } from '@/routes/routes.config';
-  import { customRouteRecordRaw } from '@/interfaces';
+  import type { RouteRecordRaw } from 'vue-router';
+
   const route = useRoute();
   const path = computed(() => route.path);
 
-  const menus: Array<customRouteRecordRaw> = routes.filter(() => true);
+  const menus: Array<RouteRecordRaw> = routes.filter(() => true);
 </script>
 <template>
   <el-row>
     <el-col>
       <el-menu :default-active="path" class="el-menu-vertical-demo" :router="true">
         <template v-for="menu in menus" :index="menu.path" :key="menu.path">
-          <el-menu-item v-if="!menu.children && !menu.hide" :index="menu.path">
+          <el-menu-item v-if="!menu.children && !menu.meta?.hide" :index="menu.path">
             <span>{{ menu.name }}</span>
           </el-menu-item>
 
-          <el-sub-menu v-else-if="menu.children && !menu.hide" :index="menu.path">
+          <el-sub-menu v-else-if="menu.children && !menu.meta?.hide" :index="menu.path">
             <template #title>
               <span>{{ menu.name }}</span>
             </template>

@@ -1,5 +1,5 @@
-import { customRouteRecordRaw } from '@/interfaces';
-export const routes: Array<customRouteRecordRaw> = [
+import type { RouteRecordRaw } from 'vue-router';
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: '검색하기',
@@ -11,19 +11,21 @@ export const routes: Array<customRouteRecordRaw> = [
   {
     path: '/profile/:platform/:nickname',
     name: '전적검색 결과',
-    hide: true,
+    // hide: true,
     component: () => import('@/views/search/index.vue'),
     meta: {
       transition: 'fade',
+      hide: true,
     },
   },
   {
     path: '/team-chatting/:uid',
     name: '팀 채팅방',
-    hide: true,
+    // hide: true,
     component: () => import('@/views/chat/index.vue'),
     meta: {
       transition: 'fade',
+      hide: true,
     },
   },
   {
