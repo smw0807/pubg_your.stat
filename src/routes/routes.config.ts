@@ -67,17 +67,17 @@ export const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: '/teams/kakao',
+        path: '/kakao',
         name: '카카오',
-        component: () => import('@/pages/teams/kakao.vue'),
+        component: () => import('@/pages/teams/[platform].vue'),
         meta: {
           transition: 'fade',
         },
       },
       {
-        path: '/teams/steam',
+        path: '/steam',
         name: '스팀',
-        component: () => import('@/pages/teams/steam.vue'),
+        component: () => import('@/pages/teams/[platform].vue'),
         meta: {
           transition: 'fade',
         },

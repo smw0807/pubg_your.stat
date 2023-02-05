@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import { computed, watch } from 'vue';
   import { useRouter } from 'vue-router';
   import { Refresh } from '@element-plus/icons-vue';
-  import { ITeamForm, ITeamFilter } from '@/interfaces';
+  import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
   import { useTeamStore, useUserStore } from '@/store';
 
   // 팀 리스트 필터 컴포넌트
@@ -12,9 +12,14 @@
   // 팀 리스트 카드 컴포넌트
   import teamCard from '@/components/card/TeamInfo.vue';
 
+  const props = defineProps<{ platform: PlatformType }>();
   const teamStore = useTeamStore();
   const userStore = useUserStore();
   const router = useRouter();
+
+  const cPlatform = computed(() => props.platform);
+  const cKakaoFilter = computed(() => teamStore.kakaoFilter);
+  const cSteamFilter = computed(() => teamStore.steamFilter);
 
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
@@ -30,12 +35,20 @@
 
   // 팀 리스트 불러오기
   const getTeamList = async (): Promise<void> => {
-    await teamStore.teamList(teamStore.kakaoFilter);
+    if (cPlatform.value === 'kakao') {
+      await teamStore.teamList(teamStore.kakaoFilter);
+    } else if (cPlatform.value === 'steam') {
+      await teamStore.teamList(teamStore.steamFilter);
+    }
   };
 
   // 필터값 저장
   const setFilter = async (filter: ITeamFilter): Promise<void> => {
-    teamStore.kakaoFilter = filter;
+    if (cPlatform.value === 'kakao') {
+      teamStore.kakaoFilter = filter;
+    } else if (cPlatform.value === 'steam') {
+      teamStore.steamFilter = filter;
+    }
     await getTeamList();
   };
 
@@ -45,6 +58,10 @@
   };
 
   (async () => await getTeamList())();
+
+  watch(cPlatform, async () => {
+    await getTeamList();
+  });
 </script>
 <template>
   <div>
@@ -55,11 +72,11 @@
           <el-icon><Refresh /></el-icon>
         </el-button>
         <teamFilter
-          platform="kakao"
+          :platform="cPlatform"
           @select-data="setFilter"
-          :filter-data="teamStore.kakaoFilter"
+          :filter-data="cPlatform === 'kakao' ? cKakaoFilter : cSteamFilter"
         />
-        <kakaoTeamDialog :disabled="!hasUser" platform="kakao" @input-data="createTeam" />
+        <kakaoTeamDialog :disabled="!hasUser" :platform="cPlatform" @input-data="createTeam" />
       </el-col>
     </el-row>
     <!-- 방 리스트 -->
