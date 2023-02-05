@@ -24,6 +24,7 @@
 
 - Vite (https://vitejs.dev/)
 - Vue3 (https://vuejs.org/)
+- vue-router (https://router.vuejs.org/)
 - TypeScript (https://www.typescriptlang.org/)
 - Pinia (https://pinia.vuejs.org/introduction.html)
 - Element Plus (https://element-plus.org/en-US/)
