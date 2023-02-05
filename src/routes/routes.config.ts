@@ -34,25 +34,25 @@ export const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: '/map/erangel',
+        path: '/erangel',
         name: '에란겔',
-        component: () => import('@/pages/map/erangel.vue'),
+        component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
         },
       },
       {
-        path: '/map/miramar',
+        path: '/miramar',
         name: '미라마',
-        component: () => import('@/pages/map/miramar.vue'),
+        component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
         },
       },
       {
-        path: '/map/taego',
+        path: '/taego',
         name: '태이고',
-        component: () => import('@/pages/map/taego.vue'),
+        component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
         },

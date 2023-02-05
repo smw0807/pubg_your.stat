@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import type { Ref } from 'vue';
+  import { computed } from 'vue';
   const props = defineProps({
     imgName: {
       type: String,
@@ -11,9 +10,9 @@
       required: true,
     },
   });
-  const sourceLink: Ref<string> = ref(props.source);
-  const imgPath: Ref<string> = ref(`/car-respone/${props.imgName}.png`);
   const selIndex = 0;
+  const cImgPath = computed(() => `/car-respone/${props.imgName}.png`);
+  const cSourceLink = computed(() => props.source);
 </script>
 <template>
   <el-row align="middle" justify="center">
@@ -21,7 +20,7 @@
       <el-card>
         <v-zoomer-gallery
           ref="gallery"
-          :list="[imgPath]"
+          :list="[cImgPath]"
           :zooming-elastic="false"
           v-model="selIndex"
           style="width: 100%; height: 800px; border: solid 1px silver"
@@ -30,8 +29,8 @@
 
         <div style="padding: 14px">
           출처 :
-          <el-link :href="sourceLink" target="_blank">
-            {{ sourceLink }}
+          <el-link :href="cSourceLink" target="_blank">
+            {{ cSourceLink }}
           </el-link>
         </div>
       </el-card>

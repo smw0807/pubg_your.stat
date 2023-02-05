@@ -24,7 +24,7 @@
             </template>
 
             <el-menu-item-group v-for="(subMenu, sIdx) in menu.children" :key="sIdx">
-              <el-menu-item :index="subMenu.path">
+              <el-menu-item :index="menu.path + subMenu.path">
                 {{ subMenu.name }}
               </el-menu-item>
             </el-menu-item-group>
