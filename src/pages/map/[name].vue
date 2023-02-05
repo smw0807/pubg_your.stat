@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue';
-  import MapCard from '@/components/map/MapCard.vue';
+  import MapCard from '@/components/card/Map.vue';
   const props = defineProps({
     name: {
       type: String,
