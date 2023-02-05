@@ -8,7 +8,7 @@
    * ## 인원수는 모드에 맞춰 자동 설정
    * todo 데이터 검증
    */
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, computed, watch } from 'vue';
   import type { Ref } from 'vue';
   import { PlatformType, ITeamForm } from '@/interfaces';
 
@@ -16,6 +16,8 @@
     platform: PlatformType;
     disabled: boolean;
   }>();
+
+  const cPlatform = computed(() => props.platform);
   const emit = defineEmits(['input-data']);
 
   const open: Ref<boolean> = ref(false);
@@ -24,7 +26,7 @@
   const form: ITeamForm = reactive({
     title: '',
     isRank: true,
-    platform: props.platform,
+    platform: 'kakao',
     mode: 'squad',
   });
 
@@ -36,6 +38,10 @@
 
   // 라벨 넓이
   const labelWidth: string = '140px';
+
+  watch(cPlatform, () => {
+    form.platform = cPlatform.value;
+  });
 </script>
 <template>
   <el-button :disabled="disabled" @click="open = true"> 팀 만들기 </el-button>
