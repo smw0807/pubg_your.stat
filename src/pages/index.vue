@@ -20,7 +20,6 @@
 
     loading.close();
 
-    // if (getStat === 200) route.push(`/search/${params.platform}`);
     if (getStat === 200) route.push(`/search/${params.platform}/${params.nickname}`);
   };
 </script>

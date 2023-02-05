@@ -6,7 +6,6 @@
       type: String,
     },
   });
-  const route = useRoute();
   console.log('props : ', props.id);
 
   // const uid = route.params.uid;
