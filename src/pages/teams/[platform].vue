@@ -6,11 +6,11 @@
   import { useTeamStore, useUserStore } from '@/store';
 
   // 팀 리스트 필터 컴포넌트
-  import teamFilter from '@/components/dialog/ListFilter.vue';
+  import TeamFilter from '@/components/dialog/ListFilter.vue';
   // 팀 만들기 컴포넌트
-  import kakaoTeamDialog from '@/components/dialog/CreateTeam.vue';
+  import TeamDialog from '@/components/dialog/CreateTeam.vue';
   // 팀 리스트 카드 컴포넌트
-  import teamCard from '@/components/card/TeamInfo.vue';
+  import TeamCard from '@/components/card/TeamInfo.vue';
 
   const props = defineProps<{ platform: PlatformType }>();
   const teamStore = useTeamStore();
@@ -71,18 +71,18 @@
         <el-button @click="getTeamList">
           <el-icon><Refresh /></el-icon>
         </el-button>
-        <teamFilter
+        <TeamFilter
           :platform="cPlatform"
           @select-data="setFilter"
           :filter-data="cPlatform === 'kakao' ? cKakaoFilter : cSteamFilter"
         />
-        <kakaoTeamDialog :disabled="!hasUser" :platform="cPlatform" @input-data="createTeam" />
+        <TeamDialog :disabled="!hasUser" :platform="cPlatform" @input-data="createTeam" />
       </el-col>
     </el-row>
     <!-- 방 리스트 -->
     <el-row>
       <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="info in list">
-        <teamCard :info="info" @join="joinTeam" />
+        <TeamCard :info="info" @join="joinTeam" />
       </el-col>
     </el-row>
   </div>
