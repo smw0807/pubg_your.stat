@@ -3,26 +3,24 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: '검색하기',
-    component: () => import('@/views/index.vue'),
+    component: () => import('@/pages/index.vue'),
     meta: {
       transition: 'fade',
     },
   },
   {
-    path: '/profile/:platform/:nickname',
+    path: '/search/:platform/:nickname',
     name: '전적검색 결과',
-    // hide: true,
-    component: () => import('@/views/search/index.vue'),
+    component: () => import('@/pages/search/[platform]/[nickname].vue'),
     meta: {
       transition: 'fade',
       hide: true,
     },
   },
   {
-    path: '/team-chatting/:uid',
+    path: '/team-chatting/:id',
     name: '팀 채팅방',
-    // hide: true,
-    component: () => import('@/views/chat/index.vue'),
+    component: () => import('@/pages/team-chatting/[id].vue'),
     meta: {
       transition: 'fade',
       hide: true,
@@ -38,7 +36,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/map/erangel',
         name: '에란겔',
-        component: () => import('@/views/map/erangel.vue'),
+        component: () => import('@/pages/map/erangel.vue'),
         meta: {
           transition: 'fade',
         },
@@ -46,7 +44,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/map/miramar',
         name: '미라마',
-        component: () => import('@/views/map/miramar.vue'),
+        component: () => import('@/pages/map/miramar.vue'),
         meta: {
           transition: 'fade',
         },
@@ -54,7 +52,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/map/taego',
         name: '태이고',
-        component: () => import('@/views/map/taego.vue'),
+        component: () => import('@/pages/map/taego.vue'),
         meta: {
           transition: 'fade',
         },
@@ -71,7 +69,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/teams/kakao',
         name: '카카오',
-        component: () => import('@/views/teams/kakao.vue'),
+        component: () => import('@/pages/teams/kakao.vue'),
         meta: {
           transition: 'fade',
         },
@@ -79,7 +77,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/teams/steam',
         name: '스팀',
-        component: () => import('@/views/teams/steam.vue'),
+        component: () => import('@/pages/teams/steam.vue'),
         meta: {
           transition: 'fade',
         },
@@ -87,3 +85,91 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 ];
+// export const routes: Array<RouteRecordRaw> = [
+//   {
+//     path: '/',
+//     name: '검색하기',
+//     component: () => import('@/views/index.vue'),
+//     meta: {
+//       transition: 'fade',
+//     },
+//   },
+//   {
+//     path: '/profile/:platform/:nickname',
+//     name: '전적검색 결과',
+//     // hide: true,
+//     component: () => import('@/views/search/index.vue'),
+//     meta: {
+//       transition: 'fade',
+//       hide: true,
+//     },
+//   },
+//   {
+//     path: '/team-chatting/:uid',
+//     name: '팀 채팅방',
+//     // hide: true,
+//     component: () => import('@/views/chat/index.vue'),
+//     meta: {
+//       transition: 'fade',
+//       hide: true,
+//     },
+//   },
+//   {
+//     path: '/map',
+//     name: '맵별 차량 위치',
+//     meta: {
+//       transition: 'fade',
+//     },
+//     children: [
+//       {
+//         path: '/map/erangel',
+//         name: '에란겔',
+//         component: () => import('@/views/map/erangel.vue'),
+//         meta: {
+//           transition: 'fade',
+//         },
+//       },
+//       {
+//         path: '/map/miramar',
+//         name: '미라마',
+//         component: () => import('@/views/map/miramar.vue'),
+//         meta: {
+//           transition: 'fade',
+//         },
+//       },
+//       {
+//         path: '/map/taego',
+//         name: '태이고',
+//         component: () => import('@/views/map/taego.vue'),
+//         meta: {
+//           transition: 'fade',
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     path: '/teams',
+//     name: '팀 구하기',
+//     meta: {
+//       transition: 'fade',
+//     },
+//     children: [
+//       {
+//         path: '/teams/kakao',
+//         name: '카카오',
+//         component: () => import('@/views/teams/kakao.vue'),
+//         meta: {
+//           transition: 'fade',
+//         },
+//       },
+//       {
+//         path: '/teams/steam',
+//         name: '스팀',
+//         component: () => import('@/views/teams/steam.vue'),
+//         meta: {
+//           transition: 'fade',
+//         },
+//       },
+//     ],
+//   },
+// ];
