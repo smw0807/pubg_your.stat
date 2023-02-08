@@ -23,6 +23,8 @@
 # 기술 스택
 
 - Vite (https://vitejs.dev/)
+  - vite-plugin-vue-layouts (https://github.com/johncampionjr/vite-plugin-vue-layouts)
+  - vite-plugin-pages (https://github.com/hannoeru/vite-plugin-pages)
 - Vue3 (https://vuejs.org/)
 - vue-router (https://router.vuejs.org/)
 - TypeScript (https://www.typescriptlang.org/)
