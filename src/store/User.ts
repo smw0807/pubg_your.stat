@@ -24,14 +24,16 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    //로그인
-    async signin(): Promise<void> {
+    //로그인 - 최초 로그인시 true 리턴함
+    async signin(): Promise<boolean | null> {
       try {
-        this.user = await auth.signIn();
+        const { isNewUser, user } = await auth.signIn();
+        this.user = user;
         this.hasUser = true;
-        //todo 로그인 후 파이어스토어에 플레이 닉네임 저장된 데이터 있는지 확인하는 로칙 추가 필요
+        return isNewUser;
       } catch (error) {
         console.error(error);
+        return null;
       }
     },
     //현재 로그인 중인 사용자 정보 가져오기(새로고침 시엔 이거 안먹힘...)
@@ -59,5 +61,6 @@ export const useUserStore = defineStore({
       auth.signOut();
       this.hasUser = false;
     },
+    //사용자 배그 닉네임 저장
   },
 });

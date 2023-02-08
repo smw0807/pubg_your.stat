@@ -1,6 +1,7 @@
 import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { IUsers } from '@/interfaces';
+import { IUserPlatformNickNames } from '@/interfaces';
+import { nowDateFormat } from '@/utils';
 
 export class UsersAPI {
   private db = FireStore;
@@ -24,11 +25,11 @@ export class UsersAPI {
   insertUser(uid: string, steamNickName: string, kakaoNickName: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const data: IUsers = {
+        const data: IUserPlatformNickNames = {
           'kakao-nickname': kakaoNickName,
           'steam-nickname': steamNickName,
-          'created-date': new Date(),
-          'updated-date': new Date(),
+          'created-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
+          'updated-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
         };
         await setDoc(doc(this.db, this.collection, uid), data);
       } catch (err) {

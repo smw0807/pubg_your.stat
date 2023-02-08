@@ -11,7 +11,7 @@ export type {
 
 export type { ITeamFilter, ITeamForm, ITeamInfo } from './Team';
 export type { IPlayerStats } from './FireStore';
-export type { IUsers } from './Users';
+export type { IUserPlatformNickNames } from './Users';
 
 export type ModeType = 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp';
 
