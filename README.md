@@ -118,6 +118,7 @@ https://github.com/martinsileno/pubg-typescript-api
   - 인증상태 관찰자 : https://firebase.google.com/docs/auth/web/start?hl=ko&authuser=0
   - 인증상태 지속성 : https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=ko&authuser=0
   - 최초 로그인 체크 : https://firebase.google.com/docs/reference/js/auth.additionaluserinfo?hl=ko&authuser=0
+    - https://stackoverflow.com/questions/39550149/check-if-user-is-authenticated-for-the-first-time-in-firebase-google-authenticat
 - firebase / firestore
   - 데이터 추가 : https://firebase.google.com/docs/firestore/manage-data/add-data?hl=ko&authuser=0
   - 스냅샷 : https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0#get_all_documents_in_a_collection
