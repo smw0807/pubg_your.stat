@@ -5,15 +5,19 @@
   import { IUserPlatformNickNames } from '@/interfaces';
 
   import HeaderMenu from '@/components/header/HeaderMenu.vue';
+  //사용자 플레이어 닉네임 입력 컴포넌트 (첫 로그인, 내정보 기능에서 사용 예정)
   import MyPlatformNickname from '@/components/dialog/MyPlatformNickname.vue';
 
   const store = useUserStore();
 
+  //첫 로그인 여부
   let firstLogin: Ref<boolean> = ref(false);
 
   //스토어에 유저 정보가 있는지
   const cHasUser = computed(() => store.hasUser);
+  //첫 로그인 여부
   const cFirstLogin = computed(() => firstLogin.value);
+
   //스토어에 저장된 유저 정보
   // const userInfo = computed(() => store.getUser);
 

@@ -13,15 +13,24 @@
     'kakao-nickname': '',
     'steam-nickname': '',
   });
+
+  //정규식 영문 대소문자 + 특수문자 -_
+  const nicknameRegexp = /^[a-zA-Z_-]/gi;
+
   const save = () => {
     emit('save', form);
+  };
+
+  const nicknameRuleCheck = (v: string) => {
+    console.log(v);
+    return true;
   };
 </script>
 <template>
   <el-dialog v-model="isShow" title="플레이어 닉네임 등록" center :show-close="false">
+    <p>현재 플레이중인 플랫폼별 닉네임을 입력해주시기 바랍니다.</p>
+    <p>입력하지 않으면 팀 구하기 기능을 이용하실 수 없습니다.</p>
     <el-form :model="form">
-      <p>현재 플레이중인 플랫폼별 닉네임을 입력해주시기 바랍니다.</p>
-      <p>입력하지 않으면 팀 구하기 기능을 이용하실 수 없습니다.</p>
       <el-form-item label="스팀 닉네임" :label-width="formLabelWidth">
         <el-input v-model="form['steam-nickname']" autocomplete="off" />
       </el-form-item>
