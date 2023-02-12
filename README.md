@@ -26,6 +26,7 @@
   - vite-plugin-vue-layouts (https://github.com/johncampionjr/vite-plugin-vue-layouts)
   - vite-plugin-pages (https://github.com/hannoeru/vite-plugin-pages)
 - Vue3 (https://vuejs.org/)
+  - TS with CompositionAPI (https://vuejs.org/guide/typescript/composition-api.html#typing-component-props)
 - vue-router (https://router.vuejs.org/)
 - TypeScript (https://www.typescriptlang.org/)
 - Pinia (https://pinia.vuejs.org/introduction.html)
