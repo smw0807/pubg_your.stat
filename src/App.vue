@@ -3,6 +3,7 @@
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
   import { IUserPlatformNickNames } from '@/interfaces';
+  import { notifSuccess, notifError } from '@/utils';
 
   import HeaderMenu from '@/components/header/HeaderMenu.vue';
   //사용자 플레이어 닉네임 입력 컴포넌트 (첫 로그인, 내정보 기능에서 사용 예정)
@@ -44,8 +45,15 @@
   };
 
   //로그인 사용자의 배그 플랫폼별 닉네임 저장하기
-  const saveNicnNames = (form: IUserPlatformNickNames): void => {
-    console.log(form);
+  const saveNicnNames = async (form: IUserPlatformNickNames): Promise<void> => {
+    const result = await store.savePlatformNickname(form);
+    if (typeof result === 'string') {
+      notifError('', result);
+    }
+    if (result == true) {
+      notifSuccess('', '등록완료');
+      firstLogin.value = false;
+    }
   };
   //닉네임 저장 취소
   const inputNickNamesCancel = (): void => {

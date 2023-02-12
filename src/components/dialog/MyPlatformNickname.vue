@@ -5,7 +5,7 @@
 
   interface Props {
     isShow: boolean;
-    mode: string;
+    mode?: string;
     nicknames?: IUserPlatformNickNames; //->내정보 기능에서만 사용
   }
 

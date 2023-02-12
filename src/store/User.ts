@@ -8,9 +8,11 @@
  *  - 카카오 플레이 닉네임
  */
 import { defineStore } from 'pinia';
-import { GooleAuthAPI } from '@/apis';
+import { GooleAuthAPI, UsersAPI } from '@/apis';
+import { IUserPlatformNickNames } from '@/interfaces';
 import { User } from 'firebase/auth';
-const auth = new GooleAuthAPI();
+const authAPI = new GooleAuthAPI();
+const usersAPI = new UsersAPI();
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -27,7 +29,7 @@ export const useUserStore = defineStore({
     //로그인 - 최초 로그인시 true 리턴함
     async signin(): Promise<boolean | null> {
       try {
-        const { isNewUser, user } = await auth.signIn();
+        const { isNewUser, user } = await authAPI.signIn();
         this.user = user;
         this.hasUser = true;
         return isNewUser;
@@ -39,7 +41,7 @@ export const useUserStore = defineStore({
     //현재 로그인 중인 사용자 정보 가져오기(새로고침 시엔 이거 안먹힘...)
     nowUser(): void {
       try {
-        const user = auth.nowUser;
+        const user = authAPI.nowUser;
         this.hasUser = user ? true : false;
         this.user = user;
       } catch (error) {
@@ -49,7 +51,7 @@ export const useUserStore = defineStore({
     //로그인 유저 정보 가져오기(새로고침 시엔 이 함수 사용)
     async reloadUser(): Promise<void> {
       try {
-        const user = await auth.reloadUser();
+        const user = await authAPI.reloadUser();
         this.hasUser = user ? true : false;
         this.user = user;
       } catch (err) {
@@ -58,9 +60,25 @@ export const useUserStore = defineStore({
     },
     //로그아웃
     signout(): void {
-      auth.signOut();
+      authAPI.signOut();
       this.hasUser = false;
     },
     //사용자 배그 닉네임 저장
+    async savePlatformNickname(params: IUserPlatformNickNames): Promise<boolean | string> {
+      try {
+        if (!this.user?.uid) {
+          return '로그인 상태 확인 필요';
+        }
+        await usersAPI.savePlatformNickname(
+          this.user.uid,
+          params['steam-nickname'],
+          params['kakao-nickname']
+        );
+        return true;
+      } catch (err) {
+        console.error(err);
+        return '닉네임 저장 실패';
+      }
+    },
   },
 });
