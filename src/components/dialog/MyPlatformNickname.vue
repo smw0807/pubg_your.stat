@@ -18,27 +18,28 @@
     'steam-nickname': '',
   });
 
-  //정규식 영문 대소문자 + 특수문자 -_
-  const nicknameRegexp = /^[a-zA-Z_-]/gi;
-
+  //확인 클릭시
   const submitForm = (formEl: FormInstance | undefined) => {
     formEl?.validate(valid => {
-      console.log('validate : ', valid);
+      if (valid) emit('save', form);
     });
-    emit('save', form);
   };
 
+  //닉네임 정규식
+  const nicknameRegexp = /[^a-zA-Z0-9_-]/g;
+  //닉네임 정규식 체크 콜백함수
   const validateNickname = (rule: any, value: any, cb: any) => {
-    console.log(rule);
-    console.log(form['kakao-nickname']);
-    console.log(form['steam-nickname']);
-    console.log(value);
-
-    return true;
+    const reg = value.match(nicknameRegexp);
+    if (reg) {
+      cb('닉테임은 영어 대소문자, 숫자, 특수문자 - _ 만 입력 가능합니다.');
+    }
+    cb();
   };
 
+  //validation
   const rules = reactive<FormRules>({
-    nickname: [{ validator: validateNickname, trigger: 'blur' }],
+    'steam-nickname': [{ validator: validateNickname, trigger: 'blur' }],
+    'kakao-nickname': [{ validator: validateNickname, trigger: 'blur' }],
   });
 </script>
 <template>
@@ -52,10 +53,10 @@
     <!-- 다이얼로그 설명 코멘트 슬롯 -->
     <slot name="comment" />
     <el-form :model="form" ref="ruleFormRef" :rules="rules">
-      <el-form-item label="스팀 닉네임" :label-width="formLabelWidth" prop="nickname">
+      <el-form-item label="스팀 닉네임" :label-width="formLabelWidth" prop="steam-nickname">
         <el-input v-model="form['steam-nickname']" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="카카오 닉네임" :label-width="formLabelWidth" prop="nickname">
+      <el-form-item label="카카오 닉네임" :label-width="formLabelWidth" prop="kakao-nickname">
         <el-input v-model="form['kakao-nickname']" autocomplete="off" />
       </el-form-item>
     </el-form>
