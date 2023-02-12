@@ -1,14 +1,19 @@
 <script setup lang="ts">
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, withDefaults } from 'vue';
   import type { FormInstance, FormRules } from 'element-plus';
   import { IUserPlatformNickNames } from '@/interfaces';
-  const props = defineProps({
-    //다이얼로그 보여주기 여부
-    isShow: {
-      type: Boolean,
-      default: false,
-    },
+
+  interface Props {
+    isShow: boolean;
+    mode: string;
+    nicknames?: IUserPlatformNickNames; //->내정보 기능에서만 사용
+  }
+
+  const props = withDefaults(defineProps<Props>(), {
+    isShow: false,
+    mode: 'ins',
   });
+
   const emit = defineEmits(['save', 'cancel']);
 
   const ruleFormRef = ref<FormInstance>();
