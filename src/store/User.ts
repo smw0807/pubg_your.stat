@@ -70,13 +70,12 @@ export const useUserStore = defineStore({
         if (!this.user) {
           return '로그인 상태 확인 필요';
         }
-        await usersAPI.savePlatformNickname(
+        return await usersAPI.savePlatformNickname(
           'ins',
           this.user,
           params['steam-nickname'],
           params['kakao-nickname']
         );
-        return true;
       } catch (err) {
         console.error(err);
         return '닉네임 저장 실패';
