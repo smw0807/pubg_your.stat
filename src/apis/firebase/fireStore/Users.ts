@@ -10,13 +10,24 @@ export class UsersAPI {
   //반환할 메세지 담을 곳
   private message: string = '';
 
-  //파이어스토어에 플레이닉네임이 저장된 데이터가 있는지 확인
-  existsUser(uid: string): Promise<boolean> {
+  //저장된 플렛폼 플레이 닉네임 가져오기
+  getMyPlatformNickname(uid: string): Promise<IUserPlatformNickNames | null> {
     return new Promise(async (resolve, reject) => {
       try {
+        let result: IUserPlatformNickNames | null = null;
         const docRef = doc(this.db, this.collection, uid);
         const docSnap = await getDoc(docRef);
-        resolve(docSnap.exists());
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          result = {
+            email: data.email,
+            'kakao-nickname': data['kakao-nickname'],
+            'steam-nickname': data['steam-nickname'],
+            'created-date': data['created-date'],
+            'updated-date': data['updated-date'],
+          };
+        }
+        resolve(result);
       } catch (err) {
         console.error(err);
         reject(err);
