@@ -31,7 +31,6 @@
   const signin = async (): Promise<void> => {
     const isNewUser = await store.signin();
     if (isNewUser) {
-      console.log('최초 로그인!!');
       firstLogin.value = isNewUser;
     }
   };
