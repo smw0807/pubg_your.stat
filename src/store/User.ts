@@ -39,10 +39,12 @@ export const useUserStore = defineStore({
       }
     },
     //현재 로그인 중인 사용자 정보 가져오기(새로고침 시엔 이거 안먹힘...)
-    nowUser(): void {
+    async nowUser(): Promise<void> {
       try {
         const user = authAPI.nowUser;
+        const nicknames = await usersAPI.getMyPlatformNickname(user?.uid as string);
         console.log('user : ', user);
+        console.log(nicknames);
         this.hasUser = user ? true : false;
         this.user = user;
       } catch (error) {
