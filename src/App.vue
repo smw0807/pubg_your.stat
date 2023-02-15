@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, nextTick, ref } from 'vue';
+  import { computed, ref } from 'vue';
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
   import { IUserPlatformNickNames } from '@/interfaces';
@@ -20,8 +20,10 @@
 
   //스토어에 유저 정보가 있는지
   const cHasUser = computed(() => store.hasUser);
-
+  //플랫폼 닉네임 등록 컴포넌트 활성화 유무
   const cMyPlatform = computed(() => isShowMyPlatform.value);
+  //저장된 닉네임
+  const cMyNickname = computed(() => store.nicknames);
 
   //스토어에 저장된 유저 정보
   // const userInfo = computed(() => store.getUser);
@@ -72,6 +74,7 @@
     <el-container>
       <MyPlatformNickname
         :is-show="cMyPlatform"
+        :nicknames="cMyNickname"
         @cancel="inputNickNamesCancel"
         @save="saveNicnNames"
       >
@@ -80,8 +83,9 @@
           <div class="desc" v-if="myPlatformMode === 'ins'">
             <p>현재 플레이중인 플랫폼별 닉네임을 입력해주시기 바랍니다.</p>
             <p>입력하지 않으면 팀 구하기 기능을 이용하실 수 없습니다.</p>
+            <p>입력된 플랫폼 닉네임은 팀 구하기 방 안에서 표시되는데 사용됩니다.</p>
           </div>
-          <div v-else>gg</div>
+          <div v-else></div>
         </template>
       </MyPlatformNickname>
       <el-header>

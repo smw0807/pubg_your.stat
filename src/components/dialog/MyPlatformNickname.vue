@@ -1,12 +1,13 @@
 <script setup lang="ts">
-  import { reactive, ref, withDefaults } from 'vue';
+  import { reactive, ref, withDefaults, watchEffect } from 'vue';
   import type { FormInstance, FormRules } from 'element-plus';
   import { IUserPlatformNickNames } from '@/interfaces';
 
   interface Props {
     isShow: boolean;
     mode?: string;
-    nicknames?: IUserPlatformNickNames; //->내정보 기능에서만 사용
+    //내정보 기능에서 input에 넣을 닉네임 값
+    nicknames?: IUserPlatformNickNames | null;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -23,7 +24,7 @@
     'steam-nickname': '',
   });
 
-  //확인 클릭시
+  //확인 클릭 시
   const submitForm = (formEl: FormInstance | undefined) => {
     formEl?.validate(valid => {
       if (valid) emit('save', form);
@@ -45,6 +46,16 @@
   const rules = reactive<FormRules>({
     'steam-nickname': [{ validator: validateNickname, trigger: 'blur' }],
     'kakao-nickname': [{ validator: validateNickname, trigger: 'blur' }],
+  });
+
+  watchEffect(() => {
+    if (props.nicknames) {
+      form['kakao-nickname'] = props.nicknames['kakao-nickname'];
+      form['steam-nickname'] = props.nicknames['steam-nickname'];
+    } else {
+      form['kakao-nickname'] = '';
+      form['steam-nickname'] = '';
+    }
   });
 </script>
 <template>

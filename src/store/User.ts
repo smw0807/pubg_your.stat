@@ -17,8 +17,12 @@ const usersAPI = new UsersAPI();
 export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
+    //현재 유저 정보 유무
     hasUser: false,
+    //현재 로그인 유저 정보
     user: null as User | null,
+    //현재 로그인 유저의 플랫폼 별 닉네임
+    nicknames: null as IUserPlatformNickNames | null,
   }),
   getters: {
     getUser(): User | null {
@@ -42,11 +46,9 @@ export const useUserStore = defineStore({
     async nowUser(): Promise<void> {
       try {
         const user = authAPI.nowUser;
-        const nicknames = await usersAPI.getMyPlatformNickname(user?.uid as string);
-        console.log('user : ', user);
-        console.log(nicknames);
         this.hasUser = user ? true : false;
         this.user = user;
+        this.nicknames = await usersAPI.getMyPlatformNickname(user?.uid as string);
       } catch (error) {
         console.error(error);
       }
