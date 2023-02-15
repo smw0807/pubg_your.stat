@@ -42,6 +42,7 @@ export const useUserStore = defineStore({
     nowUser(): void {
       try {
         const user = authAPI.nowUser;
+        console.log('user : ', user);
         this.hasUser = user ? true : false;
         this.user = user;
       } catch (error) {
@@ -66,11 +67,11 @@ export const useUserStore = defineStore({
     //사용자 배그 닉네임 저장
     async savePlatformNickname(params: IUserPlatformNickNames): Promise<boolean | string> {
       try {
-        if (!this.user?.uid) {
+        if (!this.user) {
           return '로그인 상태 확인 필요';
         }
         await usersAPI.savePlatformNickname(
-          this.user.uid,
+          this.user,
           params['steam-nickname'],
           params['kakao-nickname']
         );

@@ -49,8 +49,7 @@
     const result = await store.savePlatformNickname(form);
     if (typeof result === 'string') {
       notifError('', result);
-    }
-    if (result == true) {
+    } else {
       notifSuccess('', '등록완료');
       firstLogin.value = false;
     }

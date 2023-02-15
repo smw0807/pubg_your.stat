@@ -1,5 +1,6 @@
 import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, getDocs, setDoc, query, collection, where } from 'firebase/firestore';
+import { User } from 'firebase/auth';
 import { IUserPlatformNickNames } from '@/interfaces';
 import { nowDateFormat } from '@/utils';
 
@@ -22,10 +23,11 @@ export class UsersAPI {
   }
 
   //최초 로그인 시 사용할 함수, 사용자의 카카오, 스팀 플레이 닉네임 저장
-  savePlatformNickname(uid: string, steamNickName: string, kakaoNickName: string): Promise<void> {
+  savePlatformNickname(user: User, steamNickName: string, kakaoNickName: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const data: IUserPlatformNickNames = {
+          email: user.email,
           'kakao-nickname': kakaoNickName,
           'steam-nickname': steamNickName,
           'created-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
@@ -41,7 +43,7 @@ export class UsersAPI {
         // }
         // console.log('isDuple : ', isDuple);
         // if (!isDuple) {
-        await setDoc(doc(this.db, this.collection, uid), data);
+        await setDoc(doc(this.db, this.collection, user.uid), data);
         // }
         resolve();
       } catch (err) {
