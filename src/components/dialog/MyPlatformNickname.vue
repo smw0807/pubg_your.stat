@@ -55,8 +55,7 @@
         <slot name="title" />
       </span>
     </template>
-    <!-- 다이얼로그 설명 코멘트 슬롯 -->
-    <slot name="comment" />
+    <slot name="body" />
     <el-form :model="form" ref="ruleFormRef" :rules="rules">
       <el-form-item label="스팀 닉네임" :label-width="formLabelWidth" prop="steam-nickname">
         <el-input v-model="form['steam-nickname']" autocomplete="off" />

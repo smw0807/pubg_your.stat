@@ -76,11 +76,12 @@
         @save="saveNicnNames"
       >
         <template #title> {{ myPlatformTitle }} </template>
-        <template #comment v-if="myPlatformMode === 'ins'">
-          <div class="desc">
+        <template #body>
+          <div class="desc" v-if="myPlatformMode === 'ins'">
             <p>현재 플레이중인 플랫폼별 닉네임을 입력해주시기 바랍니다.</p>
             <p>입력하지 않으면 팀 구하기 기능을 이용하실 수 없습니다.</p>
           </div>
+          <div v-else>gg</div>
         </template>
       </MyPlatformNickname>
       <el-header>
