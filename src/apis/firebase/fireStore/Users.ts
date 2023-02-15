@@ -22,17 +22,24 @@ export class UsersAPI {
     });
   }
 
-  //최초 로그인 시 사용할 함수, 사용자의 카카오, 스팀 플레이 닉네임 저장
-  savePlatformNickname(user: User, steamNickName: string, kakaoNickName: string): Promise<void> {
+  //사용자의 카카오, 스팀 플레이 닉네임 저장
+  savePlatformNickname(
+    mode: 'ins' | 'upd' = 'ins',
+    user: User,
+    steamNickName: string,
+    kakaoNickName: string
+  ): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const data: IUserPlatformNickNames = {
           email: user.email,
           'kakao-nickname': kakaoNickName,
           'steam-nickname': steamNickName,
-          'created-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
           'updated-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
         };
+        if (mode === 'ins') {
+          data['created-date'] = nowDateFormat('YYYY-MM-DD HH:mm:ss');
+        }
         //플랫폼 별 닉네임 중복체크
         // let isDuple = false;
         // if (steamNickName !== '') {

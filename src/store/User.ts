@@ -71,6 +71,7 @@ export const useUserStore = defineStore({
           return '로그인 상태 확인 필요';
         }
         await usersAPI.savePlatformNickname(
+          'ins',
           this.user,
           params['steam-nickname'],
           params['kakao-nickname']
