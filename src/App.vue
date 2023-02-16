@@ -3,7 +3,8 @@
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
   import { IUserPlatformNickNames } from '@/interfaces';
-  import { notifSuccess, notifError } from '@/utils';
+  import { notifSuccess, notifError, dateFormat } from '@/utils';
+  import { ElMessageBox } from 'element-plus';
 
   import HeaderMenu from '@/components/header/HeaderMenu.vue';
   //사용자 플레이어 닉네임 입력 컴포넌트 (첫 로그인, 내정보 기능에서 사용 예정)
@@ -14,10 +15,12 @@
   //플랫폼 닉네임 등록 컴포넌트 활성화 유무
   let isShowMyPlatform: Ref<boolean> = ref(false);
   //플랫폼 닉네임 등록 컴포넌트 모드 (ins, upd);
-  let myPlatformMode: Ref<string> = ref('ins');
+  let myPlatformMode: Ref<'ins' | 'upd'> = ref('ins');
   //플랫폼 닉네임 등록 컴포넌트 제목
   let myPlatformTitle: Ref<string> = ref('플레이어 닉네임 등록');
 
+  //유저 정보
+  const cUser = computed(() => store.user);
   //스토어에 유저 정보가 있는지
   const cHasUser = computed(() => store.hasUser);
   //플랫폼 닉네임 등록 컴포넌트 활성화 유무
@@ -41,7 +44,10 @@
   };
   //로그아웃
   const signout = (): void => {
-    store.signout();
+    ElMessageBox.confirm('로그아웃 하시겠습니까?', '로그아웃', {
+      confirmButtonText: '로그아웃',
+      cancelButtonText: '취소',
+    }).then(() => store.signout());
   };
   //현재 로그인 중인 사용자 정보 가져오기
   const myInfo = (): void => {
@@ -52,14 +58,23 @@
   };
 
   //로그인 사용자의 배그 플랫폼별 닉네임 저장하기
-  const saveNicnNames = async (form: IUserPlatformNickNames): Promise<void> => {
-    const result = await store.savePlatformNickname(form);
-    if (typeof result === 'string') {
-      notifError('', result);
-    } else {
-      notifSuccess('', '등록완료');
-      isShowMyPlatform.value = false;
-    }
+  const saveNicnNames = (form: IUserPlatformNickNames): void => {
+    ElMessageBox.confirm('저장하시겠습니까?', '닉네임 저장', {
+      confirmButtonText: '저장',
+      cancelButtonText: '취소',
+    })
+      .then(async () => {
+        const result = await store.savePlatformNickname(myPlatformMode.value, form);
+        if (typeof result === 'string') {
+          notifError('', result);
+        } else {
+          notifSuccess('', '등록완료');
+          isShowMyPlatform.value = false;
+        }
+      })
+      .catch(() => {
+        isShowMyPlatform.value = false;
+      });
   };
   //닉네임 저장 취소
   const inputNickNamesCancel = (): void => {
@@ -72,6 +87,7 @@
 <template>
   <div class="common-layout">
     <el-container>
+      <!-- 내 정보 컴포넌트 -->
       <MyPlatformNickname
         :is-show="cMyPlatform"
         :nicknames="cMyNickname"
@@ -85,7 +101,30 @@
             <p>입력하지 않으면 팀 구하기 기능을 이용하실 수 없습니다.</p>
             <p>입력된 플랫폼 닉네임은 팀 구하기 방 안에서 표시되는데 사용됩니다.</p>
           </div>
-          <div v-else></div>
+          <div v-else>
+            <el-divider>사용자</el-divider>
+            <el-row>
+              <el-col :span="24" align="center">
+                <el-avatar :size="80" :src="cUser?.photoURL" />
+              </el-col>
+              <el-col :span="24" align="center">
+                <span>{{ cUser?.displayName }}</span>
+              </el-col>
+              <el-col :span="24" align="center"> {{ cUser?.email }} </el-col>
+              <el-col align="center">
+                사이트 가입일 :
+                {{ dateFormat(cUser?.metadata.creationTime as string, 'YYYY-MM-DD') }}
+              </el-col>
+            </el-row>
+            <el-divider>닉네임</el-divider>
+          </div>
+        </template>
+        <template #bottom v-if="myPlatformMode !== 'ins'">
+          <el-row>
+            <el-col align="end"> 등록일 : {{ cMyNickname?.['created-date'] }} </el-col>
+            <el-col align="end"> 수정일 : {{ cMyNickname?.['updated-date'] }} </el-col>
+          </el-row>
+          <el-divider />
         </template>
       </MyPlatformNickname>
       <el-header>
@@ -96,4 +135,11 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .el-divider {
+    margin: 15px 0;
+  }
+  .el-row {
+    margin-bottom: 5px;
+  }
+</style>

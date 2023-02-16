@@ -69,13 +69,17 @@ export const useUserStore = defineStore({
       this.hasUser = false;
     },
     //사용자 배그 닉네임 저장
-    async savePlatformNickname(params: IUserPlatformNickNames): Promise<boolean | string> {
+    async savePlatformNickname(
+      mode: 'ins' | 'upd',
+      params: IUserPlatformNickNames
+    ): Promise<boolean | string> {
       try {
+        console.log(mode, params);
         if (!this.user) {
           return '로그인 상태 확인 필요';
         }
         return await usersAPI.savePlatformNickname(
-          'ins',
+          mode,
           this.user,
           params['steam-nickname'],
           params['kakao-nickname']
