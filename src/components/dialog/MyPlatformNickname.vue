@@ -5,14 +5,12 @@
 
   interface Props {
     isShow: boolean;
-    mode?: string;
     //내정보 기능에서 input에 넣을 닉네임 값
     nicknames?: IUserPlatformNickNames | null;
   }
 
   const props = withDefaults(defineProps<Props>(), {
     isShow: false,
-    mode: 'ins',
   });
 
   const emit = defineEmits(['save', 'cancel']);
@@ -37,7 +35,7 @@
   const validateNickname = (rule: any, value: any, cb: any) => {
     const reg = value.match(nicknameRegexp);
     if (reg) {
-      cb('닉테임은 영어 대소문자, 숫자, 특수문자 - _ 만 입력 가능합니다.');
+      cb('닉네임은 영어 대소문자, 숫자, 특수문자 - _ 만 입력 가능합니다.');
     }
     cb();
   };
@@ -75,6 +73,7 @@
         <el-input v-model="form['kakao-nickname']" autocomplete="off" />
       </el-form-item>
     </el-form>
+    <slot name="bottom" />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="emit('cancel')">다음에 하기</el-button>
@@ -83,8 +82,4 @@
     </template>
   </el-dialog>
 </template>
-<style scoped>
-  .desc {
-    text-align: center;
-  }
-</style>
+<style scoped></style>
