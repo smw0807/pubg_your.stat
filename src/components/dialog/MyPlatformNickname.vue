@@ -66,10 +66,10 @@
     </template>
     <slot name="body" />
     <el-form :model="form" ref="ruleFormRef" :rules="rules">
-      <el-form-item label="스팀 닉네임" :label-width="formLabelWidth" prop="steam-nickname">
+      <el-form-item label="스팀" :label-width="formLabelWidth" prop="steam-nickname">
         <el-input v-model="form['steam-nickname']" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="카카오 닉네임" :label-width="formLabelWidth" prop="kakao-nickname">
+      <el-form-item label="카카오" :label-width="formLabelWidth" prop="kakao-nickname">
         <el-input v-model="form['kakao-nickname']" autocomplete="off" />
       </el-form-item>
     </el-form>

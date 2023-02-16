@@ -137,7 +137,7 @@
 
 <style scoped>
   .el-divider {
-    margin: 15px 0;
+    margin: 20px 0;
   }
   .el-row {
     margin-bottom: 5px;
