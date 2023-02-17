@@ -7,10 +7,14 @@
     isShow: boolean;
     //내정보 기능에서 input에 넣을 닉네임 값
     nicknames?: IUserPlatformNickNames | null;
+    cancelText?: string; //닫기 버튼 텍스트
+    saveText?: string; //저장 버튼 텍스트
   }
 
   const props = withDefaults(defineProps<Props>(), {
     isShow: false,
+    cancelText: '다음에 하기',
+    saveText: '저장',
   });
 
   const emit = defineEmits(['save', 'cancel']);
@@ -76,8 +80,8 @@
     <slot name="bottom" />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="emit('cancel')">다음에 하기</el-button>
-        <el-button type="primary" @click="submitForm(ruleFormRef)"> 확인 </el-button>
+        <el-button @click="emit('cancel')">{{ cancelText }}</el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)"> {{ saveText }} </el-button>
       </span>
     </template>
   </el-dialog>

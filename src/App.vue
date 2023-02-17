@@ -91,6 +91,7 @@
       <MyPlatformNickname
         :is-show="cMyPlatform"
         :nicknames="cMyNickname"
+        :cancel-text="myPlatformMode === 'ins' ? '다음에 하기' : '닫기'"
         @cancel="inputNickNamesCancel"
         @save="saveNicnNames"
       >
