@@ -52,6 +52,11 @@ export class UsersAPI {
         };
         if (mode === 'ins') {
           data['created-date'] = nowDateFormat('YYYY-MM-DD HH:mm:ss');
+        } else {
+          // 기존 created-date 가져오기
+          const docSnap = await getDoc(doc(this.db, this.collection, user.uid));
+          const existingData = docSnap.data();
+          data['created-date'] = existingData?.['created-date'] || '';
         }
         //플레이어 닉네임 중복체크
         let isDupl = false;
