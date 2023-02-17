@@ -74,7 +74,6 @@ export const useUserStore = defineStore({
       params: IUserPlatformNickNames
     ): Promise<boolean | string> {
       try {
-        console.log(mode, params);
         if (!this.user) {
           return '로그인 상태 확인 필요';
         }
