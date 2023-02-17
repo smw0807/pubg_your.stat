@@ -8,19 +8,23 @@
    * ## 인원수는 모드에 맞춰 자동 설정
    * todo 데이터 검증
    */
-  import { ref, reactive, computed, watch } from 'vue';
-  import type { Ref } from 'vue';
+  import { reactive, computed, watch, withDefaults } from 'vue';
   import { PlatformType, ITeamForm } from '@/interfaces';
 
-  const props = defineProps<{
+  interface Props {
+    open: boolean;
     platform: PlatformType;
     disabled: boolean;
-  }>();
+  }
+
+  const props = withDefaults(defineProps<Props>(), {
+    open: false,
+    disabled: true,
+  });
+
+  const emit = defineEmits(['input-data', 'button-event']);
 
   const cPlatform = computed(() => props.platform);
-  const emit = defineEmits(['input-data']);
-
-  const open: Ref<boolean> = ref(false);
 
   // 데이터 폼
   const form: ITeamForm = reactive({
@@ -33,7 +37,6 @@
   //입력한 데이터 보내기
   const sendData = (): void => {
     emit('input-data', form);
-    open.value = false;
   };
 
   // 라벨 넓이
@@ -44,7 +47,7 @@
   });
 </script>
 <template>
-  <el-button :disabled="disabled" @click="open = true"> 팀 만들기 </el-button>
+  <el-button :disabled="disabled" @click="emit('button-event', 'open')"> 팀 만들기 </el-button>
 
   <el-dialog v-model="open" :show-close="false" title="팀 만들기" center>
     <el-form :model="form">
@@ -73,7 +76,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="sendData"> 만들기 </el-button>
-        <el-button @click="open = false">닫기</el-button>
+        <el-button @click="emit('button-event', 'close')">닫기</el-button>
       </span>
     </template>
   </el-dialog>
