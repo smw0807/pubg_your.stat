@@ -20,7 +20,7 @@
   const emit = defineEmits(['save', 'cancel']);
 
   const ruleFormRef = ref<FormInstance>();
-  const formLabelWidth = '100px';
+  const formLabelWidth = '80px';
   const form: IUserPlatformNickNames = reactive({
     'kakao-nickname': '',
     'steam-nickname': '',
@@ -61,7 +61,7 @@
   });
 </script>
 <template>
-  <el-dialog v-model="isShow" center :show-close="false">
+  <el-dialog v-model="isShow" center :show-close="false" width="30%">
     <template #header>
       <span :style="`font-size: 30px;`">
         <!-- 타이틀 슬롯 -->
