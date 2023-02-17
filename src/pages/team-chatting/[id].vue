@@ -7,17 +7,24 @@
     },
   });
   console.log('props : ', props.id);
-
-  // const uid = route.params.uid;
-  // console.log('uid : ', uid);
-  //todo 팀 정보 가져오기
 </script>
 <template>
-  {{ id }}
-  <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
-  <!-- todo 접속자 리스트 (왼쪽 사이드) -->
-  <!-- todo 채팅 영역 -->
-  <!-- todo 채팅 입력 영역 -->
+  <div class="common-layout">
+    <el-container>
+      <!-- todo 접속자 리스트 (왼쪽 사이드) -->
+      <el-aside width="200px">접속자 리스트~</el-aside>
+      <el-container>
+        <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
+        <el-header>
+          {{ id }}
+          팀 이름 / 나가기 버튼
+        </el-header>
+        <!-- todo 채팅 영역 -->
+        <!-- todo 채팅 입력 영역 -->
+        <el-main> 채팅 내용 채팅 입력 </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 <style scoped></style>
 <route>
