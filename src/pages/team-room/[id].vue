@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { onMounted } from 'vue';
   import { nowDateFormat } from '@/utils';
   import { useTeamRoomStore } from '@/store';
 
@@ -7,11 +8,14 @@
       type: String,
     },
   });
-  // const joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
-  const joinTime = '2023-02-17 18:00:00';
   const store = useTeamRoomStore();
-
+  store.teamId = props.id as string;
+  // store.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
+  store.joinTime = '2023-02-17 18:00:00';
   //1. 방 입장 가능한지 확인(방 존재여뮤 및 인원수)
+  const checkRoom = async () => {
+    return await store.checkRoom();
+  };
   //2. 방 입장
   //3. 방 정보 가져오기
   //4. 방 접속자들 정보 가져오기
@@ -19,7 +23,7 @@
 </script>
 <template>
   <div class="common-layout">
-    {{ id }} / {{ joinTime }}
+    {{ id }} / {{ store.joinTime }}
     <el-container>
       <!-- todo 접속자 리스트 (왼쪽 사이드) -->
       <el-aside width="200px">접속자 리스트~</el-aside>
