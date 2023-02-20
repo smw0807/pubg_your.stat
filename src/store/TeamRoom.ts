@@ -1,9 +1,14 @@
 import { defineStore } from 'pinia';
-// import
+import { TeamRoomAPI } from '@/apis';
 
-export const useTeamStore = defineStore({
+export const useTeamRoomStore = defineStore({
   id: 'teamRoom',
-  state: () => ({}),
+  state: () => ({
+    api: new TeamRoomAPI(),
+    teamInfo: null,
+    // team
+    // teamroomAPI: new TeamRoomAPI()
+  }),
   getters: {},
   actions: {},
 });
