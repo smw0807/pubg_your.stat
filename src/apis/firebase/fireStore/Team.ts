@@ -52,27 +52,6 @@ export class TeamAPI extends GooleAuthAPI {
     });
   }
 
-  //팀 수정하기
-  async updateTeam(parmas: ITeamInfo) {}
-
-  //팀 삭제하기
-  async deleteTeam(id: string) {}
-
-  //팀원 리스트?
-  async memberList() {}
-
-  //메세지 내역 가져오기
-  async getMessages() {}
-
-  //메세지 전송
-  async sendMessage() {}
-
-  //팀원 정보 가져오기
-  async getMemeberInfo() {}
-
-  //팀원 내보내기
-  async kickoutMember() {}
-
   //모드에 따라 팀 최대 인원
   maxCount(mode: ModeType): number {
     let result = 0;
