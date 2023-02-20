@@ -9,11 +9,10 @@ import { TeamAPI } from '@/apis';
 import { ITeamForm, ITeamFilter } from '@/interfaces';
 import type { DocumentData } from 'firebase/firestore';
 
-const teamApi = new TeamAPI();
-
 export const useTeamStore = defineStore({
   id: 'team',
   state: () => ({
+    teamApi: new TeamAPI(),
     list: [] as DocumentData,
     // 페이지 이동해도 설정된 값 유지하기 위해 스토어 사용 ======= S
     kakaoFilter: {
@@ -39,7 +38,7 @@ export const useTeamStore = defineStore({
     // 팀 리스트 불러오기
     async teamList(params: ITeamFilter): Promise<void> {
       try {
-        this.list = await teamApi.teamList(params);
+        this.list = await this.teamApi.teamList(params);
       } catch (err) {
         console.error(err);
       }
@@ -48,7 +47,7 @@ export const useTeamStore = defineStore({
     async createTeam(params: ITeamForm): Promise<string> {
       let result = '';
       try {
-        result = await teamApi.createTeam(params);
+        result = await this.teamApi.createTeam(params);
       } catch (err) {
         console.error(err);
       }
