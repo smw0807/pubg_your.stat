@@ -3,6 +3,7 @@ import { PlayersAPI, SeasonAPI, PlayerStatsAPI } from '@/apis';
 import { player404, _429, errorCode } from '@/utils';
 import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/interfaces';
 
+const statAPI = new PlayerStatsAPI();
 /**
  * 검색 관련 스토어
  * nowSeasons : 모든 시즌 정보들
@@ -11,7 +12,6 @@ import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/i
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
-    api: new PlayerStatsAPI(),
     nowSeasons: [] as ISeason[],
     nowSeason: {} as ISeason,
     rank: {} as IPlayerSeasonRank,
@@ -31,7 +31,7 @@ export const useSearchStore = defineStore({
     getStats(params: ISearchForm): Promise<number> {
       return new Promise(async (resolve, reject) => {
         try {
-          const rs = await this.api.getStats(params);
+          const rs = await statAPI.getStats(params);
           //저장소에 데이터가 있을 경우
           if (rs.data()) {
             this.rank = JSON.parse(rs.data().rank);
@@ -88,9 +88,9 @@ export const useSearchStore = defineStore({
           const stat = await searchAPI.allStat;
 
           //파이어베이스에 검색한 스탯정보 저장
-          await this.api.setStats(params, stat[0].data, stat[1].data);
+          await statAPI.setStats(params, stat[0].data, stat[1].data);
           //파이어베이스에 저장된 데이터 가져오기
-          const rs = await this.api.getStats(params);
+          const rs = await statAPI.getStats(params);
 
           this.rank = JSON.parse(rs.data().rank);
           this.normal = JSON.parse(rs.data().normal);
