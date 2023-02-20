@@ -18,9 +18,9 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/team-chatting/:id',
+    path: '/team-room/:id',
     name: '팀 채팅방',
-    component: () => import('@/pages/team-chatting/[id].vue'),
+    component: () => import('@/pages/team-room/[id].vue'),
     meta: {
       transition: 'fade',
       hide: true,

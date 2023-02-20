@@ -10,18 +10,17 @@
 </script>
 <template>
   <div class="common-layout">
+    {{ id }}
     <el-container>
       <!-- todo 접속자 리스트 (왼쪽 사이드) -->
       <el-aside width="200px">접속자 리스트~</el-aside>
       <el-container>
         <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
-        <el-header>
-          {{ id }}
-          팀 이름 / 나가기 버튼
-        </el-header>
+        <el-header> 팀 이름 / 나가기 버튼 </el-header>
         <!-- todo 채팅 영역 -->
+        <el-main> 채팅 내용</el-main>
         <!-- todo 채팅 입력 영역 -->
-        <el-main> 채팅 내용 채팅 입력 </el-main>
+        <el-footer> 채팅 입력 </el-footer>
       </el-container>
     </el-container>
   </div>

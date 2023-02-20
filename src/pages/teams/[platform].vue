@@ -74,7 +74,7 @@
 
   // 참가하기
   const joinTeam = (id: string): void => {
-    router.push(`/team-chatting/${id}`);
+    router.push(`/team-room/${id}`);
   };
 
   (async () => await getTeamList())();
