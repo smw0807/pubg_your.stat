@@ -26,7 +26,7 @@ export interface ITeamInfo extends ITeamForm {
 }
 
 //팀 구하기 방 내에서 메세지 인터페이스
-export interface ITeamChatMessage {
+export interface ITeamMessage {
   'team-uid': string; //메세지 팀 방 uid
   type: 'system' | 'user'; //메세지 타입
   sender: string; //메세지 보낸사람 (플랫폼 닉네임)
