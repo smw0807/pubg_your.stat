@@ -70,9 +70,13 @@
       text: '잠시만 기다려주세요...',
       background: 'rgba(0, 0, 0, 0.7)',
     });
-    await store.reloadStats(params);
-    getStatData();
-    isReload.value = false;
+    try {
+      await store.reloadStats(params);
+      getStatData();
+      isReload.value = false;
+    } catch (err) {
+      console.error(err);
+    }
     loading.close();
   };
 

@@ -15,12 +15,13 @@
       text: '잠시만 기다려주세요...',
       background: 'rgba(0, 0, 0, 0.7)',
     });
-
-    const getStat = await getPlayerStats(params);
-
+    try {
+      const getStat = await getPlayerStats(params);
+      if (getStat === 200) route.push(`/search/${params.platform}/${params.nickname}`);
+    } catch (err) {
+      console.error(err);
+    }
     loading.close();
-
-    if (getStat === 200) route.push(`/search/${params.platform}/${params.nickname}`);
   };
 </script>
 
