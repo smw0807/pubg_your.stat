@@ -85,12 +85,11 @@ export class TeamRoomAPI {
   }
 
   //팀 데이터 변화 감지
-  watchData(teamId: string): void {
-    //현재 여기서 store의 데이터를 직접 변화 시키는거 말곤 해답을 찾을 수가 없어서 우선 이렇게함......
+  startWatchTeamData(teamId: string): void {
+    //데이터 변경마다 실행은 되지만 그 결과값을 store로 전달 방법을 모르겠어서 여기서 직접 데이터 조작하게함...
     const store = useTeamRoomStore();
     try {
-      const unsub = onSnapshot(doc(this.db, this.collection, teamId), doc => {
-        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+      onSnapshot(doc(this.db, this.collection, teamId), doc => {
         store.teamInfo = doc.data() as ITeamInfo;
       });
     } catch (err) {

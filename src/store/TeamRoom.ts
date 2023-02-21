@@ -51,7 +51,7 @@ export const useTeamRoomStore = defineStore({
       try {
         result = await teamroomAPI.joinTeam(userId, this.teamId!);
         //입장 후 데이터 변화 감지 함수 실행
-        teamroomAPI.watchData(this.teamId!);
+        teamroomAPI.startWatchTeamData(this.teamId!);
       } catch (err) {
         result = JOIN_FAIL_MSG;
       }
