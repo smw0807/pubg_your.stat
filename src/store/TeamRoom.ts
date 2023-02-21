@@ -31,7 +31,7 @@ export const useTeamRoomStore = defineStore({
             result = true;
             this.teamInfo = team.data();
           } else {
-            result = '팀 인원이 가득차 들어갈 수 없습니다.';
+            result = '팀 인원이 가득차 참여할 수 없습니다.';
           }
         } else {
           result = '팀이 존재하지 않습니다.';
@@ -43,9 +43,10 @@ export const useTeamRoomStore = defineStore({
       return result;
     },
     //팀 입장
-    async joinTeam() {
+    async joinTeam(userId: string) {
       let result: string | boolean = false;
       try {
+        result = await teamroomAPI.joinTeam(userId, this.teamId!);
       } catch (err) {
         result = JOIN_FAIL_MSG;
       }
