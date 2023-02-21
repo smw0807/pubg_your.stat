@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted } from 'vue';
+  import { onMounted, watch, watchEffect, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import { nowDateFormat, notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
@@ -18,6 +18,7 @@
 
   const userStore = useUserStore();
 
+  const cTeamInfo = computed(() => store.getTeamInfo);
   //1. 방 입장 가능한지 확인(방 존재여뮤 및 인원수)
   const checkTeam = async () => {
     return await store.checkTeam();
@@ -26,7 +27,7 @@
   const joinTeam = async () => {
     return await store.joinTeam(userStore.user?.uid!);
   };
-  //3. 방 정보 가져오기
+  //3. 방 정보 가져오기 - store.teamInfo에 담겨져있음
   //4. 방 접속자들 정보 가져오기
   //5. 입장 시점부터 대화 내용 가져오기
 
@@ -39,6 +40,9 @@
       notifError('팀 참가 실패', check);
     }
   })();
+  watchEffect(() => {
+    console.log('check !!: ', cTeamInfo.value);
+  });
 </script>
 <template>
   <div class="common-layout">

@@ -1,6 +1,7 @@
 import { FireStore } from '@/apis/firebase';
-import { doc, getDoc, setDoc, DocumentData } from 'firebase/firestore';
+import { doc, getDoc, setDoc, DocumentData, onSnapshot } from 'firebase/firestore';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
+import { useTeamRoomStore } from '@/store';
 
 export class TeamRoomAPI {
   private db = FireStore;
@@ -81,5 +82,19 @@ export class TeamRoomAPI {
         reject(err);
       }
     });
+  }
+
+  //팀 데이터 변화 감지
+  watchData(teamId: string): void {
+    //현재 여기서 store의 데이터를 직접 변화 시키는거 말곤 해답을 찾을 수가 없어서 우선 이렇게함......
+    const store = useTeamRoomStore();
+    try {
+      const unsub = onSnapshot(doc(this.db, this.collection, teamId), doc => {
+        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+        store.teamInfo = doc.data() as ITeamInfo;
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

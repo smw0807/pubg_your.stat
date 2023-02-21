@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { TeamRoomAPI } from '@/apis';
-import { DocumentData } from 'firebase/firestore';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
@@ -16,7 +15,11 @@ export const useTeamRoomStore = defineStore({
     //팀 정보
     teamInfo: null as null | ITeamInfo,
   }),
-  getters: {},
+  getters: {
+    getTeamInfo(): null | ITeamInfo {
+      return this.teamInfo;
+    },
+  },
   actions: {
     //팀 존재 여무 및 입장 가능한지 확인
     async checkTeam(): Promise<string | boolean> {
@@ -47,10 +50,13 @@ export const useTeamRoomStore = defineStore({
       let result: string | boolean = false;
       try {
         result = await teamroomAPI.joinTeam(userId, this.teamId!);
+        //입장 후 데이터 변화 감지 함수 실행
+        teamroomAPI.watchData(this.teamId!);
       } catch (err) {
         result = JOIN_FAIL_MSG;
       }
       return result;
     },
+    //
   },
 });
