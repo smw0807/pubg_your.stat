@@ -1,7 +1,10 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
-  import { nowDateFormat } from '@/utils';
+  import { useRouter } from 'vue-router';
+  import { nowDateFormat, notifError } from '@/utils';
   import { useTeamRoomStore } from '@/store';
+
+  const router = useRouter();
 
   const props = defineProps({
     id: {
@@ -13,13 +16,25 @@
   // store.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
   store.joinTime = '2023-02-17 18:00:00';
   //1. 방 입장 가능한지 확인(방 존재여뮤 및 인원수)
-  const checkRoom = async () => {
-    return await store.checkRoom();
+  const checkTeam = async () => {
+    return await store.checkTeam();
   };
   //2. 방 입장
+  const joinTeam = async () => {
+    return await store.joinTeam();
+  };
   //3. 방 정보 가져오기
   //4. 방 접속자들 정보 가져오기
   //5. 입장 시점부터 대화 내용 가져오기
+  (async () => {
+    const check = await checkTeam();
+    if (typeof check === 'boolean') {
+    } else {
+      notifError('팀 참가 실패', check);
+    }
+    const join = await joinTeam();
+    console.log(check);
+  })();
 </script>
 <template>
   <div class="common-layout">
