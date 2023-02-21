@@ -7,7 +7,6 @@
    */
   import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { useRoute } from 'vue-router';
   import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
   import { normalStat, rankStat, normalStatData, rankStatData, getPlayerStats } from '@/utils';
