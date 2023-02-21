@@ -29,7 +29,7 @@
   };
   // 팀 꽉 찼는지 여부
   const isFull = (): boolean => {
-    if (props.info.members || 0 === props.info.maxCount) return true;
+    if ((props.info.members!.length || 0) === props.info.maxCount) return true;
     return false;
   };
 </script>
@@ -51,12 +51,14 @@
 
     <el-row justify="space-between">
       <el-col :span="12">
-        <el-tag effect="light" :type="isFull() ? 'warning' : 'danger'">
+        <el-tag effect="light" :type="isFull() ? 'danger' : 'warning'">
           참여인원 ({{ info.members?.length || 0 }} / {{ info.maxCount }})
         </el-tag>
       </el-col>
       <el-col :span="12" align="end">
-        <el-button @click="emit('join', info.id)" size="small">참가하기</el-button>
+        <el-button :disabled="isFull()" @click="emit('join', info.id)" size="small"
+          >참가하기</el-button
+        >
       </el-col>
     </el-row>
   </el-card>
