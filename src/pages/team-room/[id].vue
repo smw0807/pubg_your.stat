@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, watch, watchEffect, computed } from 'vue';
+  import { onMounted, watch, watchEffect, computed, onBeforeUnmount } from 'vue';
   import { useRouter } from 'vue-router';
   import { nowDateFormat, notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
@@ -41,6 +41,10 @@
   })();
   watchEffect(() => {
     console.log('check !!: ', cTeamInfo.value);
+  });
+  onBeforeUnmount(() => {
+    console.log('out!');
+    //todo 방 나가기 로직 넣기. members에서 제거
   });
 </script>
 <template>
