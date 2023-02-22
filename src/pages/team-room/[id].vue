@@ -18,26 +18,20 @@
 
   const userStore = useUserStore();
 
-  const cTeamInfo = computed(() => store.getTeamInfo);
-  //1. 방 입장 가능한지 확인(방 존재여뮤 및 인원수)
-  const checkTeam = async () => {
-    return await store.checkTeam();
-  };
-  //2. 방 입장
+  //1. 방 입장 처리 시작
   const joinTeam = async () => {
     return await store.joinTeam(userStore.user?.uid!);
   };
-  //3. 방 정보 가져오기 - store.teamInfo에 담겨져있음
-  //4. 방 접속자들 정보 가져오기
-  //5. 입장 시점부터 대화 내용 가져오기
+  //2. 방 정보
+  const cTeamInfo = computed(() => store.getTeamInfo);
+  //3. 방 접속자들 정보 가져오기
+  //4. 입장 시점부터 대화 내용 가져오기
 
   //todo 이부분 일단 완성만 시키고 로직 꼭 다듬기
   (async () => {
-    const check = await checkTeam();
-    if (typeof check === 'boolean') {
-      const join = await joinTeam();
-    } else {
-      notifError('팀 참가 실패', check);
+    const join = await joinTeam();
+    if (typeof join === 'string') {
+      notifError('팀 참가 실패', join);
     }
   })();
   watchEffect(() => {

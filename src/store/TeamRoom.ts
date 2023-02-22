@@ -3,6 +3,8 @@ import { TeamRoomAPI } from '@/apis';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
+const NOT_EXISTS_TEAM_MSG = '팀이 존재하지 않습니다.';
+const MAXIMUM_MEMBERS_MSG = '팀 인원이 가득차 참여할 수 없습니다.';
 
 const teamroomAPI = new TeamRoomAPI();
 export const useTeamRoomStore = defineStore({
@@ -21,41 +23,32 @@ export const useTeamRoomStore = defineStore({
     },
   },
   actions: {
-    //팀 존재 여무 및 입장 가능한지 확인
-    async checkTeam(): Promise<string | boolean> {
-      let result: string | boolean = false;
+    //팀 입장
+    async joinTeam(userId: string): Promise<string | boolean> {
       try {
         //팀 정보 가져오기
         const team = await teamroomAPI.getTeamInfo(this.teamId!);
-        //방 존재 여무 확인
-        if (team) {
-          //방 최대 인원과 현재 접속중인 인원 확인해서 입장 가능여부 확인
-          if (await teamroomAPI.checkMembers(this.teamId!)) {
-            result = true;
-            this.teamInfo = team.data();
-          } else {
-            result = '팀 인원이 가득차 참여할 수 없습니다.';
-          }
-        } else {
-          result = '팀이 존재하지 않습니다.';
+        //팀 정보 없을 시
+        if (!team) {
+          return NOT_EXISTS_TEAM_MSG;
         }
-      } catch (err) {
-        console.error(err);
-        result = JOIN_FAIL_MSG;
-      }
-      return result;
-    },
-    //팀 입장
-    async joinTeam(userId: string) {
-      let result: string | boolean = false;
-      try {
-        result = await teamroomAPI.joinTeam(userId, this.teamId!);
+        //팀 입장 허용인원 꽉 찼을 시
+        if (!teamroomAPI.checkMembers(team.data())) {
+          return MAXIMUM_MEMBERS_MSG;
+        }
+        const join = await teamroomAPI.joinTeam(userId, this.teamId!);
+        //팀 참여 처리 실패 시
+        if (!join) {
+          return JOIN_FAIL_MSG;
+        }
+        //팀 정보 저장
+        this.teamInfo = team.data();
         //입장 후 데이터 변화 감지 함수 실행
         teamroomAPI.startWatchTeamData(this.teamId!);
+        return true;
       } catch (err) {
-        result = JOIN_FAIL_MSG;
+        return JOIN_FAIL_MSG;
       }
-      return result;
     },
     //
   },
