@@ -25,6 +25,9 @@
   //2. 방 정보
   const cTeamInfo = computed(() => store.getTeamInfo);
   //3. 방 접속자들 정보 가져오기
+  const getMembers = async () => {
+    await store.getMembers(cTeamInfo.value?.members!);
+  };
   //4. 입장 시점부터 대화 내용 가져오기
 
   //todo 이부분 일단 완성만 시키고 로직 꼭 다듬기
@@ -32,6 +35,8 @@
     const join = await joinTeam();
     if (typeof join === 'string') {
       notifError('팀 참가 실패', join);
+    } else {
+      await getMembers();
     }
   })();
   watchEffect(() => {

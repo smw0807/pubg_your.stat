@@ -59,16 +59,6 @@ export class TeamRoomAPI {
     });
   }
 
-  //팀 접속자 리스트 가져오기
-  getTeamMembers() {
-    return new Promise(async (resolve, reject) => {
-      try {
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
   //팀 데이터 변화 감지
   startWatchTeamData(teamId: string): void {
     //데이터 변경마다 실행은 되지만 그 결과값을 store로 전달 방법을 모르겠어서 여기서 직접 데이터 조작하게함...
