@@ -19,16 +19,21 @@
   const userStore = useUserStore();
 
   //1. 방 입장 처리 시작
-  const joinTeam = async () => {
+  const joinTeam = async (): Promise<string | boolean> => {
     return await store.joinTeam(userStore.user?.uid!);
   };
   //2. 방 정보
   const cTeamInfo = computed(() => store.getTeamInfo);
   //3. 방 접속자들 정보 가져오기
-  const getMembers = async () => {
+  const getMembers = async (): Promise<void> => {
     await store.getMembers(cTeamInfo.value?.members!);
   };
   //4. 입장 시점부터 대화 내용 가져오기
+
+  //팀 나가기
+  const exitTeam = async (): Promise<void> => {
+    await store.exitTeam(userStore.user?.uid!);
+  };
 
   //todo 이부분 일단 완성만 시키고 로직 꼭 다듬기
   (async () => {
@@ -42,9 +47,8 @@
   watchEffect(() => {
     console.log('check !!: ', cTeamInfo.value);
   });
-  onBeforeUnmount(() => {
-    console.log('out!');
-    //todo 방 나가기 로직 넣기. members에서 제거
+  onBeforeUnmount(async () => {
+    await exitTeam();
   });
 </script>
 <template>

@@ -26,10 +26,13 @@ export const useTeamRoomStore = defineStore({
   },
   actions: {
     //팀 입장
-    async joinTeam(userId: string): Promise<string | boolean> {
+    async joinTeam(userId: string): Promise<string | true> {
+      if (!this.teamId) {
+        return NOT_EXISTS_TEAM_MSG;
+      }
       try {
         //팀 정보 가져오기
-        const team = await teamroomAPI.getTeamInfo(this.teamId!);
+        const team = await teamroomAPI.getTeamInfo(this.teamId);
         //팀 정보 없을 시
         if (!team) {
           return NOT_EXISTS_TEAM_MSG;
@@ -38,7 +41,7 @@ export const useTeamRoomStore = defineStore({
         if (!teamroomAPI.checkMembers(team.data())) {
           return MAXIMUM_MEMBERS_MSG;
         }
-        const join = await teamroomAPI.joinTeam(userId, this.teamId!);
+        const join = await teamroomAPI.joinTeam(userId, this.teamId);
         //팀 참여 처리 실패 시
         if (!join) {
           return JOIN_FAIL_MSG;
@@ -46,19 +49,36 @@ export const useTeamRoomStore = defineStore({
         //팀 정보 저장
         this.teamInfo = team.data();
         //입장 후 데이터 변화 감지 함수 실행
-        teamroomAPI.startWatchTeamData(this.teamId!);
+        teamroomAPI.startWatchTeamData(this.teamId);
         return true;
       } catch (err) {
         console.error(err);
         return JOIN_FAIL_MSG;
       }
     },
-    //팀 접소갖 정보 가져오기
+    //팀 접속자 정보 가져오기
     async getMembers(members: string[]) {
       console.log(members);
       try {
         //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
         //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    //팀 나가기
+    async exitTeam(userId: string): Promise<void> {
+      try {
+        //팀 데이터 members에서 현재 사용자 아이디 제거
+        const result = await teamroomAPI.exitTeam(userId, this.teamId!);
+        if (result) {
+          //상태값들 초기화
+          this.teamId = null;
+          this.joinTime = null;
+          this.teamInfo = null;
+          //데이터 감시 중단
+          teamroomAPI.unsubscribeData();
+        }
       } catch (err) {
         console.error(err);
       }
