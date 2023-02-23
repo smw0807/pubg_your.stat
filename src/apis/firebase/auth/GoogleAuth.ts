@@ -14,6 +14,7 @@ import {
   User,
   UserCredential,
   getAdditionalUserInfo,
+  getRedirectResult,
   AdditionalUserInfo,
 } from 'firebase/auth';
 
@@ -35,34 +36,26 @@ export class GooleAuthAPI {
     return this.auth.currentUser;
   }
   //로그인
-  signIn(): Promise<SignInType> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        //로그인한 사용자 정보
-        const result = await signInWithPopup(this.auth, this.provider);
-        //최초 로그인 여부
-        const isNewUser = this.isNewUser(result);
-
-        resolve({
-          isNewUser: isNewUser,
-          user: result.user,
-        });
-      } catch (error: unknown) {
-        reject(error);
-      }
-    });
+  async signIn(): Promise<SignInType> {
+    try {
+      const result = await signInWithPopup(this.auth, this.provider);
+      const isNewUser = this.isNewUser(result);
+      return {
+        isNewUser,
+        user: result.user,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
+
   //로그인 유저 정보(웹페이지 새로고침시엔 이걸 써야 정보를 가져옴)
   reloadUser(): Promise<User | null> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        //async/await 방식으로 사용하는 방법을 못찾겠음.
-        onAuthStateChanged(this.auth, user => {
-          resolve(user);
-        });
-      } catch (error) {
-        reject(error);
-      }
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(this.auth, user => {
+        unsubscribe();
+        resolve(user);
+      });
     });
   }
 
