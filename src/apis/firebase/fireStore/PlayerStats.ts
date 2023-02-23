@@ -12,38 +12,36 @@ export class PlayerStatsAPI {
   private collection: string = 'player-stats';
 
   //저장소에 저장된 정보 가져오기
-  getStats(params: ISearchForm): Promise<DocumentData> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const docRef = doc(this.db, this.collection, `${params.platform}-${params.nickname}`);
-        const docSnap = await getDoc(docRef);
-        resolve(docSnap);
-      } catch (err) {
-        console.error(err);
-        reject(err);
-      }
-    });
+  async getStats(params: ISearchForm): Promise<DocumentData> {
+    try {
+      const docRef = doc(this.db, this.collection, `${params.platform}-${params.nickname}`);
+      const docSnap = await getDoc(docRef);
+      return docSnap;
+    } catch (err) {
+      throw err;
+    }
   }
 
   //저장소에 스탯 및 기타 정보들 저장
-  setStats(params: ISearchForm, rank: IPlayerSeasonRank, normal: IPlayerSeason): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const id = `${params.platform}-${params.nickname}`;
-        const data: IPlayerStats = {
-          normal: JSON.stringify(normal),
-          rank: JSON.stringify(rank),
-          kda: this.extractKDA(rank),
-          avgDmg: this.extractAVG(rank),
-          'last-update-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
-          platform: params.platform,
-        };
-        await setDoc(doc(this.db, this.collection, id), data);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    });
+  async setStats(
+    params: ISearchForm,
+    rank: IPlayerSeasonRank,
+    normal: IPlayerSeason
+  ): Promise<void> {
+    try {
+      const id = `${params.platform}-${params.nickname}`;
+      const data: IPlayerStats = {
+        normal: JSON.stringify(normal),
+        rank: JSON.stringify(rank),
+        kda: this.extractKDA(rank),
+        avgDmg: this.extractAVG(rank),
+        'last-update-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
+        platform: params.platform,
+      };
+      await setDoc(doc(this.db, this.collection, id), data);
+    } catch (err) {
+      throw err;
+    }
   }
 
   //스탯에서 모드별 KDA
