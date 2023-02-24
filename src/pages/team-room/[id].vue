@@ -1,12 +1,11 @@
 <script setup lang="ts">
-  import { onMounted, watch, watchEffect, computed, onBeforeUnmount } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
-  import { nowDateFormat, notifError } from '@/utils';
+  import { onMounted, watchEffect, computed, onBeforeUnmount } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
 
   const router = useRouter();
-  const route = useRoute();
 
   const props = defineProps({
     id: {
