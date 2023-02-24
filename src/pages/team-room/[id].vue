@@ -30,6 +30,7 @@
     await store.getMembers(cTeamInfo.value?.members!);
   };
   //4. 입장 시점부터 대화 내용 가져오기
+  const getMessage = async () => {};
 
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
