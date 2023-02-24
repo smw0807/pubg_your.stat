@@ -5,7 +5,8 @@
   import { ElMessageBox } from 'element-plus';
   import { Refresh } from '@element-plus/icons-vue';
   import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
-  import { useTeamStore, useUserStore } from '@/store';
+  import { useTeamStore, useUserStore, useTeamRoomStore } from '@/store';
+  import { notifWarning } from '@/utils';
 
   // 팀 리스트 필터 컴포넌트
   import TeamFilter from '@/components/dialog/ListFilter.vue';
@@ -17,6 +18,7 @@
   const props = defineProps<{ platform: PlatformType }>();
   const teamStore = useTeamStore();
   const userStore = useUserStore();
+  const teamroomStore = useTeamRoomStore();
   const router = useRouter();
 
   //팀 만들기 모달 열기 여부
@@ -73,8 +75,13 @@
   };
 
   // 참가하기
-  const joinTeam = (id: string): void => {
-    router.push(`/team-room/${id}`);
+  const joinTeam = async (id: string): Promise<void> => {
+    if (await teamroomStore.hasTeam(id)) {
+      router.push(`/team-room/${id}`);
+    } else {
+      notifWarning('팀 참가 실패', '팀이 존재하지 않습니다.\n리스트를 다시 불러옵니다.');
+      await getTeamList();
+    }
   };
 
   (async () => await getTeamList())();

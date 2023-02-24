@@ -49,14 +49,15 @@
   };
 
   //todo 이부분 일단 완성만 시키고 로직 꼭 다듬기
-  (async () => {
+  // (async () => {
+  onMounted(async () => {
     const join = await joinTeam();
     if (typeof join === 'string') {
       notifError('팀 참가 실패', join);
     } else {
       await getMembers();
     }
-  })();
+  });
   watchEffect(() => {
     console.log('check !!: ', cTeamInfo.value);
   });
