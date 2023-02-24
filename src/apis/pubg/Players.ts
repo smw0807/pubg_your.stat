@@ -30,49 +30,39 @@ export class PlayersAPI extends PubgAPI {
   }
 
   //유저 정보 가져오기
-  getUserInfo(): Promise<IPlayerList | null> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (!this._userInfo) {
-          const player = await this.playerInfo;
-          this._userInfo = player.data;
-        }
-        resolve(this._userInfo);
-      } catch (err) {
-        reject(err);
+  async getUserInfo(): Promise<IPlayerList | null> {
+    try {
+      if (!this._userInfo) {
+        const player = await this.playerInfo;
+        this._userInfo = player.data;
       }
-    });
+      return this._userInfo;
+    } catch (err) {
+      throw err;
+    }
   }
 
   //랭크 스탯 가져오기
-  getRankStat(): AxiosPromise<IPlayerSeasonRank> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let result = null;
-        const user = await this.getUserInfo();
-        result = await this.axios(
-          `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
-        );
-        resolve(result);
-      } catch (err) {
-        reject(err);
-      }
-    });
+  async getRankStat(): AxiosPromise<IPlayerSeasonRank> {
+    try {
+      const user = await this.getUserInfo();
+      return await this.axios(
+        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}/ranked`
+      );
+    } catch (err) {
+      throw err;
+    }
   }
 
   //일반 스탯 가져오기
-  getStat(): AxiosPromise<IPlayerSeason> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let result = null;
-        const user = await this.getUserInfo();
-        result = await this.axios(
-          `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}`
-        );
-        resolve(result);
-      } catch (err) {
-        reject(err);
-      }
-    });
+  async getStat(): AxiosPromise<IPlayerSeason> {
+    try {
+      const user = await this.getUserInfo();
+      return await this.axios(
+        `/${this._platform}/players/${user?.data[0].id}/seasons/${this._seasonID}`
+      );
+    } catch (err) {
+      throw err;
+    }
   }
 }
