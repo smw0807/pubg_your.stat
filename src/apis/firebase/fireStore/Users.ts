@@ -11,7 +11,7 @@ export class UsersAPI {
   private message: string = '';
 
   //저장된 플렛폼 플레이 닉네임 가져오기
-  async getMyPlatformNickname(uid: string): Promise<IUserPlatformNickNames | null> {
+  async getPlatformNickname(uid: string): Promise<IUserPlatformNickNames | null> {
     try {
       const docRef = doc(this.db, this.collection, uid);
       const docSnap = await getDoc(docRef);

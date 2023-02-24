@@ -48,7 +48,7 @@ export const useUserStore = defineStore({
         const user = authAPI.nowUser;
         this.hasUser = user ? true : false;
         this.user = user;
-        this.nicknames = await usersAPI.getMyPlatformNickname(user?.uid as string);
+        this.nicknames = await usersAPI.getPlatformNickname(user?.uid as string);
       } catch (error) {
         console.error(error);
       }

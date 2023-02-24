@@ -19,6 +19,8 @@ export const useTeamRoomStore = defineStore({
     joinTime: null as null | string,
     //팀 정보
     teamInfo: null as null | ITeamInfo,
+    //접속중인 멤버(아이디 표시)
+    members: [],
   }),
   getters: {
     getTeamInfo(): null | ITeamInfo {
@@ -70,6 +72,11 @@ export const useTeamRoomStore = defineStore({
       console.log(members);
       try {
         //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
+        const userNicknames = await Promise.all(
+          members.map(async v => await usersAPI.getPlatformNickname(v))
+        );
+        console.log(userNicknames);
+        // this.members = userNicknames.map(v => v[this.teamInfo?.platform])
         //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
       } catch (err) {
         console.error(err);
@@ -85,6 +92,7 @@ export const useTeamRoomStore = defineStore({
           this.teamId = null;
           this.joinTime = null;
           this.teamInfo = null;
+          this.members = [];
         }
       } catch (err) {
         /**

@@ -58,8 +58,9 @@
       await getMembers();
     }
   });
-  watchEffect(() => {
+  watchEffect(async () => {
     console.log('check !!: ', cTeamInfo.value);
+    await getMembers();
   });
   onBeforeUnmount(async () => {
     await exitTeam();
