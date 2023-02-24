@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { TeamRoomAPI, UsersAPI, PlayerStatsAPI } from '@/apis';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
+import { useUserStore } from '@/store';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
 const NOT_EXISTS_TEAM_MSG = '팀이 존재하지 않습니다.';
@@ -76,10 +77,12 @@ export const useTeamRoomStore = defineStore({
           this.teamId = null;
           this.joinTime = null;
           this.teamInfo = null;
-          //데이터 감시 중단
-          teamroomAPI.unsubscribeData();
         }
       } catch (err) {
+        /**
+         * todo
+         * 나가지면  Cannot read properties of null (reading 'indexOf') 이런 에러뜸
+         */
         console.error(err);
       }
     },

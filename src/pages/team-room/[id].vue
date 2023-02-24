@@ -1,10 +1,12 @@
 <script setup lang="ts">
   import { onMounted, watch, watchEffect, computed, onBeforeUnmount } from 'vue';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { nowDateFormat, notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
+  import { ElMessageBox } from 'element-plus';
 
   const router = useRouter();
+  const route = useRoute();
 
   const props = defineProps({
     id: {
@@ -35,6 +37,17 @@
     await store.exitTeam(userStore.user?.uid!);
   };
 
+  //팀 나가기 버튼 클릭 시
+  const exitBtn = () => {
+    ElMessageBox.confirm('현재 팀을 나가겠습니까?', '팀나가기', {
+      confirmButtonText: '나가기',
+      cancelButtonText: '취소',
+    }).then(async () => {
+      await exitTeam();
+      router.go(-1);
+    });
+  };
+
   //todo 이부분 일단 완성만 시키고 로직 꼭 다듬기
   (async () => {
     const join = await joinTeam();
@@ -53,13 +66,23 @@
 </script>
 <template>
   <div class="common-layout">
-    {{ id }} / {{ store.joinTime }}
+    <!-- {{ id }} / {{ store.joinTime }} -->
     <el-container>
       <!-- todo 접속자 리스트 (왼쪽 사이드) -->
       <el-aside width="200px">접속자 리스트~</el-aside>
       <el-container>
         <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
-        <el-header> 팀 이름 / 나가기 버튼 </el-header>
+        <el-header>
+          <el-row justify="space-between" align="bottom">
+            <el-col :span="12">
+              <h2>{{ cTeamInfo?.title }}</h2>
+            </el-col>
+            <el-col :span="12" align="end">
+              <el-button @click="exitBtn">팀 나가기</el-button>
+            </el-col>
+          </el-row>
+        </el-header>
+        <el-divider />
         <!-- todo 채팅 영역 -->
         <el-main> 채팅 내용</el-main>
         <!-- todo 채팅 입력 영역 -->

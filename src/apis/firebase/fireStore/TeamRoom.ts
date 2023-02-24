@@ -1,5 +1,13 @@
 import { FireStore } from '@/apis/firebase';
-import { doc, getDoc, setDoc, DocumentData, onSnapshot, Unsubscribe } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  setDoc,
+  DocumentData,
+  onSnapshot,
+  Unsubscribe,
+  deleteDoc,
+} from 'firebase/firestore';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
 import { useTeamRoomStore } from '@/store';
 
@@ -79,12 +87,29 @@ export class TeamRoomAPI {
         members.delete(userId);
         data.members = [...members];
         await setDoc(doc(this.db, this.collection, team.id), data);
+        //남은 인원이 없을 경우 삭제
+        if (members.size === 0) {
+          await this.deleteTeam(teamId);
+        } else {
+          //데이터 감시 중단
+          this.unsubscribeData();
+        }
         return true;
       } else {
         return null;
       }
     } catch (err) {
       throw err;
+    }
+  }
+
+  //팀 삭제
+  async deleteTeam(teamId: string): Promise<void> {
+    try {
+      const docRef = doc(this.db, this.collection, teamId);
+      await deleteDoc(docRef);
+    } catch (err) {
+      console.error(err);
     }
   }
 
