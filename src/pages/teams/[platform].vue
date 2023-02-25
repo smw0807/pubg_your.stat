@@ -6,7 +6,7 @@
   import { Refresh } from '@element-plus/icons-vue';
   import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
   import { useTeamStore, useUserStore, useTeamRoomStore } from '@/store';
-  import { notifWarning } from '@/utils';
+  import { notifWarning, notifError } from '@/utils';
 
   // 팀 리스트 필터 컴포넌트
   import TeamFilter from '@/components/dialog/ListFilter.vue';
@@ -14,6 +14,7 @@
   import TeamDialog from '@/components/dialog/CreateTeam.vue';
   // 팀 리스트 카드 컴포넌트
   import TeamCard from '@/components/card/TeamInfo.vue';
+  import { Console } from 'console';
 
   const props = defineProps<{ platform: PlatformType }>();
   const teamStore = useTeamStore();
@@ -76,11 +77,16 @@
 
   // 참가하기
   const joinTeam = async (id: string): Promise<void> => {
-    if (await teamroomStore.hasTeam(id)) {
-      router.push(`/team-room/${id}`);
-    } else {
-      notifWarning('팀 참가 실패', '팀이 존재하지 않습니다.\n리스트를 다시 불러옵니다.');
-      await getTeamList();
+    try {
+      const result = await teamroomStore.joinTeam(userStore.user?.uid!, id);
+      if (typeof result === 'boolean') {
+        router.push(`/team-room/${id}`);
+      } else {
+        notifWarning('팀 참가 실패', result);
+        await getTeamList();
+      }
+    } catch (err) {
+      notifError('팀 참가 실패', err as string);
     }
   };
 

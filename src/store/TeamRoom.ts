@@ -37,13 +37,10 @@ export const useTeamRoomStore = defineStore({
       }
     },
     //팀 입장
-    async joinTeam(userId: string): Promise<string | true> {
-      if (!this.teamId) {
-        return NOT_EXISTS_TEAM_MSG;
-      }
+    async joinTeam(userId: string, teamId: string): Promise<string | true> {
       try {
         //팀 정보 가져오기
-        const team = await teamroomAPI.getTeamInfo(this.teamId);
+        const team = await teamroomAPI.getTeamInfo(teamId);
         //팀 정보 없을 시
         if (!team) {
           return NOT_EXISTS_TEAM_MSG;
@@ -52,32 +49,35 @@ export const useTeamRoomStore = defineStore({
         if (!teamroomAPI.checkMembers(team.data())) {
           return MAXIMUM_MEMBERS_MSG;
         }
-        const join = await teamroomAPI.joinTeam(userId, this.teamId);
+        const join = await teamroomAPI.joinTeam(userId, teamId);
         //팀 참여 처리 실패 시
         if (!join) {
           return JOIN_FAIL_MSG;
         }
         //팀 정보 저장
+        this.teamId = teamId;
         this.teamInfo = team.data();
         //입장 후 데이터 변화 감지 함수 실행
-        teamroomAPI.startWatchTeamData(this.teamId);
+        teamroomAPI.startWatchTeamData(teamId);
         return true;
       } catch (err) {
         console.error(err);
-        return JOIN_FAIL_MSG;
+        throw JOIN_FAIL_MSG;
       }
     },
     //팀 접속자 정보 가져오기
     async getMembers(members: string[]) {
       console.log(members);
       try {
-        //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
-        const userNicknames = await Promise.all(
-          members.map(async v => await usersAPI.getPlatformNickname(v))
-        );
-        console.log(userNicknames);
-        // this.members = userNicknames.map(v => v[this.teamInfo?.platform])
-        //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
+        if (members && members.length > 0) {
+          //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
+          const userNicknames = await Promise.all(
+            members.map(async v => await usersAPI.getPlatformNickname(v))
+          );
+          console.log(userNicknames);
+          // this.members = userNicknames.map(v => v[this.teamInfo?.platform])
+          //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
+        }
       } catch (err) {
         console.error(err);
       }
