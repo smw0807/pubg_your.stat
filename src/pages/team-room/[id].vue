@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, watchEffect, computed, onBeforeUnmount } from 'vue';
+  import { onMounted, watch, watchEffect, computed, onBeforeUnmount } from 'vue';
   import { useRouter } from 'vue-router';
   import { notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
@@ -29,7 +29,7 @@
 
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
-    await store.exitTeam(userStore.user?.uid!);
+    await store.exitTeam(userStore.user?.uid!, props.id!);
   };
 
   //팀 나가기 버튼 클릭 시
@@ -44,10 +44,14 @@
   };
 
   onMounted(async () => {
+    //새로 고침 시 팀 리스트로...
+    if (!cTeamInfo.value) {
+      router.go(-1);
+    }
     //접속자 멤버 가져오기
     await getMembers();
   });
-  watchEffect(async () => {
+  watch(cTeamInfo, async () => {
     console.log('check !!: ', cTeamInfo.value);
     await getMembers();
   });
