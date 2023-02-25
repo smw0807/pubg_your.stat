@@ -16,17 +16,6 @@ export class TeamRoomAPI {
   private collection: string = 'teams';
   private unsubscribe: null | Unsubscribe = null;
 
-  //팀 존재유무
-  async hasTeam(teamId: string): Promise<boolean> {
-    try {
-      const docRef = doc(this.db, this.collection, teamId);
-      const docSnap = await getDoc(docRef);
-      return docSnap.exists();
-    } catch (err) {
-      throw err;
-    }
-  }
-
   //팀 정보 가져오기 - 팀 있으면 팀정보, 없으면 null
   async getTeamInfo(teamId: string): Promise<DocumentData | null> {
     try {

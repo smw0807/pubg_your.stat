@@ -1,7 +1,6 @@
 <script setup lang="ts">
-  import { onMounted, watch, watchEffect, computed, onBeforeUnmount } from 'vue';
+  import { onMounted, watch, computed, onBeforeUnmount } from 'vue';
   import { useRouter } from 'vue-router';
-  import { notifError } from '@/utils';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
 

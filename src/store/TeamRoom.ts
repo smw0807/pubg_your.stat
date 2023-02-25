@@ -27,14 +27,7 @@ export const useTeamRoomStore = defineStore({
     },
   },
   actions: {
-    //팀 존재 유무 확인
-    async hasTeam(teamId: string): Promise<boolean> {
-      try {
-        return await teamroomAPI.hasTeam(teamId);
-      } catch (err) {
-        throw err;
-      }
-    },
+    //팀 정보 가져오기
     async getTeamData(teamId: string): Promise<DocumentData | null> {
       try {
         return await teamroomAPI.getTeamInfo(teamId);
