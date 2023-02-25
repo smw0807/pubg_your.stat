@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { TeamRoomAPI, UsersAPI, PlayerStatsAPI } from '@/apis';
-import { ITeamMessage, ITeamInfo } from '@/interfaces';
+import { ITeamMessage, ITeamInfo, IUserPlatformNickNames } from '@/interfaces';
 import { useUserStore } from '@/store';
 import { DocumentData } from 'firebase/firestore';
 
@@ -19,11 +19,14 @@ export const useTeamRoomStore = defineStore({
     //팀 정보
     teamInfo: null as null | ITeamInfo,
     //접속중인 멤버(아이디 표시)
-    members: [],
+    members: [] as IUserPlatformNickNames[],
   }),
   getters: {
     getTeamInfo(): null | ITeamInfo {
       return this.teamInfo;
+    },
+    getMembers(): IUserPlatformNickNames[] {
+      return this.members;
     },
   },
   actions: {
@@ -66,16 +69,17 @@ export const useTeamRoomStore = defineStore({
       }
     },
     //팀 접속자 정보 가져오기
-    async getMembers(members: string[]) {
+    async getMembersData(members: string[]): Promise<void> {
       try {
         if (members && members.length > 0) {
           //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
           const userNicknames = await Promise.all(
             members.map(async v => await usersAPI.getPlatformNickname(v))
           );
-          console.log(userNicknames);
-          // this.members = userNicknames.map(v => v[this.teamInfo?.platform])
+          this.members = [...userNicknames] as IUserPlatformNickNames[];
           //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
+          if (this.teamInfo?.isRank) {
+          }
         }
       } catch (err) {
         console.error(err);
