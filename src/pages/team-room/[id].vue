@@ -75,7 +75,6 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <!-- todo 접속자 리스트 (왼쪽 사이드) -->
       <el-aside width="200px">
         <el-card v-for="(member, idx) of cMembers" :key="idx">
           <span v-if="cTeamInfo?.platform === 'kakao'">{{ member['kakao-nickname'] }}</span>
