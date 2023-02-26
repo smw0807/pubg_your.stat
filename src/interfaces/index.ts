@@ -1,17 +1,24 @@
-export type { IAPIObject, ISimpleAPIObject } from './Common';
-export type { ISeason, ISeasonList } from './Season';
 export type {
+  IAPIObject,
+  ISimpleAPIObject,
+  ISeason,
+  ISeasonList,
   IPlayer,
   IPlayerList,
   IPlayerSeason,
   IPlayerSeasonRank,
   IGameStats,
   IGameRankStats,
-} from './Players';
+} from './pubg';
 
-export type { ITeamFilter, ITeamForm, ITeamInfo, ITeamMessage } from './Team';
-export type { IPlayerStats } from './FireStore';
-export type { IUserPlatformNickNames } from './Users';
+export type {
+  ITeamFilter,
+  ITeamForm,
+  ITeamInfo,
+  ITeamMessage,
+  IPlayerStats,
+  IUserPlatformNickNames,
+} from './firebase';
 
 export type ModeType = 'solo' | 'solo-fpp' | 'duo' | 'duo-fpp' | 'squad' | 'squad-fpp';
 

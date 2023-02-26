@@ -1,4 +1,4 @@
-import { ModeType, PlatformType } from '.';
+import { ModeType, PlatformType } from '..';
 import dayjs from 'dayjs';
 
 //팀 검색 필터

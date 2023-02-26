@@ -1,4 +1,4 @@
-import { IAPIObject, ISimpleAPIObject } from './Common';
+import { IAPIObject, ISimpleAPIObject } from '.';
 
 export interface IPlayerAttributes {
   name: string;
@@ -17,8 +17,7 @@ export interface IPlayerRelationships {
   };
 }
 
-export interface IPlayerObject
-  extends IAPIObject<IPlayerAttributes, IPlayerRelationships> {
+export interface IPlayerObject extends IAPIObject<IPlayerAttributes, IPlayerRelationships> {
   links: {
     schema: string;
     self: string;
