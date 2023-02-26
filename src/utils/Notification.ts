@@ -4,7 +4,7 @@
  * 알림 메시지 관련 함수들
  */
 import { ElNotification } from 'element-plus';
-
+type TitleType = string | null;
 // 닉네임 검색 후 404 코드 받았을 때
 export const player404 = (): void => {
   ElNotification({
@@ -24,9 +24,9 @@ export const _429 = (): void => {
 };
 
 // 성공 알림
-export const notifSuccess = (title: string, msg: string): void => {
+export const notifSuccess = (title: TitleType, msg: string): void => {
   ElNotification({
-    title: title,
+    title: title || undefined,
     message: msg,
     type: 'success',
     dangerouslyUseHTMLString: true,
@@ -34,9 +34,9 @@ export const notifSuccess = (title: string, msg: string): void => {
 };
 
 // 경고 알림
-export const notifWarning = (title: string, msg: string): void => {
+export const notifWarning = (title: TitleType, msg: string): void => {
   ElNotification({
-    title: title,
+    title: title || undefined,
     message: msg,
     type: 'warning',
     dangerouslyUseHTMLString: true,
@@ -44,9 +44,9 @@ export const notifWarning = (title: string, msg: string): void => {
 };
 
 // 정보 알림
-export const notifInfo = (title: string, msg: string): void => {
+export const notifInfo = (title: TitleType, msg: string): void => {
   ElNotification({
-    title: title,
+    title: title || undefined,
     message: msg,
     type: 'info',
     dangerouslyUseHTMLString: true,
@@ -54,9 +54,9 @@ export const notifInfo = (title: string, msg: string): void => {
 };
 
 // 에러 알림
-export const notifError = (title: string, msg: string): void => {
+export const notifError = (title: TitleType, msg: string): void => {
   ElNotification({
-    title: title,
+    title: title || undefined,
     message: msg,
     type: 'error',
     dangerouslyUseHTMLString: true,
