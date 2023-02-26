@@ -83,7 +83,6 @@
         </el-card>
       </el-aside>
       <el-container>
-        <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
         <el-header>
           <el-row justify="space-between" align="middle">
             <el-col :span="12">
