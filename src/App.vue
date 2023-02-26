@@ -41,11 +41,15 @@
 
   //로그인
   const signin = async (): Promise<void> => {
-    const isNewUser = await store.signin();
-    //최초 로그인 시 플랫폼 닉네임 등록 컴포넌트 활성화
-    if (isNewUser) {
-      myPlatformMode.value = 'ins';
-      isShowMyPlatform.value = isNewUser;
+    try {
+      const isNewUser = await store.signin();
+      //최초 로그인 시 플랫폼 닉네임 등록 컴포넌트 활성화
+      if (isNewUser) {
+        myPlatformMode.value = 'ins';
+        isShowMyPlatform.value = isNewUser;
+      }
+    } catch (err) {
+      notifError(null, err as string);
     }
   };
   //로그아웃

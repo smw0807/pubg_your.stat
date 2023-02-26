@@ -40,9 +40,8 @@ export const useUserStore = defineStore({
         this.user = user;
         this.hasUser = true;
         return isNewUser;
-      } catch (error) {
-        console.error(error);
-        return null;
+      } catch (err) {
+        throw err;
       }
     },
     //현재 로그인 중인 사용자 정보 가져오기(새로고침 시엔 이거 안먹힘...)

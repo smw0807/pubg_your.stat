@@ -44,8 +44,9 @@ export class GooleAuthAPI {
         isNewUser,
         user: result.user,
       };
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      console.error(err);
+      throw '로그인에 실패하였습니다.';
     }
   }
 
