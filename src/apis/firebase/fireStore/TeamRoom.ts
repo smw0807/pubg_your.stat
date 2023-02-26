@@ -94,7 +94,8 @@ export class TeamRoomAPI {
         return null;
       }
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw '팀 나가기 중 오류 발생';
     }
   }
 
@@ -120,7 +121,8 @@ export class TeamRoomAPI {
       const messageCollection = collection(teamRef, this.subCollection);
       await addDoc(messageCollection, data);
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw '메세지 전송 실패';
     }
   }
 

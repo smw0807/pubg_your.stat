@@ -93,7 +93,7 @@ export const useTeamRoomStore = defineStore({
           }
         }
       } catch (err) {
-        console.error(err);
+        throw err;
       }
     },
     //팀 나가기
@@ -109,7 +109,7 @@ export const useTeamRoomStore = defineStore({
           this.messages = [];
         }
       } catch (err) {
-        console.error(err);
+        throw err;
       }
     },
     //메세지 보내기
@@ -117,7 +117,7 @@ export const useTeamRoomStore = defineStore({
       try {
         await teamroomAPI.sendMessage(params);
       } catch (err) {
-        console.error(err);
+        throw err;
       }
     },
   },

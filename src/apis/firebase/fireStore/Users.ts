@@ -26,7 +26,7 @@ export class UsersAPI {
         : null;
     } catch (err) {
       console.error(err);
-      throw err;
+      throw '저장된 플레이어 닉네임을 가져오는데 실패 했습니다.';
     }
   }
 

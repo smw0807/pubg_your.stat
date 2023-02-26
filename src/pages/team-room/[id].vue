@@ -5,6 +5,7 @@
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
   import { ITeamMessage } from '@/interfaces';
+  import { notifError } from '@/utils';
 
   const router = useRouter();
 
@@ -32,12 +33,20 @@
 
   //팀 접속자들 정보 가져오기
   const getMembers = async (): Promise<void> => {
-    await teamroomStroe.getMembersData(cTeamInfo.value?.members!);
+    try {
+      await teamroomStroe.getMembersData(cTeamInfo.value?.members!);
+    } catch (err) {
+      notifError(null, err as string);
+    }
   };
 
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
-    await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
+    try {
+      await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
+    } catch (err) {
+      notifError(null, err as string);
+    }
   };
 
   //팀 나가기 버튼 클릭 시
@@ -53,16 +62,20 @@
 
   //메세지 보내기
   const sendMessage = async (): Promise<void> => {
-    if (message.value.length > 0) {
-      const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
-      const params: ITeamMessage = {
-        'sender-uid': cUser.value?.uid!,
-        sender: nickname,
-        message: message.value,
-        'team-uid': props.id,
-      };
-      await teamroomStroe.sendMessage(params);
-      message.value = '';
+    try {
+      if (message.value.length > 0) {
+        const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
+        const params: ITeamMessage = {
+          'sender-uid': cUser.value?.uid!,
+          sender: nickname,
+          message: message.value,
+          'team-uid': props.id,
+        };
+        await teamroomStroe.sendMessage(params);
+        message.value = '';
+      }
+    } catch (err) {
+      notifError(null, err as string);
     }
   };
 
