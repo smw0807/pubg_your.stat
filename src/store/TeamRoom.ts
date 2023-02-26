@@ -42,8 +42,7 @@ export const useTeamRoomStore = defineStore({
       try {
         return await teamroomAPI.getTeamInfo(teamId);
       } catch (err) {
-        console.error(err);
-        throw NOT_EXISTS_TEAM_MSG;
+        throw err;
       }
     },
     //팀 입장
@@ -75,8 +74,7 @@ export const useTeamRoomStore = defineStore({
         teamroomAPI.startWatchTeamMessageData(teamId, this.joinTime);
         return true;
       } catch (err) {
-        console.error(err);
-        throw JOIN_FAIL_MSG;
+        throw err;
       }
     },
     //팀 접속자 정보 가져오기

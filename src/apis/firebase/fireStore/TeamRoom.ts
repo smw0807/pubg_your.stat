@@ -35,7 +35,8 @@ export class TeamRoomAPI {
         return null;
       }
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw '팀 정보 불러오기 실패';
     }
   }
 
@@ -68,7 +69,8 @@ export class TeamRoomAPI {
         return null;
       }
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw '팀 참가 실패';
     }
   }
 
