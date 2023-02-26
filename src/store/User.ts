@@ -64,7 +64,7 @@ export const useUserStore = defineStore({
         this.user = user;
         await this.setNickname();
       } catch (err) {
-        console.error(err);
+        throw err;
       }
     },
     //저장된 닉네임 가져오기
@@ -72,7 +72,7 @@ export const useUserStore = defineStore({
       try {
         this.nicknames = await usersAPI.getPlatformNickname(this.user?.uid!);
       } catch (err) {
-        console.error(err);
+        throw err;
       }
     },
     //로그아웃
@@ -96,8 +96,7 @@ export const useUserStore = defineStore({
           params['kakao-nickname']
         );
       } catch (err) {
-        console.error(err);
-        return '닉네임 저장 실패';
+        throw err;
       }
     },
   },

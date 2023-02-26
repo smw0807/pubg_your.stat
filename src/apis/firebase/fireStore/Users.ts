@@ -77,13 +77,12 @@ export class UsersAPI {
       }
     } catch (err) {
       console.error(err);
-      throw err;
+      throw '닉네임 저장 실패에 실패하였습니다.';
     }
   }
 
   //사용자 닉네임 중복체크
   async duplicateCheck(email: string, platform: string, nickname: string): Promise<boolean> {
-    let result = false;
     try {
       const q = query(
         collection(this.db, this.collection),
@@ -92,19 +91,18 @@ export class UsersAPI {
       );
       const querySnapshot = await getDocs(q);
       if (querySnapshot.docs.length === 0) {
-        result = false;
+        return false;
       } else {
         querySnapshot.docs.forEach(doc => {
           this.message = `닉네임 [${
             doc.data()[`${platform}-nickname`]
           }]은/는 다른 사용자가 이미 등록한 닉네임입니다.`;
         });
-        result = true;
+        return true;
       }
     } catch (err) {
-      console.warn('닉네임 중복체크 실패');
       console.error(err);
+      throw '닉네임 중복체크 실패';
     }
-    return result;
   }
 }

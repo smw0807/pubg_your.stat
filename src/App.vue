@@ -31,7 +31,13 @@
   //스토어에 저장된 유저 정보
   // const userInfo = computed(() => store.getUser);
 
-  const reloadUser = async () => await store.reloadUser();
+  const reloadUser = async () => {
+    try {
+      await store.reloadUser();
+    } catch (err) {
+      notifError(null, err as string);
+    }
+  };
 
   //로그인
   const signin = async (): Promise<void> => {
@@ -66,14 +72,15 @@
       .then(async () => {
         const result = await store.savePlatformNickname(myPlatformMode.value, form);
         if (typeof result === 'string') {
-          notifError('', result);
+          notifError(null, result);
         } else {
-          notifSuccess('', '등록완료');
+          notifSuccess(null, '등록완료');
           isShowMyPlatform.value = false;
         }
       })
-      .catch(() => {
+      .catch(err => {
         isShowMyPlatform.value = false;
+        notifError(null, err as string);
       });
   };
   //닉네임 저장 취소
