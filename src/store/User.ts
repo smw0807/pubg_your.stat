@@ -28,6 +28,9 @@ export const useUserStore = defineStore({
     getUser(): User | null {
       return this.user;
     },
+    getNickname(): IUserPlatformNickNames | null {
+      return this.nicknames;
+    },
   },
   actions: {
     //로그인 - 최초 로그인시 true 리턴함
@@ -48,7 +51,7 @@ export const useUserStore = defineStore({
         const user = authAPI.nowUser;
         this.hasUser = user ? true : false;
         this.user = user;
-        this.nicknames = await usersAPI.getPlatformNickname(user?.uid as string);
+        await this.setNickname();
       } catch (error) {
         console.error(error);
       }
@@ -59,6 +62,15 @@ export const useUserStore = defineStore({
         const user = await authAPI.reloadUser();
         this.hasUser = user ? true : false;
         this.user = user;
+        await this.setNickname();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    //저장된 닉네임 가져오기
+    async setNickname(): Promise<void> {
+      try {
+        this.nicknames = await usersAPI.getPlatformNickname(this.user?.uid!);
       } catch (err) {
         console.error(err);
       }
