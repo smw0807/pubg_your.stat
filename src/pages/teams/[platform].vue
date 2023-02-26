@@ -14,7 +14,6 @@
   import TeamDialog from '@/components/dialog/CreateTeam.vue';
   // 팀 리스트 카드 컴포넌트
   import TeamCard from '@/components/card/TeamInfo.vue';
-  import { Console } from 'console';
 
   const props = defineProps<{ platform: PlatformType }>();
   const teamStore = useTeamStore();
@@ -25,15 +24,16 @@
   //팀 만들기 모달 열기 여부
   const createTeamModal: Ref<boolean> = ref(false);
 
+  //현재 플랫폼
   const cPlatform = computed(() => props.platform);
+  //카카오 팀 필터 값
   const cKakaoFilter = computed(() => teamStore.kakaoFilter);
+  //스팀 팀 필터 값
   const cSteamFilter = computed(() => teamStore.steamFilter);
-
+  // 팀 리스트
+  const cList = computed(() => teamStore.getList);
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
-
-  // 팀 리스트
-  const list = computed(() => teamStore.getList);
 
   // 팀 만들기 다이얼로그 컴포넌트 버튼 이벤트
   const teamDialogEvent = (v: string) => {
@@ -121,7 +121,7 @@
     </el-row>
     <!-- 방 리스트 -->
     <el-row>
-      <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="info in list">
+      <el-col :xl="3" :lg="6" :md="8" :sm="12" v-for="info in cList">
         <TeamCard :info="info" @join="joinTeam" />
       </el-col>
     </el-row>

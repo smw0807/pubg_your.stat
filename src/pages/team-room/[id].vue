@@ -5,7 +5,6 @@
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
   import { ITeamMessage } from '@/interfaces';
-  import { nowDateFormat } from '@/utils';
 
   const router = useRouter();
 
@@ -14,18 +13,15 @@
       type: String,
     },
   });
-  const store = useTeamRoomStore();
-  store.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
-  // store.joinTime = '2023-02-17 18:00:00';
+  const teamroomStroe = useTeamRoomStore();
+  const userStore = useUserStore();
 
   //팀 정보
-  const cTeamInfo = computed(() => store.getTeamInfo);
+  const cTeamInfo = computed(() => teamroomStroe.getTeamInfo);
   //팀 멤버 정보
-  const cMembers = computed(() => store.getMembers);
+  const cMembers = computed(() => teamroomStroe.getMembers);
   //팀 메세지
-  const cMessages = computed(() => store.getMessages);
-
-  const userStore = useUserStore();
+  const cMessages = computed(() => teamroomStroe.getMessages);
 
   //로그인 사용자 정보
   const cUser = computed(() => userStore.getUser);
@@ -36,14 +32,12 @@
 
   //팀 접속자들 정보 가져오기
   const getMembers = async (): Promise<void> => {
-    await store.getMembersData(cTeamInfo.value?.members!);
+    await teamroomStroe.getMembersData(cTeamInfo.value?.members!);
   };
-  //입장 시점부터 대화 내용 가져오기
-  const getMessage = async () => {};
 
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
-    await store.exitTeam(cUser.value?.uid!, props.id!);
+    await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
   };
 
   //팀 나가기 버튼 클릭 시
@@ -57,6 +51,7 @@
     });
   };
 
+  //메세지 보내기
   const sendMessage = async (): Promise<void> => {
     if (message.value.length > 0) {
       const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
@@ -66,8 +61,7 @@
         message: message.value,
         'team-uid': props.id,
       };
-      await store.sendMessage(params);
-      //todo 메세지 전송 후 초기화
+      await teamroomStroe.sendMessage(params);
       message.value = '';
     }
   };
