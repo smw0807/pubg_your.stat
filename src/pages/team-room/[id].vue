@@ -4,6 +4,8 @@
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
+  import { ITeamMessage } from '@/interfaces';
+  import { nowDateFormat } from '@/utils';
 
   const router = useRouter();
 
@@ -13,17 +15,21 @@
     },
   });
   const store = useTeamRoomStore();
-  // store.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
-  store.joinTime = '2023-02-17 18:00:00';
+  store.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
+  // store.joinTime = '2023-02-17 18:00:00';
+
+  //팀 정보
+  const cTeamInfo = computed(() => store.getTeamInfo);
+  //팀 멤버 정보
+  const cMembers = computed(() => store.getMembers);
+  //팀 메세지
+  const cMessages = computed(() => store.getMessages);
 
   const userStore = useUserStore();
 
   //로그인 사용자 정보
   const cUser = computed(() => userStore.getUser);
-  //팀 정보
-  const cTeamInfo = computed(() => store.getTeamInfo);
-  //팀 멤버 정보
-  const cMembers = computed(() => store.getMembers);
+  const cNick = computed(() => userStore.getNickname);
 
   //채팅 메세지
   const message: Ref<string> = ref('');
@@ -37,7 +43,7 @@
 
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
-    await store.exitTeam(userStore.user?.uid!, props.id!);
+    await store.exitTeam(cUser.value?.uid!, props.id!);
   };
 
   //팀 나가기 버튼 클릭 시
@@ -51,9 +57,16 @@
     });
   };
 
-  const sendMessage = () => {
-    console.log('message : ', message.value);
+  const sendMessage = async (): Promise<void> => {
     if (message.value.length > 0) {
+      const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
+      const params: ITeamMessage = {
+        'sender-uid': cUser.value?.uid!,
+        sender: nickname,
+        message: message.value,
+        'team-uid': props.id,
+      };
+      await store.sendMessage(params);
       //todo 메세지 전송 후 초기화
       message.value = '';
     }
@@ -61,7 +74,7 @@
 
   onMounted(async () => {
     //새로 고침 시 팀 리스트로...
-    if (!cTeamInfo.value && !import.meta.env.DEV) {
+    if (!cTeamInfo.value) {
       router.go(-1);
     }
     //접속자 멤버 가져오기
@@ -76,15 +89,6 @@
     message.value = '';
     await exitTeam();
   });
-  if (import.meta.env.DEV) {
-    (async () => {
-      console.log('test...');
-      console.log(userStore.user?.uid!, props.id!);
-      await store.joinTeam(userStore.user?.uid!, props.id!);
-      console.log(cTeamInfo.value);
-      await getMembers();
-    })();
-  }
 </script>
 <template>
   <div class="common-layout">
@@ -111,9 +115,13 @@
           </el-row>
         </el-header>
 
-        <!-- todo 채팅 영역 -->
+        <!-- 메세지 표시 영역 -->
         <el-main>
-          <div class="messageArea"></div>
+          <div class="messageArea">
+            <span v-for="(msg, idx) of cMessages" :key="idx">
+              {{ msg.message }} / {{ msg['send-time'] }} / {{ msg.sender }}<br />
+            </span>
+          </div>
         </el-main>
 
         <!-- 채팅 메세지 입력 영역 -->

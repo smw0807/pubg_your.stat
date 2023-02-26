@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { TeamRoomAPI, UsersAPI, PlayerStatsAPI } from '@/apis';
-import { ITeamMessage, ITeamInfo, IUserPlatformNickNames } from '@/interfaces';
+import { ITeamMessage, ITeamInfo, IUserPlatformNickNames, IPlayerStats } from '@/interfaces';
 import { useUserStore } from '@/store';
 import { DocumentData } from 'firebase/firestore';
 
@@ -20,6 +20,8 @@ export const useTeamRoomStore = defineStore({
     teamInfo: null as null | ITeamInfo,
     //접속중인 멤버(아이디 표시)
     members: [] as IUserPlatformNickNames[],
+    //접속중인 멤버 스탯
+    memberStats: [] as IPlayerStats[],
     //팀 채팅 메세지
     messages: [] as ITeamMessage[],
   }),
@@ -67,6 +69,8 @@ export const useTeamRoomStore = defineStore({
         this.teamInfo = team.data();
         //입장 후 데이터 변화 감지 함수 실행
         teamroomAPI.startWatchTeamData(teamId);
+        //팀 메세지 변화 감지 함수 실행
+        teamroomAPI.startWatchTeamMessageData(teamId, this.joinTime!);
         return true;
       } catch (err) {
         console.error(err);
@@ -100,15 +104,21 @@ export const useTeamRoomStore = defineStore({
           this.joinTime = null;
           this.teamInfo = null;
           this.members = [];
+          this.messages = [];
         }
       } catch (err) {
         console.error(err);
       }
     },
-    async sendMessage() {
+    //메세지 가져오기
+    async getTeamMessages(teamId: string) {
       try {
-        const result = await teamroomAPI.sendMessage();
-        console.log('result : ', result);
+      } catch (err) {}
+    },
+    //메세지 보내기
+    async sendMessage(params: ITeamMessage): Promise<void> {
+      try {
+        await teamroomAPI.sendMessage(params);
       } catch (err) {
         console.error(err);
       }
