@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
 import { useTeamRoomStore } from '@/store';
+import { nowDateFormat } from '@/utils';
 
 export class TeamRoomAPI {
   private db = FireStore;
@@ -110,6 +111,23 @@ export class TeamRoomAPI {
       await deleteDoc(docRef);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  //메세지 전송
+  async sendMessage(msg: string) {
+    try {
+      console.log(msg);
+      const data: ITeamMessage = {
+        'send-time': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
+        'sender-uid': '',
+        'team-uid': '',
+        message: msg,
+        sender: '',
+        type: 'user',
+      };
+    } catch (err) {
+      throw err;
     }
   }
 

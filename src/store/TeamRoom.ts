@@ -20,6 +20,8 @@ export const useTeamRoomStore = defineStore({
     teamInfo: null as null | ITeamInfo,
     //접속중인 멤버(아이디 표시)
     members: [] as IUserPlatformNickNames[],
+    //팀 채팅 메세지
+    messages: [] as ITeamMessage[],
   }),
   getters: {
     getTeamInfo(): null | ITeamInfo {
@@ -27,6 +29,9 @@ export const useTeamRoomStore = defineStore({
     },
     getMembers(): IUserPlatformNickNames[] {
       return this.members;
+    },
+    getMessages(): ITeamMessage[] {
+      return this.messages;
     },
   },
   actions: {
@@ -96,6 +101,14 @@ export const useTeamRoomStore = defineStore({
           this.teamInfo = null;
           this.members = [];
         }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async sendMessage() {
+      try {
+        const result = await teamroomAPI.sendMessage();
+        console.log('result : ', result);
       } catch (err) {
         console.error(err);
       }

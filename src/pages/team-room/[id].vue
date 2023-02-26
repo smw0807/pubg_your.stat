@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { onMounted, watch, computed, onBeforeUnmount } from 'vue';
+  import { onMounted, watch, computed, onBeforeUnmount, ref } from 'vue';
+  import type { Ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
@@ -24,6 +25,9 @@
   //팀 멤버 정보
   const cMembers = computed(() => store.getMembers);
 
+  //채팅 메세지
+  const message: Ref<string> = ref('');
+
   //팀 접속자들 정보 가져오기
   const getMembers = async (): Promise<void> => {
     await store.getMembersData(cTeamInfo.value?.members!);
@@ -37,7 +41,7 @@
   };
 
   //팀 나가기 버튼 클릭 시
-  const exitBtn = () => {
+  const exitBtn = (): void => {
     ElMessageBox.confirm('현재 팀을 나가겠습니까?', '팀나가기', {
       confirmButtonText: '나가기',
       cancelButtonText: '취소',
@@ -45,6 +49,14 @@
       await exitTeam();
       router.go(-1);
     });
+  };
+
+  const sendMessage = () => {
+    console.log('message : ', message.value);
+    if (message.value.length > 0) {
+      //todo 메세지 전송 후 초기화
+      message.value = '';
+    }
   };
 
   onMounted(async () => {
@@ -55,11 +67,13 @@
     //접속자 멤버 가져오기
     await getMembers();
   });
+  //팀 정보 변경시 멤버 정보 새로 가져오기
   watch(cTeamInfo, async () => {
-    console.log('check !!: ', cTeamInfo.value);
     await getMembers();
   });
+  //페이지 벗어날 때
   onBeforeUnmount(async () => {
+    message.value = '';
     await exitTeam();
   });
   if (import.meta.env.DEV) {
@@ -75,6 +89,7 @@
 <template>
   <div class="common-layout">
     <el-container>
+      <!-- 접속자 리스트 -->
       <el-aside width="200px">
         <el-card v-for="(member, idx) of cMembers" :key="idx">
           <span v-if="cTeamInfo?.platform === 'kakao'">{{ member['kakao-nickname'] }}</span>
@@ -82,7 +97,9 @@
           <span v-if="cUser?.email === member.email"> [나]</span>
         </el-card>
       </el-aside>
+
       <el-container>
+        <!-- 팀 이름, 팀 나가기 -->
         <el-header>
           <el-row justify="space-between" align="middle">
             <el-col :span="12">
@@ -93,11 +110,24 @@
             </el-col>
           </el-row>
         </el-header>
-        <el-divider />
+
         <!-- todo 채팅 영역 -->
-        <el-main> 채팅 내용</el-main>
-        <!-- todo 채팅 입력 영역 -->
-        <el-footer> 채팅 입력 </el-footer>
+        <el-main>
+          <div class="messageArea"></div>
+        </el-main>
+
+        <!-- 채팅 메세지 입력 영역 -->
+        <el-footer>
+          <el-input
+            v-model="message"
+            placeholder="내용 입력"
+            @keyup.enter="sendMessage"
+            clearable
+            maxlength="100"
+            autofocus
+            size="large"
+          />
+        </el-footer>
       </el-container>
     </el-container>
   </div>
@@ -105,6 +135,11 @@
 <style scoped>
   .el-card {
     margin-bottom: 5px;
+  }
+  .messageArea {
+    width: 100%;
+    border: 1px solid #4b4d50;
+    height: 500px;
   }
 </style>
 <route>
