@@ -17,6 +17,8 @@
 
   const userStore = useUserStore();
 
+  //로그인 사용자 정보
+  const cUser = computed(() => userStore.getUser);
   //팀 정보
   const cTeamInfo = computed(() => store.getTeamInfo);
   //팀 멤버 정보
@@ -47,19 +49,19 @@
 
   onMounted(async () => {
     //새로 고침 시 팀 리스트로...
-    // if (!cTeamInfo.value) {
-    //   router.go(-1);
-    // }
+    if (!cTeamInfo.value && !import.meta.env.DEV) {
+      router.go(-1);
+    }
     //접속자 멤버 가져오기
-    // await getMembers();
+    await getMembers();
   });
   watch(cTeamInfo, async () => {
     console.log('check !!: ', cTeamInfo.value);
     await getMembers();
   });
-  // onBeforeUnmount(async () => {
-  //   await exitTeam();
-  // });
+  onBeforeUnmount(async () => {
+    await exitTeam();
+  });
   if (import.meta.env.DEV) {
     (async () => {
       console.log('test...');
@@ -72,24 +74,24 @@
 </script>
 <template>
   <div class="common-layout">
-    <!-- {{ id }} / {{ store.joinTime }} -->
     <el-container>
       <!-- todo 접속자 리스트 (왼쪽 사이드) -->
       <el-aside width="200px">
         <el-card v-for="(member, idx) of cMembers" :key="idx">
           <span v-if="cTeamInfo?.platform === 'kakao'">{{ member['kakao-nickname'] }}</span>
           <span v-else> {{ member['steam-nickname'] }}</span>
+          <span v-if="cUser?.email === member.email"> [나]</span>
         </el-card>
       </el-aside>
       <el-container>
         <!-- todo 팀 이름, 채팅방 나가기 버튼 -->
         <el-header>
-          <el-row justify="space-between" align="bottom">
+          <el-row justify="space-between" align="middle">
             <el-col :span="12">
               <h2>{{ cTeamInfo?.title }}</h2>
             </el-col>
             <el-col :span="12" align="end">
-              <el-button @click="exitBtn">팀 나가기</el-button>
+              <el-button size="large" @click="exitBtn">팀 나가기</el-button>
             </el-col>
           </el-row>
         </el-header>
