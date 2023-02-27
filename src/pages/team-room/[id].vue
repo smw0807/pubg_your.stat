@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, watch, computed, onBeforeUnmount, ref } from 'vue';
+  import { onMounted, watch, computed, ref, onUnmounted } from 'vue';
   import type { Ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
@@ -43,6 +43,7 @@
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
     try {
+      await sendSystemMessage('out');
       await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
     } catch (err) {
       notifError(null, err as string);
@@ -70,10 +71,29 @@
           sender: nickname,
           message: message.value,
           'team-uid': props.id,
+          type: 'user',
         };
         await teamroomStroe.sendMessage(params);
         message.value = '';
       }
+    } catch (err) {
+      notifError(null, err as string);
+    }
+  };
+
+  //팀 참가 메세지 보내기
+  const sendSystemMessage = async (type: 'in' | 'out'): Promise<void> => {
+    try {
+      const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
+      const joinType = type === 'in' ? '입장' : '퇴장';
+      const params: ITeamMessage = {
+        'sender-uid': '',
+        sender: '',
+        message: `${nickname} 님이 ${joinType}하셨습니다.`,
+        'team-uid': props.id,
+        type: 'system',
+      };
+      await teamroomStroe.sendMessage(params);
     } catch (err) {
       notifError(null, err as string);
     }
@@ -86,13 +106,15 @@
     }
     //접속자 멤버 가져오기
     await getMembers();
+    //입장 메세지 보내기
+    await sendSystemMessage('in');
   });
   //팀 정보 변경시 멤버 정보 새로 가져오기
   watch(cTeamInfo, async () => {
     await getMembers();
   });
   //페이지 벗어날 때
-  onBeforeUnmount(async () => {
+  onUnmounted(async () => {
     message.value = '';
     await exitTeam();
   });

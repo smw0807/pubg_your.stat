@@ -109,7 +109,7 @@ export class TeamRoomAPI {
     try {
       const teamRef = doc(this.db, this.collection, teamId);
       //팀 메세지 삭제
-      await this.deleteMessages(teamRef);
+      // await this.deleteMessages(teamRef);
       //팀 삭제
       await deleteDoc(teamRef);
     } catch (err) {
