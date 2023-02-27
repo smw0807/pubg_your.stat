@@ -12,6 +12,9 @@ import {
   query,
   orderBy,
   where,
+  DocumentReference,
+  getDocs,
+  writeBatch,
 } from 'firebase/firestore';
 import { ITeamMessage, ITeamInfo } from '@/interfaces';
 import { useTeamRoomStore } from '@/store';
@@ -104,10 +107,47 @@ export class TeamRoomAPI {
   //팀 삭제
   async deleteTeam(teamId: string): Promise<void> {
     try {
-      const docRef = doc(this.db, this.collection, teamId);
-      await deleteDoc(docRef);
+      const teamRef = doc(this.db, this.collection, teamId);
+      //팀 메세지 삭제
+      await this.deleteMessages(teamRef);
+      //팀 삭제
+      await deleteDoc(teamRef);
     } catch (err) {
       console.error(err);
+      throw '팀 삭제 실패';
+    }
+  }
+  //팀 메시지 데이터 및 컬렉션 삭제
+  async deleteMessages(teamRef: DocumentReference) {
+    try {
+      const messagesCollection = collection(teamRef, this.subCollection);
+      //meesages 컬렉션 안 데이터 모두 삭제
+      const messagesQuerySnapshot = await getDocs(messagesCollection);
+      messagesQuerySnapshot.forEach(async doc => {
+        await deleteDoc(doc.ref);
+      });
+      //messages 컬렉션 삭제
+      await this.deleteCollection(teamRef, this.subCollection);
+    } catch (err) {
+      console.error(err);
+      throw '팀 메세지 삭제 실패';
+    }
+  }
+
+  //컬렉션 삭제
+  async deleteCollection(docRef: DocumentReference<DocumentData>, collectionName: string) {
+    try {
+      const batch = writeBatch(this.db);
+
+      const messagesCollection = collection(docRef, collectionName);
+      const snapshot = await getDocs(messagesCollection);
+      snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+    } catch (err) {
+      console.error(err);
+      throw '컬렉션 삭제 실패';
     }
   }
 
@@ -120,8 +160,8 @@ export class TeamRoomAPI {
         ...params,
         'send-time': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
       };
-      const messageCollection = collection(teamRef, this.subCollection);
-      await addDoc(messageCollection, data);
+      const messagesCollection = collection(teamRef, this.subCollection);
+      await addDoc(messagesCollection, data);
     } catch (err) {
       console.error(err);
       throw '메세지 전송 실패';
@@ -174,3 +214,7 @@ export class TeamRoomAPI {
     }
   }
 }
+
+// function deleteCollection(teamRef: DocumentReference<DocumentData>, subCollection: string) {
+//   throw new Error('Function not implemented.');
+// }
