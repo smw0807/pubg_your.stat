@@ -1,12 +1,3 @@
-/**
- * 로그인
- * 로그아웃
- * 토큰 재발급?
- * 사용자 정보 가져오기
- * 사용자 정보 수정
- *  - 스팀 플레이 닉테임
- *  - 카카오 플레이 닉네임
- */
 import { defineStore } from 'pinia';
 import { GooleAuthAPI, UsersAPI } from '@/apis';
 import { IUserPlatformNickNames } from '@/interfaces';
