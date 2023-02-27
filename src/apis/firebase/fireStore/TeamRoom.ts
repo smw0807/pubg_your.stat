@@ -105,7 +105,7 @@ export class TeamRoomAPI {
   }
 
   //팀 삭제
-  async deleteTeam(teamId: string): Promise<void> {
+  private async deleteTeam(teamId: string): Promise<void> {
     try {
       const teamRef = doc(this.db, this.collection, teamId);
       //팀 메세지 삭제
@@ -118,7 +118,7 @@ export class TeamRoomAPI {
     }
   }
   //팀 메시지 데이터 및 컬렉션 삭제
-  async deleteMessages(teamRef: DocumentReference) {
+  private async deleteMessages(teamRef: DocumentReference) {
     try {
       const messagesCollection = collection(teamRef, this.subCollection);
       //meesages 컬렉션 안 데이터 모두 삭제
@@ -135,7 +135,7 @@ export class TeamRoomAPI {
   }
 
   //컬렉션 삭제
-  async deleteCollection(docRef: DocumentReference<DocumentData>, collectionName: string) {
+  private async deleteCollection(docRef: DocumentReference<DocumentData>, collectionName: string) {
     try {
       const batch = writeBatch(this.db);
 
@@ -203,7 +203,7 @@ export class TeamRoomAPI {
   }
 
   //데이터 감지 중단
-  unsubscribeData(): void {
+  private unsubscribeData(): void {
     if (this.unsubscribeForTeam) {
       this.unsubscribeForTeam();
       this.unsubscribeForTeam = null;
@@ -214,7 +214,3 @@ export class TeamRoomAPI {
     }
   }
 }
-
-// function deleteCollection(teamRef: DocumentReference<DocumentData>, subCollection: string) {
-//   throw new Error('Function not implemented.');
-// }
