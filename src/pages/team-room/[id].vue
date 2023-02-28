@@ -43,7 +43,6 @@
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
     try {
-      await sendSystemMessage('out');
       await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
     } catch (err) {
       notifError(null, err as string);
@@ -81,24 +80,6 @@
     }
   };
 
-  //팀 참가 메세지 보내기
-  const sendSystemMessage = async (type: 'in' | 'out'): Promise<void> => {
-    try {
-      const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
-      const joinType = type === 'in' ? '입장' : '퇴장';
-      const params: ITeamMessage = {
-        'sender-uid': '',
-        sender: '',
-        message: `${nickname} 님이 ${joinType}하셨습니다.`,
-        'team-uid': props.id,
-        type: 'system',
-      };
-      await teamroomStroe.sendMessage(params);
-    } catch (err) {
-      notifError(null, err as string);
-    }
-  };
-
   onMounted(async () => {
     //새로 고침 시 팀 리스트로...
     if (!cTeamInfo.value) {
@@ -107,7 +88,6 @@
     //접속자 멤버 가져오기
     await getMembers();
     //입장 메세지 보내기
-    await sendSystemMessage('in');
   });
   //팀 정보 변경시 멤버 정보 새로 가져오기
   watch(cTeamInfo, async () => {
