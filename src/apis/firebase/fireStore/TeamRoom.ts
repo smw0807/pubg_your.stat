@@ -109,7 +109,7 @@ export class TeamRoomAPI {
     try {
       const teamRef = doc(this.db, this.collection, teamId);
       //팀 메세지 삭제
-      // await this.deleteMessages(teamRef);
+      await this.deleteMessages(teamRef);
       //팀 삭제
       await deleteDoc(teamRef);
     } catch (err) {
@@ -158,7 +158,7 @@ export class TeamRoomAPI {
       delete params['team-uid'];
       const data: ITeamMessage = {
         ...params,
-        'send-time': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
+        'send-time': nowDateFormat('YYYY-MM-DD HH:mm:ss.SSS'),
       };
       const messagesCollection = collection(teamRef, this.subCollection);
       await addDoc(messagesCollection, data);
