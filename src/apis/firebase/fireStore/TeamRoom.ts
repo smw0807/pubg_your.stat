@@ -1,4 +1,5 @@
 import { FireStore } from '@/apis/firebase';
+import { UsersAPI } from '@/apis';
 import {
   doc,
   addDoc,
@@ -67,6 +68,8 @@ export class TeamRoomAPI {
         data.members = [...members];
         //데이터 업데이트
         await setDoc(doc(this.db, this.collection, team.id), data);
+        //시스템 메세지
+        await this.sendSystemMessage('in', userId, teamId, data);
         return true;
       } else {
         return null;
@@ -91,6 +94,8 @@ export class TeamRoomAPI {
         if (members.size === 0) {
           await this.deleteTeam(teamId);
         } else {
+          //시스템 메세지
+          await this.sendSystemMessage('out', userId, teamId, data);
           //데이터 감시 중단
           this.unsubscribeData();
         }
@@ -110,6 +115,8 @@ export class TeamRoomAPI {
       const teamRef = doc(this.db, this.collection, teamId);
       //팀 메세지 삭제
       await this.deleteMessages(teamRef);
+      //팀 메세지 컬렉션 삭제
+      await this.deleteCollection(teamRef, this.subCollection);
       //팀 삭제
       await deleteDoc(teamRef);
     } catch (err) {
@@ -118,7 +125,7 @@ export class TeamRoomAPI {
     }
   }
   //팀 메시지 데이터 및 컬렉션 삭제
-  private async deleteMessages(teamRef: DocumentReference) {
+  private async deleteMessages(teamRef: DocumentReference): Promise<void> {
     try {
       const messagesCollection = collection(teamRef, this.subCollection);
       //meesages 컬렉션 안 데이터 모두 삭제
@@ -126,8 +133,6 @@ export class TeamRoomAPI {
       messagesQuerySnapshot.forEach(async doc => {
         await deleteDoc(doc.ref);
       });
-      //messages 컬렉션 삭제
-      await this.deleteCollection(teamRef, this.subCollection);
     } catch (err) {
       console.error(err);
       throw '팀 메세지 삭제 실패';
@@ -135,7 +140,10 @@ export class TeamRoomAPI {
   }
 
   //컬렉션 삭제
-  private async deleteCollection(docRef: DocumentReference<DocumentData>, collectionName: string) {
+  private async deleteCollection(
+    docRef: DocumentReference<DocumentData>,
+    collectionName: string
+  ): Promise<void> {
     try {
       const batch = writeBatch(this.db);
 
@@ -148,6 +156,32 @@ export class TeamRoomAPI {
     } catch (err) {
       console.error(err);
       throw '컬렉션 삭제 실패';
+    }
+  }
+
+  private async sendSystemMessage(
+    type: 'in' | 'out',
+    userId: string,
+    teamId: string,
+    teamData: ITeamInfo
+  ): Promise<void> {
+    try {
+      const usersAPI = new UsersAPI();
+      const joinType = type === 'in' ? '입장' : '퇴장';
+      const nicknames = await usersAPI.getPlatformNickname(userId);
+      if (nicknames) {
+        const platformNickname = nicknames[`${teamData.platform}-nickname`];
+        await this.sendMessage({
+          'sender-uid': '',
+          sender: 'system',
+          message: `${platformNickname} 님이 ${joinType}하셨습니다.`,
+          'team-uid': teamId,
+          type: 'system',
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      throw '시스템 메세지 전송 실패';
     }
   }
 
