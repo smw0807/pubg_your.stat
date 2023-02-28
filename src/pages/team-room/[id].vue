@@ -7,6 +7,9 @@
   import { ITeamMessage } from '@/interfaces';
   import { notifError } from '@/utils';
 
+  //컴포넌트
+  import SystemMessage from '@/components/card/SystemMessage.vue';
+
   const router = useRouter();
 
   const props = defineProps({
@@ -132,9 +135,16 @@
         <!-- 메세지 표시 영역 -->
         <el-main>
           <div class="messageArea">
-            <span v-for="(msg, idx) of cMessages" :key="idx">
-              {{ msg.message }} / {{ msg['send-time'] }} / {{ msg.sender }}<br />
-            </span>
+            <el-row>
+              <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
+                <div v-if="msg.type === 'system'">
+                  <SystemMessage :message="msg.message" :time="msg['send-time']" align="center" />
+                </div>
+                <div v-else>
+                  {{ msg.message }} / {{ msg['send-time'] }} / {{ msg.sender }}<br />
+                </div>
+              </el-col>
+            </el-row>
           </div>
         </el-main>
 

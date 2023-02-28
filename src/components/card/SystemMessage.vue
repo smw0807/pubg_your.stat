@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { withDefaults } from 'vue';
+  import { dateFormat } from '@/utils';
 
   interface Props {
     //메세지
@@ -24,9 +25,15 @@
     'text-align': props.align,
     color: props.textColor,
     'background-color': props.backgroundColor,
+    padding: '10px 0',
   };
 </script>
 <template>
-  <el-card :body-style="cardStyles"> {{ message }} / {{ time }} </el-card>
+  <el-card :body-style="cardStyles">
+    <span>{{ message }}</span>
+    <span v-if="time !== ''" :style="`font-size: var(--el-font-size-small)`">
+      &nbsp[{{ dateFormat(time, 'YYYY-MM-DD HH:mm:ss') }}]
+    </span>
+  </el-card>
 </template>
 <style scoped></style>
