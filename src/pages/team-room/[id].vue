@@ -9,6 +9,7 @@
 
   //컴포넌트
   import SystemMessage from '@/components/card/SystemMessage.vue';
+  import UserMessage from '@/components/card/UserMessage.vue';
 
   const router = useRouter();
 
@@ -141,7 +142,12 @@
                   <SystemMessage :message="msg.message" :time="msg['send-time']" align="center" />
                 </div>
                 <div v-else>
-                  {{ msg.message }} / {{ msg['send-time'] }} / {{ msg.sender }}<br />
+                  <UserMessage
+                    :type="msg['sender-uid'] === cUser?.uid ? 'mine' : 'other'"
+                    :nickname="msg.sender"
+                    :time="msg['send-time']"
+                    :message="msg.message"
+                  />
                 </div>
               </el-col>
             </el-row>
