@@ -17,6 +17,8 @@
   const teamroomStroe = useTeamRoomStore();
   const userStore = useUserStore();
 
+  const isExit: Ref<boolean> = ref(false);
+
   //팀 정보
   const cTeamInfo = computed(() => teamroomStroe.getTeamInfo);
   //팀 멤버 정보
@@ -43,7 +45,10 @@
   //팀 나가기
   const exitTeam = async (): Promise<void> => {
     try {
-      await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
+      if (!isExit.value) {
+        await teamroomStroe.exitTeam(cUser.value?.uid!, props.id!);
+        isExit.value = true;
+      }
     } catch (err) {
       notifError(null, err as string);
     }
