@@ -93,15 +93,14 @@
   };
 
   onMounted(async () => {
-    //새로 고침 시 팀 리스트로...
+    //팀 데이터 없으면 이전 페이지로...(새로고침시에도 그냥 뒤로)
     if (!cTeamInfo.value) {
       router.go(-1);
     }
     //접속자 멤버 가져오기
     await getMembers();
-    //입장 메세지 보내기
   });
-  //팀 정보 변경시 멤버 정보 새로 가져오기
+  //팀 데이터가 변경되면 멤버 정보 새로 가져오기
   watch(cTeamInfo, async () => {
     await getMembers();
   });
