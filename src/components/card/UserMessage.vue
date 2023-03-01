@@ -15,6 +15,8 @@
   });
   const cardStyles = {
     float: props.type === 'mine' ? 'right' : 'left',
+    width: '40%', //todo 브라우저 크리에 맞게 유동적으로 값이 변하도록 바꾸기
+    'word-wrap': 'break-word',
   };
   const cardBodyStyles = {
     padding: '10px',
@@ -37,14 +39,14 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="24">
+      <el-col :span="24" class="message">
         {{ message }}
       </el-col>
     </el-row>
   </el-card>
 </template>
 <style scoped>
-  .el-card {
-    width: 30%;
+  .message {
+    font-size: smaller;
   }
 </style>
