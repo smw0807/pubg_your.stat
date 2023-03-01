@@ -21,7 +21,7 @@
     textColor: ' #85ce61',
     backgroundColor: '#1c2518',
   });
-  const cardStyles = {
+  const cardBodyStyles = {
     'text-align': props.align,
     color: props.textColor,
     'background-color': props.backgroundColor,
@@ -29,7 +29,7 @@
   };
 </script>
 <template>
-  <el-card :body-style="cardStyles">
+  <el-card :body-style="cardBodyStyles">
     <span>{{ message }}</span>
     <span v-if="time !== ''" :style="`font-size: var(--el-font-size-small)`">
       &nbsp[{{ dateFormat(time, 'YYYY-MM-DD HH:mm:ss') }}]
