@@ -22,6 +22,7 @@
   const userStore = useUserStore();
 
   const isExit: Ref<boolean> = ref(false);
+  const isSend: Ref<boolean> = ref(false);
 
   //팀 정보
   const cTeamInfo = computed(() => teamroomStroe.getTeamInfo);
@@ -72,7 +73,8 @@
   //메세지 보내기
   const sendMessage = async (): Promise<void> => {
     try {
-      if (message.value.length > 0) {
+      if (message.value.length > 0 && !isSend.value) {
+        isSend.value = true;
         const nickname = cNick.value![`${cTeamInfo.value?.platform!}-nickname`];
         const params: ITeamMessage = {
           'sender-uid': cUser.value?.uid!,
@@ -82,6 +84,7 @@
           type: 'user',
         };
         await teamroomStroe.sendMessage(params);
+        isSend.value = false;
         message.value = '';
       }
     } catch (err) {
