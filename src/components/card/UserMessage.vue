@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { withDefaults } from 'vue';
   import { dateFormat } from '@/utils';
   interface Props {
     type: 'mine' | 'other' | undefined; //메세지 타입

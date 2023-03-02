@@ -1,14 +1,8 @@
 <script setup lang="ts">
   /**
-   * 팀 만들기 다이얼로그
-   * 입력할 정보
-   * 1. 방제목 (input)
-   * 2. 일반, 랭크 (radio)
-   * 3. 모드 (radio)
-   * ## 인원수는 모드에 맞춰 자동 설정
    * todo 데이터 검증
    */
-  import { reactive, computed, watch, withDefaults } from 'vue';
+  import { reactive, computed, watch } from 'vue';
   import { PlatformType, ITeamForm } from '@/interfaces';
 
   interface Props {
