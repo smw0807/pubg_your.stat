@@ -109,6 +109,12 @@
     message.value = '';
     await exitTeam();
   });
+
+  const messageBoxCSS = {
+    border: '1px solid #4b4d50',
+    height: '300px',
+    'overflow-y': 'auto',
+  };
 </script>
 <template>
   <div class="common-layout">
@@ -135,7 +141,7 @@
         <!-- 메세지 표시 영역 -->
         <el-row>
           <el-col :span="24">
-            <div class="messageArea">
+            <el-card :body-style="messageBoxCSS">
               <el-row>
                 <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
                   <div v-if="msg.type === 'system'">
@@ -151,7 +157,7 @@
                   </div>
                 </el-col>
               </el-row>
-            </div>
+            </el-card>
           </el-col>
         </el-row>
         <!-- 채팅 메세지 입력 영역 -->
@@ -173,16 +179,8 @@
   </div>
 </template>
 <style scoped>
-  .el-main {
-    overflow-x: hidden;
-  }
   .el-card {
     margin-bottom: 5px;
-  }
-  .messageArea {
-    width: 100%;
-    border: 1px solid #4b4d50;
-    height: 500px;
   }
 </style>
 <route>
