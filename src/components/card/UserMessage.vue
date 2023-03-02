@@ -24,7 +24,7 @@
 <template>
   <el-card :body-style="cardBodyStyles" :style="cardStyles">
     <el-row>
-      <el-col :span="18">
+      <el-col :span="18" style="padding: 10px 0">
         {{ nickname }}
       </el-col>
       <el-col :span="6" align="end">
@@ -47,5 +47,8 @@
 <style scoped>
   .message {
     font-size: smaller;
+  }
+  .el-row {
+    margin-bottom: 5px;
   }
 </style>
