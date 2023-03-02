@@ -112,67 +112,70 @@
 </script>
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-row>
       <!-- 접속자 리스트 -->
-      <el-aside width="200px">
+      <el-col :md="4" :sm="24" style="padding-right: 10px">
         <el-card v-for="(member, idx) of cMembers" :key="idx">
-          <span v-if="cTeamInfo?.platform === 'kakao'">{{ member['kakao-nickname'] }}</span>
-          <span v-else> {{ member['steam-nickname'] }}</span>
+          <span> {{ member[`${cTeamInfo?.platform!}-nickname`] }}</span>
           <span v-if="cUser?.email === member.email"> [나]</span>
         </el-card>
-      </el-aside>
-
-      <el-container>
+      </el-col>
+      <!-- 팀 이름, 팀나가기, 메세지 표시, 메세지 입력 -->
+      <el-col :md="20" :sm="24">
         <!-- 팀 이름, 팀 나가기 -->
-        <el-header>
-          <el-row justify="space-between" align="middle">
-            <el-col :span="12">
-              <h2>{{ cTeamInfo?.title }}</h2>
-            </el-col>
-            <el-col :span="12" align="end">
-              <el-button size="large" @click="exitBtn">팀 나가기</el-button>
-            </el-col>
-          </el-row>
-        </el-header>
+        <el-row justify="space-between" align="middle">
+          <el-col :span="12">
+            <h2>{{ cTeamInfo?.title }}</h2>
+          </el-col>
+          <el-col :span="12" align="end">
+            <el-button size="large" @click="exitBtn">팀 나가기</el-button>
+          </el-col>
+        </el-row>
 
         <!-- 메세지 표시 영역 -->
-        <el-main>
-          <div class="messageArea">
-            <el-row>
-              <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
-                <div v-if="msg.type === 'system'">
-                  <SystemMessage :message="msg.message" :time="msg['send-time']" align="center" />
-                </div>
-                <div v-else>
-                  <UserMessage
-                    :type="msg['sender-uid'] === cUser?.uid ? 'mine' : 'other'"
-                    :nickname="msg.sender"
-                    :time="msg['send-time']"
-                    :message="msg.message"
-                  />
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-main>
-
+        <el-row>
+          <el-col :span="24">
+            <div class="messageArea">
+              <el-row>
+                <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
+                  <div v-if="msg.type === 'system'">
+                    <SystemMessage :message="msg.message" :time="msg['send-time']" align="center" />
+                  </div>
+                  <div v-else>
+                    <UserMessage
+                      :type="msg['sender-uid'] === cUser?.uid ? 'mine' : 'other'"
+                      :nickname="msg.sender"
+                      :time="msg['send-time']"
+                      :message="msg.message"
+                    />
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
         <!-- 채팅 메세지 입력 영역 -->
-        <el-footer>
-          <el-input
-            v-model="message"
-            placeholder="내용 입력"
-            @keyup.enter="sendMessage"
-            clearable
-            maxlength="100"
-            autofocus
-            size="large"
-          />
-        </el-footer>
-      </el-container>
-    </el-container>
+        <el-row>
+          <el-col :span="24">
+            <el-input
+              v-model="message"
+              placeholder="내용 입력"
+              @keyup.enter="sendMessage"
+              clearable
+              maxlength="100"
+              autofocus
+              size="large"
+            />
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <style scoped>
+  .el-main {
+    overflow-x: hidden;
+  }
   .el-card {
     margin-bottom: 5px;
   }
