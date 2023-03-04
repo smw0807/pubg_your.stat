@@ -113,7 +113,8 @@ https://github.com/martinsileno/pubg-typescript-api
   - 컴포져블 https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
   - 계산된속성 https://v3-docs.vuejs-korea.org/guide/essentials/computed.html#best-practices
 - VueUse
-  - useWindowSize (https://vueuse.org/core/useWindowSize/)
+  - useWindowSize : https://vueuse.org/core/useWindowSize/
+  - useClipboard : https://vueuse.org/core/useClipboard/#useclipboard
 - Element Plus
   - 알림 : https://element-plus.org/en-US/component/notification.html
   - input 창 자동완성 기능 : https://element-plus.org/en-US/component/autocomplete.html
