@@ -1,8 +1,6 @@
 <script setup lang="ts">
-  /**
-   * todo 데이터 검증
-   */
-  import { reactive, computed, watch } from 'vue';
+  import { reactive, computed, watch, ref } from 'vue';
+  import type { FormInstance, FormRules } from 'element-plus';
   import { PlatformType, ITeamForm } from '@/interfaces';
 
   interface Props {
@@ -20,6 +18,8 @@
 
   const cPlatform = computed(() => props.platform);
 
+  // 데이터 폼 ref
+  const formRef = ref<FormInstance>();
   // 데이터 폼
   const form: ITeamForm = reactive({
     title: '',
@@ -27,10 +27,19 @@
     platform: 'kakao',
     mode: 'squad',
   });
+  //데이터 검증 규칙
+  const rules = reactive<FormRules>({
+    title: [{ required: true, message: '팀 이름을 입력해주세요.', trigger: 'blur' }],
+  });
 
   //입력한 데이터 보내기
-  const sendData = (): void => {
-    emit('input-data', form);
+  const sendData = (formEl: FormInstance | undefined): void => {
+    if (!formEl) return;
+    formEl.validate(valid => {
+      if (valid) {
+        emit('input-data', form);
+      }
+    });
   };
 
   // 라벨 넓이
@@ -44,8 +53,8 @@
   <el-button :disabled="disabled" @click="emit('button-event', 'open')"> 팀 만들기 </el-button>
 
   <el-dialog v-model="open" :show-close="false" title="팀 만들기" center>
-    <el-form :model="form">
-      <el-form-item label="팀 이름" :label-width="labelWidth">
+    <el-form :model="form" ref="formRef" :rules="rules">
+      <el-form-item label="팀 이름" :label-width="labelWidth" prop="title">
         <el-input v-model="form.title" autocomplete="off" />
       </el-form-item>
       <el-form-item label="게임 유형" :label-width="labelWidth">
@@ -69,7 +78,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="sendData"> 만들기 </el-button>
+        <el-button type="primary" @click="sendData(formRef)"> 만들기 </el-button>
         <el-button @click="emit('button-event', 'close')">닫기</el-button>
       </span>
     </template>
