@@ -5,12 +5,16 @@
     nickname: string;
     time: string;
     message: string;
+    textColor?: string;
+    backgroundColor?: string;
   }
   const props = withDefaults(defineProps<Props>(), {
     type: 'mine',
     nickname: '',
     time: '',
     message: '',
+    textColor: '#E5EAF3',
+    backgroundColor: '#1D1E1F',
   });
   const cardStyles = {
     float: props.type === 'mine' ? 'right' : 'left',
@@ -19,6 +23,8 @@
   };
   const cardBodyStyles = {
     padding: '10px',
+    color: props.textColor,
+    'background-color': props.backgroundColor,
   };
 </script>
 <template>
@@ -33,8 +39,8 @@
         </span>
         <br />
         <span :style="`font-size: var(--el-font-size-small)`">
-          {{ dateFormat(time, 'HH:mm:ss') }}</span
-        >
+          {{ dateFormat(time, 'HH:mm:ss') }}
+        </span>
       </el-col>
     </el-row>
     <el-row>
