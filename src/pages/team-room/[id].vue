@@ -6,10 +6,13 @@
   import { ElMessageBox } from 'element-plus';
   import { ITeamMessage } from '@/interfaces';
   import { notifError } from '@/utils';
+  import { useWindowSize } from '@vueuse/core';
 
   //컴포넌트
   import SystemMessage from '@/components/card/SystemMessage.vue';
   import UserMessage from '@/components/card/UserMessage.vue';
+
+  const { height } = useWindowSize();
 
   const router = useRouter();
 
@@ -34,6 +37,9 @@
   //로그인 사용자 정보
   const cUser = computed(() => userStore.getUser);
   const cNick = computed(() => userStore.getNickname);
+
+  //메세지 박스 높이
+  const cHeight = computed(() => height.value - 280 + 'px');
 
   //채팅 메세지
   const message: Ref<string> = ref('');
@@ -110,11 +116,13 @@
     await exitTeam();
   });
 
-  const messageBoxCSS = {
-    border: '1px solid #4b4d50',
-    height: '300px',
-    'overflow-y': 'auto',
-  };
+  const cMessageBoxCSS = computed(() => {
+    return {
+      border: '1px solid #4b4d50',
+      height: cHeight.value,
+      'overflow-y': 'auto',
+    };
+  });
 </script>
 <template>
   <div class="common-layout">
@@ -131,7 +139,7 @@
         <!-- 팀 이름, 팀 나가기 -->
         <el-row justify="space-between" align="middle">
           <el-col :span="12">
-            <h2>{{ cTeamInfo?.title }}</h2>
+            <h2>{{ cTeamInfo?.title }} {{ cHeight }}</h2>
           </el-col>
           <el-col :span="12" align="end">
             <el-button size="large" @click="exitBtn">팀 나가기</el-button>
@@ -141,7 +149,7 @@
         <!-- 메세지 표시 영역 -->
         <el-row>
           <el-col :span="24">
-            <el-card :body-style="messageBoxCSS">
+            <el-card :body-style="cMessageBoxCSS">
               <el-row>
                 <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
                   <div v-if="msg.type === 'system'">
