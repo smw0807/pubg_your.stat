@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { computed } from 'vue';
+  import { useWindowSize } from '@vueuse/core';
   import { dateFormat } from '@/utils';
   interface Props {
     type: 'mine' | 'other' | undefined; //메세지 타입
@@ -16,11 +18,24 @@
     textColor: '#E5EAF3',
     backgroundColor: '#1D1E1F',
   });
-  const cardStyles = {
-    float: props.type === 'mine' ? 'right' : 'left',
-    width: '40%', //todo 브라우저 크리에 맞게 유동적으로 값이 변하도록 바꾸기
-    'word-wrap': 'break-word',
-  };
+  const { width } = useWindowSize();
+  //브라우저 width값에 따른 메세지 박스 넓이 값
+  const cWidth = computed(() => {
+    if (width.value > 900) {
+      return '40%';
+    } else if (width.value > 750) {
+      return '50%';
+    } else {
+      return '100%';
+    }
+  });
+  const cCardStyles = computed(() => {
+    return {
+      float: props.type === 'mine' ? 'right' : 'left',
+      width: cWidth.value,
+      'word-wrap': 'break-word',
+    };
+  });
   const cardBodyStyles = {
     padding: '10px',
     color: props.textColor,
@@ -28,11 +43,9 @@
   };
 </script>
 <template>
-  <el-card :body-style="cardBodyStyles" :style="cardStyles">
+  <el-card :body-style="cardBodyStyles" :style="cCardStyles">
     <el-row>
-      <el-col :span="18" style="padding: 10px 0">
-        {{ nickname }}
-      </el-col>
+      <el-col :span="18" style="padding: 10px 0"> {{ nickname }} {{ cWidth }} </el-col>
       <el-col :span="6" align="end">
         <span :style="`font-size: var(--el-font-size-extra-small)`">
           {{ dateFormat(time, 'YYYY-MM-DD') }}
