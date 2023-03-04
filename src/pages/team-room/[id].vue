@@ -36,6 +36,7 @@
 
   //로그인 사용자 정보
   const cUser = computed(() => userStore.getUser);
+  //로그인 사용자 닉네임 정보
   const cNick = computed(() => userStore.getNickname);
 
   //메세지 박스 높이
@@ -140,7 +141,7 @@
         <!-- 팀 이름, 팀 나가기 -->
         <el-row justify="space-between" align="middle">
           <el-col :span="12">
-            <h2>{{ cTeamInfo?.title }} {{ cHeight }}</h2>
+            <h2>{{ cTeamInfo?.title }}</h2>
           </el-col>
           <el-col :span="12" align="end">
             <el-button size="large" @click="exitBtn">팀 나가기</el-button>
@@ -162,6 +163,7 @@
                       :nickname="msg.sender"
                       :time="msg['send-time']"
                       :message="msg.message"
+                      :background-color="msg['sender-uid'] === cUser?.uid ? '#4e8e2f' : ''"
                     />
                   </div>
                 </el-col>
