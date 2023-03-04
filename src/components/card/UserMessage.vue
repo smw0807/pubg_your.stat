@@ -45,7 +45,7 @@
 <template>
   <el-card :body-style="cardBodyStyles" :style="cCardStyles">
     <el-row>
-      <el-col :span="18" style="padding: 10px 0"> {{ nickname }} {{ cWidth }} </el-col>
+      <el-col :span="18" style="padding: 10px 0"> {{ nickname }} </el-col>
       <el-col :span="6" align="end">
         <span :style="`font-size: var(--el-font-size-extra-small)`">
           {{ dateFormat(time, 'YYYY-MM-DD') }}

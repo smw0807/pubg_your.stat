@@ -163,7 +163,7 @@
                       :nickname="msg.sender"
                       :time="msg['send-time']"
                       :message="msg.message"
-                      :background-color="msg['sender-uid'] === cUser?.uid ? '#4e8e2f' : ''"
+                      :background-color="msg['sender-uid'] === cUser?.uid ? '#a77730' : ''"
                     />
                   </div>
                 </el-col>
