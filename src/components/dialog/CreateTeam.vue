@@ -17,6 +17,7 @@
   const emit = defineEmits(['input-data', 'button-event']);
 
   const cPlatform = computed(() => props.platform);
+  const cOpen = computed(() => props.open);
 
   // 데이터 폼 ref
   const formRef = ref<FormInstance>();
@@ -47,6 +48,14 @@
 
   watch(cPlatform, () => {
     form.platform = cPlatform.value;
+  });
+  watch(cOpen, v => {
+    if (!v) {
+      //컴포넌트 닫히면 리셋
+      formRef.value?.resetFields();
+      form.isRank = true;
+      form.mode = 'squad';
+    }
   });
 </script>
 <template>
