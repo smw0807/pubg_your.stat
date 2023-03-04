@@ -27,6 +27,7 @@
   - vite-plugin-pages (https://github.com/hannoeru/vite-plugin-pages)
 - Vue3 (https://vuejs.org/)
   - TS with CompositionAPI (https://vuejs.org/guide/typescript/composition-api.html#typing-component-props)
+- VueUse (https://vueuse.org/)
 - vue-router (https://router.vuejs.org/)
 - TypeScript (https://www.typescriptlang.org/)
 - Pinia (https://pinia.vuejs.org/introduction.html)
@@ -108,9 +109,11 @@ https://github.com/martinsileno/pubg-typescript-api
 
 ## 만들면서 참고한 URL들
 
-- vue3
+- Vue3
   - 컴포져블 https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
   - 계산된속성 https://v3-docs.vuejs-korea.org/guide/essentials/computed.html#best-practices
+- VueUse
+  - useWindowSize (https://vueuse.org/core/useWindowSize/)
 - Element Plus
   - 알림 : https://element-plus.org/en-US/component/notification.html
   - input 창 자동완성 기능 : https://element-plus.org/en-US/component/autocomplete.html
