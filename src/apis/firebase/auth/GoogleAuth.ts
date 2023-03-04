@@ -1,8 +1,3 @@
-/**
- * todo
- * 1. 사이트 최초 로그인 시 플랫폼 별 닉네임 입력 시키는 기능
- * 2. 이미 있으면 패스..?
- */
 import { app } from '@/apis/firebase';
 import {
   Auth,
@@ -14,8 +9,6 @@ import {
   User,
   UserCredential,
   getAdditionalUserInfo,
-  getRedirectResult,
-  AdditionalUserInfo,
 } from 'firebase/auth';
 
 type SignInType = {

@@ -12,13 +12,12 @@ interface mode {
  * avgDmg : 랭크만 모드별로 평균딜량 정보 담음
  * last-update-date : PUBG API로 스탯정보 받은 날짜
  * platform : 플랫폼
- * todo last-update-date에 Date 지워도되는지 확인 필요 vue-timeago3 떄문에 string 처리 했었음
  */
 export interface IPlayerStats {
   normal: string;
   rank: string;
   kda: mode;
   avgDmg: mode;
-  'last-update-date': Date | string;
+  'last-update-date': string;
   platform: string;
 }
