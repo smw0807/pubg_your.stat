@@ -17,7 +17,7 @@
     message: '',
     time: '',
     align: 'start',
-    textColor: ' #85ce61',
+    textColor: '#85ce61',
     backgroundColor: '#1c2518',
   });
   const cardBodyStyles = {
