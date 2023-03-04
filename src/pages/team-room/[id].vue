@@ -9,6 +9,7 @@
   import { useWindowSize } from '@vueuse/core';
 
   //컴포넌트
+  import TeamMember from '@/components/card/TeamMember.vue';
   import SystemMessage from '@/components/card/SystemMessage.vue';
   import UserMessage from '@/components/card/UserMessage.vue';
 
@@ -131,10 +132,12 @@
     <el-row>
       <!-- 접속자 리스트 -->
       <el-col :md="4" :sm="24" style="padding-right: 10px">
-        <el-card v-for="(member, idx) of cMembers" :key="idx">
-          <span> {{ member[`${cTeamInfo?.platform!}-nickname`] }}</span>
-          <span v-if="cUser?.email === member.email"> [나]</span>
-        </el-card>
+        <TeamMember
+          v-for="(member, idx) of cMembers"
+          :key="idx"
+          :nickname="member[`${cTeamInfo?.platform!}-nickname`]"
+          :is-mine="cUser?.email === member.email"
+        />
       </el-col>
       <!-- 팀 이름, 팀나가기, 메세지 표시, 메세지 입력 -->
       <el-col :md="20" :sm="24">
