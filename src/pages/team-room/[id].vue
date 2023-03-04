@@ -137,6 +137,7 @@
           :key="idx"
           :nickname="member[`${cTeamInfo?.platform!}-nickname`]"
           :is-mine="cUser?.email === member.email"
+          copy-nickname
         />
       </el-col>
       <!-- 팀 이름, 팀나가기, 메세지 표시, 메세지 입력 -->
