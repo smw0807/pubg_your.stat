@@ -41,6 +41,15 @@
   //메세지 박스 높이
   const cHeight = computed(() => height.value - 280 + 'px');
 
+  //메세지 박스 CSS
+  const cMessageBoxCSS = computed(() => {
+    return {
+      border: '1px solid #4b4d50',
+      height: cHeight.value,
+      'overflow-y': 'auto',
+    };
+  });
+
   //채팅 메세지
   const message: Ref<string> = ref('');
 
@@ -114,14 +123,6 @@
   onUnmounted(async () => {
     message.value = '';
     await exitTeam();
-  });
-
-  const cMessageBoxCSS = computed(() => {
-    return {
-      border: '1px solid #4b4d50',
-      height: cHeight.value,
-      'overflow-y': 'auto',
-    };
   });
 </script>
 <template>
