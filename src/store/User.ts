@@ -52,7 +52,9 @@ export const useUserStore = defineStore({
         const user = await authAPI.reloadUser();
         this.hasUser = user ? true : false;
         this.user = user;
-        await this.setNickname();
+        if (this.user) {
+          await this.setNickname();
+        }
       } catch (err) {
         throw err;
       }
