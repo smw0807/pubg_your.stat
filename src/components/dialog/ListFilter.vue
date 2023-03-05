@@ -3,10 +3,11 @@
   import type { Ref } from 'vue';
   import { PlatformType, ITeamFilter } from '@/interfaces';
 
-  const props = defineProps<{
+  interface Props {
     platform: PlatformType;
     filterData: ITeamFilter;
-  }>();
+  }
+  const props = defineProps<Props>();
 
   const emit = defineEmits(['select-data']);
 
