@@ -2,15 +2,18 @@
   import { ref } from 'vue';
   import type { Ref } from 'vue';
 
-  const titleName: Ref<string> = ref('PUBG Your Stat');
+  interface Props {
+    hasUser: boolean;
+    hideButton: boolean;
+  }
+  const props = withDefaults(defineProps<Props>(), {
+    hasUser: false,
+    hideButton: false,
+  });
 
   const emit = defineEmits(['signin', 'signout', 'user']);
-  const props = defineProps({
-    hasUser: {
-      type: Boolean,
-      default: false,
-    },
-  });
+
+  const titleName: Ref<string> = ref('PUBG Your Stat');
 </script>
 <template>
   <div>
@@ -18,7 +21,7 @@
       <el-col :span="21">
         <div class="logo">{{ titleName }}</div>
       </el-col>
-      <el-col :span="3" align="end">
+      <el-col :span="3" align="end" v-show="!hideButton">
         <el-button size="large" link v-if="hasUser" @click="emit('user')">내 정보</el-button>
         <el-button size="large" link v-if="hasUser" @click="emit('signout')">로그아웃</el-button>
         <el-button size="large" link v-else @click="emit('signin')">로그인</el-button>
