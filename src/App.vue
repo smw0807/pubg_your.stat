@@ -5,12 +5,13 @@
   import { IUserPlatformNickNames } from '@/interfaces';
   import { notifSuccess, notifError, dateFormat } from '@/utils';
   import { ElMessageBox } from 'element-plus';
+  import { useRoute } from 'vue-router';
 
   import HeaderMenu from '@/components/header/HeaderMenu.vue';
-  //사용자 플레이어 닉네임 입력 컴포넌트 (첫 로그인, 내정보 기능에서 사용 예정)
   import MyPlatformNickname from '@/components/dialog/MyPlatformNickname.vue';
 
   const store = useUserStore();
+  const route = useRoute();
 
   //플랫폼 닉네임 등록 컴포넌트 활성화 유무
   let isShowMyPlatform: Ref<boolean> = ref(false);
@@ -19,6 +20,14 @@
   //플랫폼 닉네임 등록 컴포넌트 제목
   let myPlatformTitle: Ref<string> = ref('플레이어 닉네임 등록');
 
+  //헤더 우측 버튼 숨김 여부 (팀 채팅방에서는 정보 수정, 로그아웃 버튼 감추기 위해 만듦)
+  const cHideHeaderButton = computed(() => {
+    if (route.path.indexOf('/team-room') !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  });
   //유저 정보
   const cUser = computed(() => store.user);
   //스토어에 유저 정보가 있는지
@@ -140,7 +149,13 @@
         </template>
       </MyPlatformNickname>
       <el-header>
-        <HeaderMenu @signin="signin" @signout="signout" @user="myInfo" :has-user="cHasUser" />
+        <HeaderMenu
+          @signin="signin"
+          @signout="signout"
+          @user="myInfo"
+          :has-user="cHasUser"
+          :hide-button="cHideHeaderButton"
+        />
       </el-header>
       <router-view />
     </el-container>
