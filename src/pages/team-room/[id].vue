@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, watch, computed, ref, onUnmounted } from 'vue';
+  import { onMounted, watch, computed, ref, onUnmounted, nextTick } from 'vue';
   import type { Ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
@@ -25,7 +25,9 @@
   const teamroomStroe = useTeamRoomStore();
   const userStore = useUserStore();
 
+  //팀 나가기 두 번 처리되는 현상 방지용
   const isExit: Ref<boolean> = ref(false);
+  //메세지 두 번 입력되는 현상 방지용
   const isSend: Ref<boolean> = ref(false);
 
   //팀 정보
@@ -51,9 +53,6 @@
       'overflow-y': 'auto',
     };
   });
-
-  //채팅 메세지
-  const message: Ref<string> = ref('');
 
   //팀 접속자들 정보 가져오기
   const getMembers = async (): Promise<void> => {
@@ -87,6 +86,8 @@
     });
   };
 
+  //채팅 메세지 입력 값
+  const message: Ref<string> = ref('');
   //메세지 보내기
   const sendMessage = async (): Promise<void> => {
     try {
@@ -121,6 +122,21 @@
   watch(cTeamInfo, async () => {
     await getMembers();
   });
+
+  //el-scrollbar ref
+  const msgBoxScrollbar = ref();
+  //메세지 데이터 요소 쌓이는 곳 ref
+  const scrollContents = ref();
+  //메세지 데이터 변경 시 스크롤 아래로 이동시키기
+  watch(cMessages, () => {
+    nextTick(() => {
+      msgBoxScrollbar.value.scrollTo({
+        top: scrollContents.value.scrollHeight,
+        behavior: 'smooth',
+      });
+    });
+  });
+
   //페이지 벗어날 때
   onUnmounted(async () => {
     message.value = '';
@@ -156,22 +172,30 @@
         <el-row>
           <el-col :span="24">
             <el-card :body-style="cMessageBoxCSS">
-              <el-row>
-                <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
-                  <div v-if="msg.type === 'system'">
-                    <SystemMessage :message="msg.message" :time="msg['send-time']" align="center" />
-                  </div>
-                  <div v-else>
-                    <UserMessage
-                      :type="msg['sender-uid'] === cUser?.uid ? 'mine' : 'other'"
-                      :nickname="msg.sender"
-                      :time="msg['send-time']"
-                      :message="msg.message"
-                      :background-color="msg['sender-uid'] === cUser?.uid ? '#a77730' : ''"
-                    />
-                  </div>
-                </el-col>
-              </el-row>
+              <el-scrollbar ref="msgBoxScrollbar" :height="cMessageBoxCSS.height">
+                <div ref="scrollContents">
+                  <el-row>
+                    <el-col :span="24" v-for="(msg, idx) of cMessages" :key="idx">
+                      <div v-if="msg.type === 'system'">
+                        <SystemMessage
+                          :message="msg.message"
+                          :time="msg['send-time']"
+                          align="center"
+                        />
+                      </div>
+                      <div v-else>
+                        <UserMessage
+                          :type="msg['sender-uid'] === cUser?.uid ? 'mine' : 'other'"
+                          :nickname="msg.sender"
+                          :time="msg['send-time']"
+                          :message="msg.message"
+                          :background-color="msg['sender-uid'] === cUser?.uid ? '#a77730' : ''"
+                        />
+                      </div>
+                    </el-col>
+                  </el-row>
+                </div>
+              </el-scrollbar>
             </el-card>
           </el-col>
         </el-row>
