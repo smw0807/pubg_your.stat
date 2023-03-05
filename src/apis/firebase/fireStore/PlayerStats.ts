@@ -12,11 +12,15 @@ export class PlayerStatsAPI {
   private collection: string = 'player-stats';
 
   //저장소에 저장된 정보 가져오기
-  async getStats(params: ISearchForm): Promise<DocumentData> {
+  async getStats(params: ISearchForm): Promise<DocumentData | null> {
     try {
       const docRef = doc(this.db, this.collection, `${params.platform}-${params.nickname}`);
       const docSnap = await getDoc(docRef);
-      return docSnap;
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        return null;
+      }
     } catch (err) {
       throw err;
     }

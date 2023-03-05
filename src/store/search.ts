@@ -30,12 +30,12 @@ export const useSearchStore = defineStore({
     //파이어베이스 저장소에 저장된 데이터 가져오기
     async getStats(params: ISearchForm): Promise<number> {
       try {
-        const rs = await statAPI.getStats(params);
+        const statData = await statAPI.getStats(params);
         //저장소에 데이터가 있을 경우
-        if (rs.exists()) {
-          this.rank = JSON.parse(rs.data().rank);
-          this.normal = JSON.parse(rs.data().normal);
-          this.lastUpdateDate = rs.data()['last-update-date'];
+        if (statData) {
+          this.rank = JSON.parse(statData.rank);
+          this.normal = JSON.parse(statData.normal);
+          this.lastUpdateDate = statData['last-update-date'];
         } else {
           //데이터가 없을 경우 pubg api에다 검색 요청 후 저장소에 저장
           await this.setSeason(params.platform);
@@ -82,11 +82,15 @@ export const useSearchStore = defineStore({
         await statAPI.setStats(params, stat[0].data, stat[1].data);
 
         //파이어베이스에 저장된 데이터 가져오기
-        const rs = await statAPI.getStats(params);
-        this.rank = JSON.parse(rs.data().rank);
-        this.normal = JSON.parse(rs.data().normal);
-        this.lastUpdateDate = rs.data()['last-update-date'];
-        return 200;
+        const statData = await statAPI.getStats(params);
+        if (statData) {
+          this.rank = JSON.parse(statData.rank);
+          this.normal = JSON.parse(statData.normal);
+          this.lastUpdateDate = statData['last-update-date'];
+          return 200;
+        } else {
+          throw new Error('404');
+        }
       } catch (err) {
         throw errorCode(err);
       }
