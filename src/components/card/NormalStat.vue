@@ -19,7 +19,6 @@
     mode: ModeType;
   }
   const props = defineProps<Props>();
-  console.log(props);
 
   // 데이터 존재 유무
   let hasNoData = computed(() => (props.data.roundsPlayed === 0 ? true : false));

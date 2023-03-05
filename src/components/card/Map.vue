@@ -1,15 +1,11 @@
 <script setup lang="ts">
   import { computed } from 'vue';
-  const props = defineProps({
-    imgName: {
-      type: String,
-      required: true,
-    },
-    source: {
-      type: String,
-      required: true,
-    },
-  });
+  interface Props {
+    imgName: string;
+    source: string;
+  }
+  const props = defineProps<Props>();
+
   const selIndex = 0;
   const cImgPath = computed(() => `/car-respone/${props.imgName}.png`);
   const cSourceLink = computed(() => props.source);

@@ -1,21 +1,18 @@
 <script setup lang="ts">
   import { ko } from 'date-fns/locale';
 
-  const emit = defineEmits(['reload']);
-  const props = defineProps({
-    nickname: {
-      type: String,
-      default: '',
-    },
-    platform: {
-      type: String,
-      default: '',
-    },
-    updatedate: {
-      type: String,
-      default: '',
-    },
+  interface Props {
+    nickname: string;
+    platform: string;
+    updatedate: string;
+  }
+  const props = withDefaults(defineProps<Props>(), {
+    nickname: '',
+    platform: '',
+    updatedate: '',
   });
+
+  const emit = defineEmits(['reload']);
 
   // 갱신 버튼 클릭시
   const reload = (): void => {

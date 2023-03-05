@@ -2,12 +2,18 @@
   import { computed } from 'vue';
   import { useWindowSize } from '@vueuse/core';
   import { dateFormat } from '@/utils';
+  const { width } = useWindowSize();
+
   interface Props {
-    type: 'mine' | 'other' | undefined; //메세지 타입
+    //메세지 타입
+    type: 'mine' | 'other';
     nickname: string;
+    //메세지 전송 시간
     time: string;
     message: string;
+    //글씨 색
     textColor?: string;
+    //컴포넌트 배경 색
     backgroundColor?: string;
   }
   const props = withDefaults(defineProps<Props>(), {
@@ -18,7 +24,7 @@
     textColor: '#E5EAF3',
     backgroundColor: '#1D1E1F',
   });
-  const { width } = useWindowSize();
+
   //브라우저 width값에 따른 메세지 박스 넓이 값
   const cWidth = computed(() => {
     if (width.value > 900) {
@@ -29,6 +35,7 @@
       return '100%';
     }
   });
+  //카드 컴포넌트 스타일
   const cCardStyles = computed(() => {
     return {
       float: props.type === 'mine' ? 'right' : 'left',
@@ -36,6 +43,7 @@
       'word-wrap': 'break-word',
     };
   });
+  //카드 컴포넌트 바디 스타일
   const cardBodyStyles = {
     padding: '10px',
     color: props.textColor,
