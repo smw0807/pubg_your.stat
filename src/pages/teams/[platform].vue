@@ -50,20 +50,28 @@
       confirmButtonText: '확인',
       cancelButtonText: '취소',
     }).then(async () => {
-      const result = await teamStore.createTeam(form);
-      if (result) {
-        createTeamModal.value = false;
-        joinTeam(result);
+      try {
+        const result = await teamStore.createTeam(form);
+        if (result) {
+          createTeamModal.value = false;
+          joinTeam(result);
+        }
+      } catch (err) {
+        notifError(null, err as string);
       }
     });
   };
 
   // 팀 리스트 불러오기
   const getTeamList = async (): Promise<void> => {
-    if (cPlatform.value === 'kakao') {
-      await teamStore.teamList(teamStore.kakaoFilter);
-    } else if (cPlatform.value === 'steam') {
-      await teamStore.teamList(teamStore.steamFilter);
+    try {
+      if (cPlatform.value === 'kakao') {
+        await teamStore.teamList(teamStore.kakaoFilter);
+      } else if (cPlatform.value === 'steam') {
+        await teamStore.teamList(teamStore.steamFilter);
+      }
+    } catch (err) {
+      notifError(null, err as string);
     }
   };
 
