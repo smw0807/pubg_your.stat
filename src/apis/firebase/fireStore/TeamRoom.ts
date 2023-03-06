@@ -58,7 +58,7 @@ export class TeamRoomAPI {
   async joinTeam(userId: string, teamId: string): Promise<null | true> {
     try {
       //최신의 팀정보 가져오기
-      const team = (await this.getTeamInfo(teamId)) as DocumentData;
+      const team = await this.getTeamInfo(teamId) as DocumentData;
       const data = team!.data() as ITeamInfo;
       //혹시 몰라서 인원수 한 번 더 체크
       if (this.checkMembers(data)) {
