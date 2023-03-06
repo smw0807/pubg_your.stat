@@ -20,6 +20,7 @@
   });
 
   //========== select ======================================================= S
+  const defaultValue = 'kakao';
   interface gamePlatform {
     label: string; // UI에 표시할 값
     value: string;
@@ -118,7 +119,13 @@
   //========== localStorage ======================================================= E
 
   onMounted(() => {
-    searchParams.value.platform = localStorage.getItem('yourstat_search_platform') || '';
+    const lsSearchPlatform = localStorage.getItem('yourstat_search_platform');
+    if (lsSearchPlatform) {
+      searchParams.value.platform = localStorage.getItem('yourstat_search_platform') || '';
+    } else {
+      searchParams.value.platform = defaultValue;
+      localStorage.setItem('yourstat_search_platform', defaultValue);
+    }
     searchParams.value.nickname = '';
     history.value = [...getHistory()];
   });
