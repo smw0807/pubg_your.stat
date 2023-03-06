@@ -82,9 +82,9 @@
       .then(async () => {
         const result = await store.savePlatformNickname(myPlatformMode.value, form);
         if (typeof result === 'string') {
-          notifError(null, result);
+          notifError('플레이어 닉네임 저장', result);
         } else {
-          notifSuccess(null, '등록완료');
+          notifSuccess('플레이어 닉네임 저장', '등록완료');
           isShowMyPlatform.value = false;
         }
       })

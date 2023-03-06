@@ -79,7 +79,7 @@ export const useUserStore = defineStore({
     ): Promise<boolean | string> {
       try {
         if (!this.user) {
-          return '로그인 상태 확인 필요';
+          throw '로그인 상태 확인 필요';
         }
         return await usersAPI.savePlatformNickname(
           mode,
