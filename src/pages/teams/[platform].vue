@@ -51,8 +51,10 @@
       cancelButtonText: '취소',
     }).then(async () => {
       const result = await teamStore.createTeam(form);
-      createTeamModal.value = false;
-      joinTeam(result);
+      if (result) {
+        createTeamModal.value = false;
+        joinTeam(result);
+      }
     });
   };
 

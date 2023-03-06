@@ -49,8 +49,8 @@ export const useTeamStore = defineStore({
       }
     },
     // 팀 생성하기
-    async createTeam(params: ITeamForm): Promise<string> {
-      let result = '';
+    async createTeam(params: ITeamForm): Promise<string | null> {
+      let result = null;
       try {
         result = await teamApi.createTeam(params);
       } catch (err) {
