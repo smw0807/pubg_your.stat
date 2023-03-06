@@ -11,7 +11,7 @@
   //icon
   import { Search } from '@element-plus/icons-vue';
 
-  const $emit = defineEmits(['searchInfo']);
+  const emit = defineEmits(['searchInfo']);
 
   // 넘길 데이터
   const searchParams: Ref<ISearchForm> = ref({
@@ -66,7 +66,7 @@
     if (searchParams.value.platform && searchParams.value.nickname) {
       checkLocalStorage();
       addLocalStorage(searchParams.value);
-      $emit('searchInfo', searchParams.value);
+      emit('searchInfo', searchParams.value);
     }
   };
   //========== search ======================================================= E
