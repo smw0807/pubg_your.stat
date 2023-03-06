@@ -54,7 +54,7 @@ export const useTeamStore = defineStore({
       try {
         result = await teamApi.createTeam(params);
       } catch (err) {
-        console.error(err);
+        notifError(null, err as string);
       }
       return result;
     },

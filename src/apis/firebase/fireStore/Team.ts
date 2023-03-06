@@ -32,7 +32,7 @@ export class TeamAPI extends GooleAuthAPI {
       });
     } catch (err) {
       console.error(err);
-      throw '팀 리스트를 가져오는데 실패 했습니다.';
+      throw '팀 리스트를 가져오는데 실패했습니다.';
     }
   }
   // 팀 만들기
@@ -46,7 +46,8 @@ export class TeamAPI extends GooleAuthAPI {
       const docRef = await addDoc(collection(this.db, this.collection), params);
       return docRef.id;
     } catch (err) {
-      throw err;
+      console.log(err);
+      throw '팀을 생성하는데 실패했습니다.';
     }
   }
 
@@ -62,6 +63,7 @@ export class TeamAPI extends GooleAuthAPI {
       case 'squad-fpp':
         result = 4;
         break;
+
     }
     return result;
   }
