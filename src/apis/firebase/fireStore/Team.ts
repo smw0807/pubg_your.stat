@@ -10,9 +10,8 @@ export class TeamAPI extends GooleAuthAPI {
   private collection: string = 'teams';
 
   // 팀 리스트 가져오기
-  async teamList(params: ITeamFilter): Promise<DocumentData> {
+  async teamList(params: ITeamFilter): Promise<DocumentData | null> {
     try {
-      let list: DocumentData = [];
       // 기본 쿼리
       let q = query(
         collection(this.db, this.collection),
@@ -23,14 +22,17 @@ export class TeamAPI extends GooleAuthAPI {
       if (params.mode !== 'all') q = query(q, where('mode', '==', params.mode));
 
       const querySnapshot = await getDocs(q);
-      list = querySnapshot.docs.map(v => {
+      if (querySnapshot.empty) {
+        return null;
+      }
+      return querySnapshot.docs.map(v => {
         const rt = v.data();
         rt.id = v.id;
         return rt;
       });
-      return list;
     } catch (err) {
-      throw err;
+      console.error(err);
+      throw '팀 리스트를 가져오는데 실패 했습니다.';
     }
   }
   // 팀 만들기

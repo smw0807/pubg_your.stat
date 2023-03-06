@@ -8,6 +8,7 @@ import { defineStore } from 'pinia';
 import { TeamAPI } from '@/apis';
 import { ITeamForm, ITeamFilter } from '@/interfaces';
 import type { DocumentData } from 'firebase/firestore';
+import { notifError} from '@/utils';
 
 const teamApi = new TeamAPI();
 
@@ -39,9 +40,12 @@ export const useTeamStore = defineStore({
     // 팀 리스트 불러오기
     async teamList(params: ITeamFilter): Promise<void> {
       try {
-        this.list = await teamApi.teamList(params);
+        const result = await teamApi.teamList(params);
+        if (result) {
+          this.list = result;
+        }
       } catch (err) {
-        console.error(err);
+        notifError(null, err as string);
       }
     },
     // 팀 생성하기
