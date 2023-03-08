@@ -72,7 +72,7 @@ export const useUserStore = defineStore({
       authAPI.signOut();
       this.hasUser = false;
     },
-    //사용자 배그 닉네임 저장
+    //내 정보 - 사용자 배그 닉네임 저장
     async savePlatformNickname(
       mode: 'ins' | 'upd',
       params: IUserPlatformNickNames
@@ -81,12 +81,15 @@ export const useUserStore = defineStore({
         if (!this.user) {
           throw '로그인 상태 확인 필요';
         }
-        return await usersAPI.savePlatformNickname(
+
+        const result = await usersAPI.savePlatformNickname(
           mode,
           this.user,
           params['steam-nickname'],
           params['kakao-nickname']
         );
+        await this.setNickname();
+        return result;
       } catch (err) {
         throw err;
       }
