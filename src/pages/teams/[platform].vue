@@ -88,6 +88,15 @@
   // 참가하기
   const joinTeam = async (id: string): Promise<void> => {
     try {
+      //내정보에 참가하려는 플랫폼 닉네임이 등록되어 있는지 확인
+      const nicknames = userStore.getNickname;
+      if (nicknames! && !nicknames[`${cPlatform.value}-nickname`]) {
+        notifWarning(
+          '팀 참가 실패',
+          '팀에 참여하려면 [내 정보]에서 닉네임을 등록해주세요.<br>각 플랫폼 닉네임을 등록해야 해당 플랫폼 팀에 참가할 수 있습니다.'
+        );
+        return;
+      }
       const result = await teamroomStore.joinTeam(userStore.user?.uid!, id);
       if (typeof result === 'boolean') {
         router.push(`/team-room/${id}`);
