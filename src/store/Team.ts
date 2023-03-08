@@ -40,9 +40,7 @@ export const useTeamStore = defineStore({
     async teamList(params: ITeamFilter): Promise<void> {
       try {
         const result = await teamApi.teamList(params);
-        if (result) {
-          this.list = result;
-        }
+        this.list = result || [];
       } catch (err) {
         throw err;
       }
