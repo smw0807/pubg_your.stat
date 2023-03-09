@@ -8,9 +8,11 @@ type TitleType = string | null;
 // 닉네임 검색 후 404 코드 받았을 때
 export const player404 = (): void => {
   ElNotification({
-    title: '존재하지 않는 플레이어 닉네임입니다.',
-    message: '플랫폼 또는 닉네임 대소문자를 확인해주시기 바랍니다.',
+    title: '존재하지 않는 플레이어 닉네임',
+    message:
+      '플랫폼 또는 닉네임 대소문자를 확인해주시기 바랍니다.<br/>조회 후 갱신이 안되는 경우 닉네임이 변경되었을 수도 있습니다',
     type: 'info',
+    dangerouslyUseHTMLString: true,
   });
 };
 
