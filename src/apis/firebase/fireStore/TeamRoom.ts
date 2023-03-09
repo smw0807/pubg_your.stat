@@ -59,7 +59,7 @@ export class TeamRoomAPI {
     try {
       //최신의 팀정보 가져오기
       const team = (await this.getTeamInfo(teamId)) as DocumentData;
-      const data = team!.data() as ITeamInfo;
+      const data = team as ITeamInfo;
       //혹시 몰라서 인원수 한 번 더 체크
       if (this.checkMembers(data)) {
         const members = new Set(data.members);
@@ -85,7 +85,7 @@ export class TeamRoomAPI {
     try {
       const team = await this.getTeamInfo(teamId);
       if (team) {
-        const data = team.data() as ITeamInfo;
+        const data = team as ITeamInfo;
         const members = new Set(data.members);
         members.delete(userId);
         data.members = [...members];
