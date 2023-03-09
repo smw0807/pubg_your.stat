@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia';
 import { TeamRoomAPI, UsersAPI, PlayerStatsAPI } from '@/apis';
-import { ITeamMessage, ITeamInfo, IUserPlatformNickNames, IPlayerStats } from '@/interfaces';
+import {
+  ITeamMessage,
+  ITeamInfo,
+  IUserPlatformNickNames,
+  IPlayerStats,
+  RankModeType,
+} from '@/interfaces';
 import { DocumentData } from 'firebase/firestore';
-import { nowDateFormat } from '@/utils';
+import { nowDateFormat, dateFormat } from '@/utils';
+import { useUserStore } from '@/store';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
 const NOT_EXISTS_TEAM_MSG = '팀이 존재하지 않습니다.';
@@ -20,8 +27,6 @@ export const useTeamRoomStore = defineStore({
     teamInfo: null as null | ITeamInfo,
     //접속중인 멤버(아이디 표시)
     members: [] as IUserPlatformNickNames[],
-    //접속중인 멤버 스탯
-    memberStats: [] as IPlayerStats[],
     //팀 채팅 메세지
     messages: [] as ITeamMessage[],
   }),
@@ -49,13 +54,13 @@ export const useTeamRoomStore = defineStore({
     async joinTeam(userId: string, teamId: string): Promise<string | true> {
       try {
         //팀 정보 가져오기
-        const team = await this.getTeamData(teamId);
+        const team = (await this.getTeamData(teamId)) as ITeamInfo;
         //팀 정보 없을 시
         if (!team) {
           return NOT_EXISTS_TEAM_MSG;
         }
         //팀 입장 허용인원 꽉 찼을 시
-        if (!teamroomAPI.checkMembers(team.data())) {
+        if (!teamroomAPI.checkMembers(team)) {
           return MAXIMUM_MEMBERS_MSG;
         }
         const join = await teamroomAPI.joinTeam(userId, teamId);
@@ -64,13 +69,52 @@ export const useTeamRoomStore = defineStore({
           return JOIN_FAIL_MSG;
         }
         //팀 정보 저장
-        this.teamInfo = team.data();
+        this.teamInfo = team;
         //팀 잠가 시간
         this.joinTime = nowDateFormat('YYYY-MM-DD HH:mm:ss');
         //입장 후 데이터 변화 감지 함수 실행
         teamroomAPI.startWatchTeamData(teamId);
         //팀 메세지 변화 감지 함수 실행
         teamroomAPI.startWatchTeamMessageData(teamId, this.joinTime);
+        //랭크 팀일 경우 파이어베이스에 저장된 스탯 정보 시스템 메세지로 뿌리기(해당되는 모드 스탯으로.)
+        if (this.teamInfo.isRank) {
+          const userStore = useUserStore();
+          const nicknames = userStore.getNickname;
+          //PUBG API를 통해 갱신된 스탯정보가 있을 경우.
+          if (nicknames) {
+            //팀 플랫폼에 해당하는 닉네임
+            const platformNickname = nicknames[`${this.teamInfo.platform}-nickname`];
+            //닉네임 스탯 정보
+            const stat = (await statAPI.getStats({
+              nickname: platformNickname,
+              platform: this.teamInfo.platform,
+            })) as IPlayerStats;
+            //스탯 정보 있을 경우
+            if (stat) {
+              const mode = this.teamInfo.mode as RankModeType;
+              let message = `${platformNickname} | `;
+              message += `kad: ${stat.kda[mode].toFixed(2)} | `;
+              message += `평딜: ${stat.avgDmg[mode]} | `;
+              message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
+              await teamroomAPI.sendMessage({
+                'team-uid': this.teamInfo.id,
+                'sender-uid': '',
+                message: message,
+                sender: 'system',
+                type: 'system',
+              });
+            } else {
+              //없을 경우
+              await teamroomAPI.sendMessage({
+                'team-uid': this.teamInfo.id,
+                'sender-uid': '',
+                message: `${platformNickname} 님은 현재 갱신된 스탯 정보가 없습니다.`,
+                sender: 'system',
+                type: 'system',
+              });
+            }
+          }
+        }
         return true;
       } catch (err) {
         throw err;
@@ -80,14 +124,11 @@ export const useTeamRoomStore = defineStore({
     async getMembersData(members: string[]): Promise<void> {
       try {
         if (members && members.length > 0) {
-          //1. users에서 팀 플랫폼에 해당되는 아이디 가져오기
+          //users에서 팀 플랫폼에 해당되는 아이디 가져오기
           const userNicknames = await Promise.all(
             members.map(async v => await usersAPI.getPlatformNickname(v))
           );
           this.members = [...userNicknames] as IUserPlatformNickNames[];
-          //2 랭크팀일 경우 player-stats에서 kad, avgDmg 가져오기
-          if (this.teamInfo?.isRank) {
-          }
         }
       } catch (err) {
         throw err;
