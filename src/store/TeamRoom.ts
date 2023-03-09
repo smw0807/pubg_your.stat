@@ -6,6 +6,7 @@ import {
   IUserPlatformNickNames,
   IPlayerStats,
   RankModeType,
+  IPlayerSeasonRank,
 } from '@/interfaces';
 import { DocumentData } from 'firebase/firestore';
 import { nowDateFormat, dateFormat } from '@/utils';
@@ -92,9 +93,11 @@ export const useTeamRoomStore = defineStore({
             //스탯 정보 있을 경우
             if (stat) {
               const mode = this.teamInfo.mode as RankModeType;
+              const palycount = JSON.parse(stat.rank) as IPlayerSeasonRank;
               let message = `${platformNickname} | `;
               message += `kad: ${stat.kda[mode].toFixed(2)} | `;
               message += `평딜: ${stat.avgDmg[mode]} | `;
+              message += `판수: ${palycount.data.attributes.rankedGameModeStats[mode].roundsPlayed} | `;
               message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
               await teamroomAPI.sendMessage({
                 'team-uid': this.teamInfo.id,
