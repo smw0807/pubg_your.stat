@@ -67,7 +67,7 @@ export class TeamRoomAPI {
         members.add(userId);
         data.members = [...members];
         //데이터 업데이트
-        await setDoc(doc(this.db, this.collection, team.id), data);
+        await setDoc(doc(this.db, this.collection, teamId), data);
         //시스템 메세지
         await this.sendSystemMessage('in', userId, teamId, data);
         return true;
