@@ -34,7 +34,7 @@ export class TeamRoomAPI {
       const docRef = doc(this.db, this.collection, teamId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        return docSnap.data();
+        return { ...docSnap.data(), id: docSnap.id };
       } else {
         return null;
       }
