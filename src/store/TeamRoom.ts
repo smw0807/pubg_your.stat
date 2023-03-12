@@ -7,6 +7,7 @@ import {
   IPlayerStats,
   RankModeType,
   IPlayerSeasonRank,
+  ISearchForm,
 } from '@/interfaces';
 import { DocumentData } from 'firebase/firestore';
 import { nowDateFormat, dateFormat } from '@/utils';
@@ -133,6 +134,14 @@ export const useTeamRoomStore = defineStore({
           );
           this.members = [...userNicknames] as IUserPlatformNickNames[];
         }
+      } catch (err) {
+        throw err;
+      }
+    },
+    //팀원 스탯 정보 가져오기
+    async getMemberStat(params: ISearchForm): Promise<IPlayerStats | null> {
+      try {
+        return (await statAPI.getStats(params)) as IPlayerStats;
       } catch (err) {
         throw err;
       }

@@ -4,14 +4,23 @@
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
-  import { ITeamMessage } from '@/interfaces';
-  import { notifError } from '@/utils';
+  import { ITeamMessage, IGameStats, IGameRankStats, RankModeType } from '@/interfaces';
+  import {
+    notifError,
+    notifInfo,
+    normalStatData,
+    rankStatData,
+    parseNormalStat,
+    parseRankStat,
+  } from '@/utils';
   import { useWindowSize } from '@vueuse/core';
 
   //컴포넌트
   import TeamMember from '@/components/card/TeamMember.vue';
   import SystemMessage from '@/components/card/SystemMessage.vue';
   import UserMessage from '@/components/card/UserMessage.vue';
+  import NormalStat from '@/components/card/NormalStat.vue';
+  import RankStat from '@/components/card/RankStat.vue';
 
   const { height } = useWindowSize();
 
@@ -24,6 +33,15 @@
   });
   const teamroomStroe = useTeamRoomStore();
   const userStore = useUserStore();
+
+  //팀원 스탯 다이얼로그 활성화 여부
+  const isShowMemberStat: Ref<boolean> = ref(false);
+  //스탯 조회 팀원 닉네임
+  const searchMemberNickname: Ref<string> = ref('');
+  //팀원 일반 스탯 데이터
+  const memberNormalStat: Ref<IGameStats> = ref(normalStatData);
+  //팀원 랭크 스탯 데이터
+  const memberRankStat: Ref<IGameRankStats> = ref(rankStatData);
 
   //팀 나가기 두 번 처리되는 현상 방지용
   const isExit: Ref<boolean> = ref(false);
@@ -60,6 +78,35 @@
       await teamroomStroe.getMembersData(cTeamInfo.value?.members!);
     } catch (err) {
       notifError(null, err as string);
+    }
+  };
+
+  //팀원 스탯 가져오기
+  const getPlayerStat = async (nickname: string): Promise<void> => {
+    try {
+      const search = await teamroomStroe.getMemberStat({
+        platform: cTeamInfo.value?.platform!,
+        nickname: nickname,
+      });
+      if (search) {
+        if (cTeamInfo.value?.isRank) {
+          memberRankStat.value = parseRankStat(
+            cTeamInfo.value?.mode! as RankModeType,
+            JSON.parse(search.rank)
+          );
+        } else {
+          memberNormalStat.value = parseNormalStat(
+            cTeamInfo.value?.mode!,
+            JSON.parse(search.normal)
+          );
+        }
+        searchMemberNickname.value = nickname;
+        isShowMemberStat.value = true;
+      } else {
+        notifInfo('팀원 스탯 조회', `${nickname} 님의 스탯 정보가 현재 등록되어있지 않습니다.`);
+      }
+    } catch (err) {
+      notifError('팀원 스탯 조회', err as string);
     }
   };
 
@@ -137,6 +184,14 @@
     });
   });
 
+  //팀 멤버 스탯 보기 다이얼로그 닫을 시 초기화
+  watch(isShowMemberStat, () => {
+    if (!isShowMemberStat.value) {
+      memberNormalStat.value = normalStatData;
+      memberRankStat.value = rankStatData;
+    }
+  });
+
   //페이지 벗어날 때
   onUnmounted(async () => {
     message.value = '';
@@ -145,19 +200,30 @@
 </script>
 <template>
   <div class="common-layout">
+    <el-dialog v-model="isShowMemberStat" :title="searchMemberNickname" width="50%">
+      <NormalStat v-if="!cTeamInfo?.isRank" :mode="cTeamInfo?.mode!" :data="memberNormalStat" />
+      <RankStat v-if="cTeamInfo?.isRank" :mode="cTeamInfo.mode!" :data="memberRankStat" />
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="isShowMemberStat = false">닫기</el-button>
+        </span>
+      </template>
+    </el-dialog>
     <el-row>
       <!-- 접속자 리스트 -->
-      <el-col :md="4" :sm="24" style="padding-right: 10px">
+      <el-col :md="5" :sm="24" style="padding-right: 10px">
         <TeamMember
           v-for="(member, idx) of cMembers"
           :key="idx"
           :nickname="member[`${cTeamInfo?.platform!}-nickname`]"
           :is-mine="cUser?.email === member.email"
           copy-nickname
+          show-stat
+          @show-player-stat="getPlayerStat"
         />
       </el-col>
       <!-- 팀 이름, 팀나가기, 메세지 표시, 메세지 입력 -->
-      <el-col :md="20" :sm="24">
+      <el-col :md="19" :sm="24">
         <!-- 팀 이름, 팀 나가기 -->
         <el-row justify="space-between" align="middle">
           <el-col :span="12">
