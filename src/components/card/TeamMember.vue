@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useClipboard } from '@vueuse/core';
-  import { CopyDocument } from '@element-plus/icons-vue';
+  import { CopyDocument, UserFilled } from '@element-plus/icons-vue';
   import { ElMessage } from 'element-plus';
   interface Props {
     //닉네임
@@ -9,12 +9,17 @@
     isMine: boolean;
     //닉네임 카피 기능 활성화 여부
     copyNickname?: boolean;
+    //
+    showStat?: boolean;
   }
   const props = withDefaults(defineProps<Props>(), {
     nickname: '',
     isMine: true,
     copyNickname: false,
+    showStat: false,
   });
+
+  const emit = defineEmits(['showPlayerStat']);
 
   const { isSupported, copy } = useClipboard();
 
@@ -35,11 +40,20 @@
 <template>
   <el-card :body-style="cardBodyStyles">
     <el-row>
-      <el-col :span="22">
-        <span> {{ nickname }}</span>
+      <el-col :span="19">
+        <span :style="`font-size: var(--el-font-small)`"> {{ nickname }}</span>
         <span v-if="isMine"> [나]</span>
       </el-col>
-      <el-col :span="2" align="end">
+      <el-col :span="5" align="end">
+        <el-tooltip
+          content="클릭 시 상세 스탯 정보를 볼 수 있습니다."
+          effect="light"
+          v-if="showStat"
+        >
+          <el-icon @click="emit('showPlayerStat', nickname)">
+            <UserFilled />
+          </el-icon>
+        </el-tooltip>
         <el-tooltip
           content="클릭 시 닉네임이 복사됩니다."
           effect="light"
@@ -53,4 +67,8 @@
     </el-row>
   </el-card>
 </template>
-<style scoped></style>
+<style scoped>
+  .el-icon {
+    margin-right: 5px;
+  }
+</style>
