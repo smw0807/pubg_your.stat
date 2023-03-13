@@ -6,7 +6,6 @@
  * 디렉토리 명을 composables로 하기엔 너무 길기도 하고 위 링크에서 말하는 의도와 조금 달라서 그냥 utils로 지정함...
  * 그리고 앞에 use를 붙여서 카멜케이스 방식의 작명이 관례라곤 하지만 이건 제외했음.
  */
-export { normalStat, rankStat } from './CreatedStat';
 export { changeSeconds, nowDateFormat, dateFormat } from './Date';
 export { meterToKm } from './Distance';
 export { errorCode } from './Error';
@@ -15,4 +14,3 @@ export { _429, player404, notifSuccess, notifInfo, notifWarning, notifError } fr
 export { insertComma } from './Number';
 export { parseNormalStat, parseRankStat } from './ParseStatData';
 export { normalStatData, rankStatData } from './Sample';
-export { getPlayerStats } from './Search';

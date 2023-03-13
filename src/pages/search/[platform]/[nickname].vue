@@ -9,7 +9,15 @@
   import type { Ref } from 'vue';
   import { ElLoading } from 'element-plus';
   import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
-  import { normalStat, rankStat, normalStatData, rankStatData, getPlayerStats } from '@/utils';
+  import {
+    normalStatData,
+    rankStatData,
+    parseNormalStat,
+    parseRankStat,
+    player404,
+    _429,
+    notifError,
+  } from '@/utils';
   import { useSearchStore } from '@/store';
 
   //컴포넌트
@@ -23,12 +31,6 @@
   }>();
 
   const store = useSearchStore();
-
-  let isReload: Ref<boolean> = ref(false);
-
-  if (Object.keys(store.rank).length === 0 && Object.keys(store.normal).length === 0) {
-    isReload.value = true;
-  }
 
   const params: ISearchForm = {
     platform: props.platform,
@@ -68,46 +70,59 @@
     try {
       await store.reloadStats(params);
       getStatData();
-      isReload.value = false;
     } catch (err) {
-      console.error(err);
+      if (err === 404) player404();
+      else if (err === 429) _429();
+      else notifError('플레이어 조회 실패', err as string);
     }
     loading.close();
   };
 
-  // store에서 데이터 가져오기
-  const getStatData = (): void => {
-    tppRankSolo.value = rankStat('solo');
-    tppRankSquad.value = rankStat('squad');
+  //스텟 데이터 가져오기
+  const getStatData = async (): Promise<void> => {
+    try {
+      const result = await store.getStats(params);
+      if (result) {
+        setStatData();
+      }
+    } catch (err) {
+      if (err === 404) player404();
+      else if (err === 429) _429();
+      else notifError('플레이어 조회 실패', err as string);
+    }
+  };
 
-    tppSolo.value = normalStat('solo');
-    tppDuo.value = normalStat('duo');
-    tppSquad.value = normalStat('squad');
+  // 스탯 카드에 보여줄 데이터 세팅
+  const setStatData = (): void => {
+    const rankData = store.rank;
+    const normalData = store.normal;
+
+    tppRankSolo.value = parseRankStat('solo', rankData);
+    tppRankSquad.value = parseRankStat('squad', rankData);
+
+    tppSolo.value = parseNormalStat('solo', normalData);
+    tppDuo.value = parseNormalStat('duo', normalData);
+    tppSquad.value = parseNormalStat('squad', normalData);
 
     if (hasFPP) {
-      fppRankSolo.value = rankStat('solo-fpp');
-      fppRankSquad.value = rankStat('squad-fpp');
+      fppRankSolo.value = parseRankStat('solo-fpp', rankData);
+      fppRankSquad.value = parseRankStat('squad-fpp', rankData);
 
-      fppSolo.value = normalStat('solo-fpp');
-      fppDuo.value = normalStat('duo-fpp');
-      fppSquad.value = normalStat('squad-fpp');
+      fppSolo.value = parseNormalStat('solo-fpp', normalData);
+      fppDuo.value = parseNormalStat('duo-fpp', normalData);
+      fppSquad.value = parseNormalStat('squad-fpp', normalData);
     }
   };
 
   onMounted(async () => {
-    if (isReload.value === true) {
-      const loading = ElLoading.service({
-        lock: true,
-        text: '잠시만 기다려주세요...',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
+    const loading = ElLoading.service({
+      lock: true,
+      text: '잠시만 기다려주세요...',
+      background: 'rgba(0, 0, 0, 0.7)',
+    });
+    await getStatData();
 
-      await getPlayerStats(params);
-
-      isReload.value = false;
-      loading.close();
-    }
-    getStatData();
+    loading.close();
   });
 </script>
 
