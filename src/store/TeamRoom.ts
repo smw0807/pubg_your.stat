@@ -6,11 +6,10 @@ import {
   IUserPlatformNickNames,
   IPlayerStats,
   RankModeType,
-  IPlayerSeasonRank,
   ISearchForm,
 } from '@/interfaces';
 import { DocumentData } from 'firebase/firestore';
-import { nowDateFormat, dateFormat } from '@/utils';
+import { nowDateFormat, dateFormat, parseRankStat } from '@/utils';
 import { useUserStore } from '@/store';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
@@ -94,21 +93,31 @@ export const useTeamRoomStore = defineStore({
             //스탯 정보 있을 경우
             if (stat) {
               const mode = this.teamInfo.mode as RankModeType;
-              const palycount = JSON.parse(stat.rank) as IPlayerSeasonRank;
-              let message = `${platformNickname} | `;
-              message += `kad: ${stat.kda[mode].toFixed(2)} | `;
-              message += `평딜: ${stat.avgDmg[mode]} | `;
-              message += `판수: ${
-                palycount.data.attributes.rankedGameModeStats[mode]?.roundsPlayed || 0
-              } | `;
-              message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
-              await teamroomAPI.sendMessage({
-                'team-uid': this.teamInfo.id,
-                'sender-uid': '',
-                message: message,
-                sender: 'system',
-                type: 'system',
-              });
+              const parseStat = parseRankStat(mode, JSON.parse(stat.rank));
+              const roundsPlayed = parseStat?.roundsPlayed || 0;
+              //파이어베이스에 데이터는 있는데 현재 시즌 데이터가 아니거나, 팀 모드에 해당되는 판수가 없을 경우
+              if (roundsPlayed === 0) {
+                await teamroomAPI.sendMessage({
+                  'team-uid': this.teamInfo.id,
+                  'sender-uid': '',
+                  message: `${platformNickname} 님은 현재 갱신된 스탯 정보가 없습니다.`,
+                  sender: 'system',
+                  type: 'system',
+                });
+              } else {
+                let message = `${platformNickname} | `;
+                message += `kad: ${stat.kda[mode].toFixed(2)} | `;
+                message += `평딜: ${stat.avgDmg[mode]} | `;
+                message += `판수: ${roundsPlayed} | `;
+                message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
+                await teamroomAPI.sendMessage({
+                  'team-uid': this.teamInfo.id,
+                  'sender-uid': '',
+                  message: message,
+                  sender: 'system',
+                  type: 'system',
+                });
+              }
             } else {
               //없을 경우
               await teamroomAPI.sendMessage({
