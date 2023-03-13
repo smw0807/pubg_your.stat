@@ -5,8 +5,12 @@ import { ISearchForm } from '@/interfaces';
 export const getPlayerStats = async (params: ISearchForm): Promise<number> => {
   const store = useSearchStore();
   try {
-    await store.getStats(params);
-    return 200;
+    const result = await store.getStats(params);
+    if (result) {
+      return 200;
+    } else {
+      return 404;
+    }
   } catch (err) {
     return 503;
   }

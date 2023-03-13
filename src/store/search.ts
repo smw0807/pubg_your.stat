@@ -21,7 +21,7 @@ export const useSearchStore = defineStore({
   getters: {},
   actions: {
     //파이어베이스 저장소에 저장된 데이터 가져오기
-    async getStats(params: ISearchForm): Promise<number> {
+    async getStats(params: ISearchForm): Promise<true> {
       try {
         const statData = await statAPI.getStats(params);
         //저장소에 데이터가 있을 경우
@@ -34,10 +34,8 @@ export const useSearchStore = defineStore({
           await this.setSeason(params.platform);
           await this.searchPlayer(params);
         }
-        return 200;
+        return true;
       } catch (err) {
-        if (err === 404) player404();
-        if (err === 429) _429();
         throw err;
       }
     },
@@ -47,8 +45,6 @@ export const useSearchStore = defineStore({
         await this.setSeason(params.platform);
         await this.searchPlayer(params);
       } catch (err) {
-        if (err === 404) player404();
-        if (err === 429) _429();
         throw err;
       }
     },
