@@ -17,14 +17,7 @@
   import rankStatCard from '@/components/card/RankStat.vue';
   import statCard from '@/components/card/NormalStat.vue';
 
-  const props = defineProps({
-    platform: {
-      type: String,
-    },
-    nickname: {
-      type: String,
-    },
-  });
+  const props = defineProps<ISearchForm>();
 
   const store = useSearchStore();
 
@@ -35,8 +28,8 @@
   }
 
   const params: ISearchForm = {
-    platform: props.platform as string,
-    nickname: props.nickname as string,
+    platform: props.platform,
+    nickname: props.nickname,
   };
 
   const activeName = ref('rank');
