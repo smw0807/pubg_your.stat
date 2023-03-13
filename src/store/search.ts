@@ -18,14 +18,7 @@ export const useSearchStore = defineStore({
     normal: {} as IPlayerSeason,
     lastUpdateDate: '',
   }),
-  getters: {
-    getAllSeason(): ISeason[] {
-      return this.nowSeasons;
-    },
-    getNowSeason(): ISeason {
-      return this.nowSeason;
-    },
-  },
+  getters: {},
   actions: {
     //파이어베이스 저장소에 저장된 데이터 가져오기
     async getStats(params: ISearchForm): Promise<number> {
