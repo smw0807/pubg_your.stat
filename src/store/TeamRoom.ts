@@ -98,7 +98,9 @@ export const useTeamRoomStore = defineStore({
               let message = `${platformNickname} | `;
               message += `kad: ${stat.kda[mode].toFixed(2)} | `;
               message += `평딜: ${stat.avgDmg[mode]} | `;
-              message += `판수: ${palycount.data.attributes.rankedGameModeStats[mode].roundsPlayed} | `;
+              message += `판수: ${
+                palycount.data.attributes.rankedGameModeStats[mode]?.roundsPlayed || 0
+              } | `;
               message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
               await teamroomAPI.sendMessage({
                 'team-uid': this.teamInfo.id,
