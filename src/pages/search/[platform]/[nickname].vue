@@ -17,7 +17,10 @@
   import rankStatCard from '@/components/card/RankStat.vue';
   import statCard from '@/components/card/NormalStat.vue';
 
-  const props = defineProps<ISearchForm>();
+  const props = defineProps<{
+    platform: string;
+    nickname: string;
+  }>();
 
   const store = useSearchStore();
 
