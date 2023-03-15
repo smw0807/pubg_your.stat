@@ -6,7 +6,7 @@
   }
   const props = defineProps<Props>();
 
-  const selIndex = 0;
+  let selIndex = 0;
   const cImgPath = computed(() => `/car-respone/${props.imgName}.png`);
   const cSourceLink = computed(() => props.source);
 </script>
