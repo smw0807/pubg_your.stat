@@ -106,10 +106,10 @@
     <el-container>
       <!-- 내 정보 컴포넌트 -->
       <MyPlatformNickname
-        :is-show="cMyPlatform"
+        :open="isShowMyPlatform"
         :nicknames="cMyNickname"
         :cancel-text="myPlatformMode === 'ins' ? '다음에 하기' : '닫기'"
-        @cancel="inputNickNamesCancel"
+        @close="inputNickNamesCancel"
         @save="saveNicnNames"
       >
         <template #title> {{ myPlatformTitle }} </template>

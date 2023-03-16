@@ -4,7 +4,7 @@
   import { IUserPlatformNickNames } from '@/interfaces';
 
   interface Props {
-    isShow: boolean;
+    open: boolean;
     //내정보 기능에서 input에 넣을 닉네임 값
     nicknames?: IUserPlatformNickNames | null;
     cancelText?: string; //닫기 버튼 텍스트
@@ -12,12 +12,12 @@
   }
 
   const props = withDefaults(defineProps<Props>(), {
-    isShow: false,
+    open: false,
     cancelText: '다음에 하기',
     saveText: '저장',
   });
 
-  const emit = defineEmits(['save', 'cancel']);
+  const emit = defineEmits(['save', 'close']);
 
   const ruleFormRef = ref<FormInstance>();
   const formLabelWidth = '80px';
@@ -50,6 +50,11 @@
     'kakao-nickname': [{ validator: validateNickname, trigger: 'blur' }],
   });
 
+  //다이얼로그 닫을 시
+  const close = (): void => {
+    emit('close');
+  };
+
   watchEffect(() => {
     if (props.nicknames) {
       form['kakao-nickname'] = props.nicknames['kakao-nickname'];
@@ -61,7 +66,7 @@
   });
 </script>
 <template>
-  <el-dialog v-model="isShow" center :show-close="false" width="30%">
+  <el-dialog v-model="open" center :show-close="false" width="30%" @close="close">
     <template #header>
       <span :style="`font-size: 30px;`">
         <!-- 타이틀 슬롯 -->
@@ -80,7 +85,7 @@
     <slot name="bottom" />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="emit('cancel')">{{ cancelText }}</el-button>
+        <el-button @click="close">{{ cancelText }}</el-button>
         <el-button type="primary" @click="submitForm(ruleFormRef)"> {{ saveText }} </el-button>
       </span>
     </template>
