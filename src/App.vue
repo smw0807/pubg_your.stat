@@ -32,8 +32,6 @@
   const cUser = computed(() => store.getUser);
   //스토어에 유저 정보가 있는지
   const cHasUser = computed(() => store.hasUser);
-  //플랫폼 닉네임 등록 컴포넌트 활성화 유무
-  const cMyPlatform = computed(() => isShowMyPlatform.value);
   //저장된 닉네임
   const cMyNickname = computed(() => store.getNickname);
 
