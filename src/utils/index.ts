@@ -8,9 +8,9 @@
  */
 export { changeSeconds, nowDateFormat, dateFormat } from './Date';
 export { meterToKm } from './Distance';
-export { errorCode } from './Error';
+export { errorCode } from './ErrorUtil';
 export { gameModeName } from './Mappings';
 export { _429, player404, notifSuccess, notifInfo, notifWarning, notifError } from './Notification';
-export { insertComma } from './Number';
+export { insertComma } from './NumberUtil';
 export { parseNormalStat, parseRankStat } from './ParseStatData';
 export { normalStatData, rankStatData } from './Sample';
