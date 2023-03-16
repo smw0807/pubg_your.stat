@@ -10,7 +10,7 @@ const app = createApp(App);
 setupRouter(app); //vue-router apply
 setupElementPlus(app); //element plus apply
 // setupPinia(app); //pinia apply
-createPinia();
+app.use(createPinia());
 setupZoomer(app); //vue-zoomer apply
 setupTimeago(app);
 app.mount('#app');
