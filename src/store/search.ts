@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { PlayersAPI, SeasonAPI, PlayerStatsAPI } from '@/apis';
-import { player404, _429, errorCode } from '@/utils';
+import { _429, errorCode } from '@/utils';
 import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/interfaces';
 
 const statAPI = new PlayerStatsAPI();
