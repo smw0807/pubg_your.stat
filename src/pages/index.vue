@@ -19,6 +19,7 @@
     });
     try {
       const getStat = await store.getStats(params);
+      loading.close();
       if (getStat) {
         route.push(`/search/${params.platform}/${params.nickname}`);
       }

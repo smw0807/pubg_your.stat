@@ -115,14 +115,7 @@
   };
 
   onMounted(async () => {
-    const loading = ElLoading.service({
-      lock: true,
-      text: '잠시만 기다려주세요...',
-      background: 'rgba(0, 0, 0, 0.7)',
-    });
     await getStatData();
-
-    loading.close();
   });
 </script>
 
