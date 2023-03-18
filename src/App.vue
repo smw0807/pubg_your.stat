@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, ref } from 'vue';
+  import { computed, ref, watchEffect } from 'vue';
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
   import { IUserPlatformNickNames } from '@/interfaces';
@@ -13,6 +13,8 @@
   const store = useUserStore();
   const route = useRoute();
 
+  //헤더 우측 버튼 숨김 여부
+  let hideHeaderButton: Ref<boolean> = ref(true);
   //플랫폼 닉네임 등록 컴포넌트 활성화 유무
   let isShowMyPlatform: Ref<boolean> = ref(false);
   //플랫폼 닉네임 등록 컴포넌트 모드 (ins, upd);
@@ -20,14 +22,6 @@
   //플랫폼 닉네임 등록 컴포넌트 제목
   let myPlatformTitle: Ref<string> = ref('플레이어 닉네임 등록');
 
-  //헤더 우측 버튼 숨김 여부 (팀 채팅방에서는 정보 수정, 로그아웃 버튼 감추기 위해 만듦)
-  const cHideHeaderButton = computed(() => {
-    if (route.path.indexOf('/team-room') !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  });
   //유저 정보
   const cUser = computed(() => store.getUser);
   //스토어에 유저 정보가 있는지
@@ -35,6 +29,7 @@
   //저장된 닉네임
   const cMyNickname = computed(() => store.getNickname);
 
+  //페이지 새로고침 시 사용자 정보 다시 가져오기
   const reloadUser = async () => {
     try {
       await store.reloadUser();
@@ -56,6 +51,7 @@
       notifError(null, err as string);
     }
   };
+
   //로그아웃
   const signout = (): void => {
     ElMessageBox.confirm('로그아웃 하시겠습니까?', '로그아웃', {
@@ -63,7 +59,8 @@
       cancelButtonText: '취소',
     }).then(() => store.signout());
   };
-  //현재 로그인 중인 사용자 정보 가져오기
+
+  //내정보 - 현재 로그인 중인 사용자 정보 가져오기
   const myInfo = (): void => {
     store.nowUser();
     myPlatformMode.value = 'upd';
@@ -95,6 +92,16 @@
   const inputNickNamesCancel = (): void => {
     isShowMyPlatform.value = false;
   };
+
+  watchEffect(() => {
+    //팀 안에서는 헤더 버튼 안보이게
+    if (route.path.indexOf('/team-room') !== -1) {
+      hideHeaderButton.value = true;
+    } else {
+      //새로 고침 시 사용자 정보 가져오는데 약간의 텀이 있어서 잠깐 비활성화 시키는 방법으로 처리함
+      setTimeout(() => (hideHeaderButton.value = false), 500);
+    }
+  });
 
   (async () => await reloadUser())();
 </script>
@@ -149,7 +156,7 @@
           @signout="signout"
           @user="myInfo"
           :has-user="cHasUser"
-          :hide-button="cHideHeaderButton"
+          :hide-button="hideHeaderButton"
         />
       </el-header>
       <router-view />
