@@ -2,7 +2,7 @@
   import { computed, watch, ref } from 'vue';
   import type { Ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { alertEmits, ElMessageBox } from 'element-plus';
+  import { ElMessageBox } from 'element-plus';
   import { Refresh } from '@element-plus/icons-vue';
   import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
   import { useTeamStore, useUserStore, useTeamRoomStore } from '@/store';
@@ -37,20 +37,27 @@
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
 
-  //팀 필터, 팀 만들기 버튼
-  const dialogButtonEvent = (type: 'team' | 'filter'): void => {
-    if (type === 'team') {
-      if (!hasNickname()) {
-        notifWarning(
-          '팀 만들기 실패',
-          '팀을 만들기 위해선 [내 정보]에서 만드려는 플랫폼의 게임 닉네임을 입력해주세요.'
-        );
-        return;
+  // 팀 리스트 불러오기
+  const getTeamList = async (): Promise<void> => {
+    try {
+      if (cPlatform.value === 'kakao') {
+        await teamStore.teamList(teamStore.kakaoFilter);
+      } else if (cPlatform.value === 'steam') {
+        await teamStore.teamList(teamStore.steamFilter);
       }
-      createTeanDialog.value = !createTeanDialog.value;
-    } else if (type === 'filter') {
-      teamFilterDialog.value = !teamFilterDialog.value;
+    } catch (err) {
+      notifError(null, err as string);
     }
+  };
+
+  //필터값 저장
+  const setFilter = async (filter: ITeamFilter): Promise<void> => {
+    if (cPlatform.value === 'kakao') {
+      teamStore.kakaoFilter = filter;
+    } else if (cPlatform.value === 'steam') {
+      teamStore.steamFilter = filter;
+    }
+    await getTeamList();
   };
 
   // 팀 만들기
@@ -71,30 +78,7 @@
     });
   };
 
-  // 팀 리스트 불러오기
-  const getTeamList = async (): Promise<void> => {
-    try {
-      if (cPlatform.value === 'kakao') {
-        await teamStore.teamList(teamStore.kakaoFilter);
-      } else if (cPlatform.value === 'steam') {
-        await teamStore.teamList(teamStore.steamFilter);
-      }
-    } catch (err) {
-      notifError(null, err as string);
-    }
-  };
-
-  // 필터값 저장
-  const setFilter = async (filter: ITeamFilter): Promise<void> => {
-    if (cPlatform.value === 'kakao') {
-      teamStore.kakaoFilter = filter;
-    } else if (cPlatform.value === 'steam') {
-      teamStore.steamFilter = filter;
-    }
-    await getTeamList();
-  };
-
-  // 참가하기
+  //참가하기
   const joinTeam = async (id: string): Promise<void> => {
     try {
       if (!hasNickname()) {
@@ -116,7 +100,21 @@
     }
   };
 
-  (async () => await getTeamList())();
+  //팀 필터, 팀 만들기 버튼
+  const dialogButtonEvent = (type: 'team' | 'filter'): void => {
+    if (type === 'team') {
+      if (!hasNickname()) {
+        notifWarning(
+          '팀 만들기 실패',
+          '팀을 만들기 위해선 [내 정보]에서 만드려는 플랫폼의 게임 닉네임을 입력해주세요.'
+        );
+        return;
+      }
+      createTeanDialog.value = !createTeanDialog.value;
+    } else if (type === 'filter') {
+      teamFilterDialog.value = !teamFilterDialog.value;
+    }
+  };
 
   //현재 사용사용자가 닉네임을 등록했는지 확인(팀만들기, 참가하기 시 체크용)
   const hasNickname = (): boolean => {
@@ -129,10 +127,13 @@
     }
     return false;
   };
+
   //팀 구하기 메뉴에서 플랫폼 변경되면 데이터 다시 불러오기
   watch(cPlatform, async () => {
     await getTeamList();
   });
+
+  (async () => await getTeamList())();
 </script>
 <template>
   <div>
