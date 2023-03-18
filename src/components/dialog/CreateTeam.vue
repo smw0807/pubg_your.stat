@@ -6,15 +6,13 @@
   interface Props {
     open: boolean;
     platform: PlatformType;
-    disabled: boolean;
   }
 
   const props = withDefaults(defineProps<Props>(), {
     open: false,
-    disabled: true,
   });
 
-  const emit = defineEmits(['input-data', 'button-event']);
+  const emit = defineEmits(['input-data', 'close']);
 
   const cPlatform = computed(() => props.platform);
   const cOpen = computed(() => props.open);
@@ -59,8 +57,6 @@
   });
 </script>
 <template>
-  <el-button :disabled="disabled" @click="emit('button-event', 'open')"> 팀 만들기 </el-button>
-
   <el-dialog v-model="open" :show-close="false" title="팀 만들기" center>
     <el-form :model="form" ref="formRef" :rules="rules">
       <el-form-item label="팀 이름" :label-width="labelWidth" prop="title">
@@ -88,7 +84,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="sendData(formRef)"> 만들기 </el-button>
-        <el-button @click="emit('button-event', 'close')">닫기</el-button>
+        <el-button @click="emit('close')">닫기</el-button>
       </span>
     </template>
   </el-dialog>

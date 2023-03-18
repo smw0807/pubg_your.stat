@@ -1,30 +1,26 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import type { Ref } from 'vue';
   import { PlatformType, ITeamFilter } from '@/interfaces';
 
   interface Props {
+    open: boolean;
     platform: PlatformType;
     filterData: ITeamFilter;
   }
-  const props = defineProps<Props>();
+  const props = withDefaults(defineProps<Props>(), {
+    open: false,
+  });
 
-  const emit = defineEmits(['select-data']);
-
-  const open: Ref<boolean> = ref(false);
+  const emit = defineEmits(['select-data', 'close']);
 
   // 선택한 데이터 보내기
   const sendData = (): void => {
     emit('select-data', props.filterData);
-    open.value = false;
   };
 
   // 라벨 넓이
   const labelWidth: string = '140px';
 </script>
 <template>
-  <el-button @click="open = true"> 팀 필터 </el-button>
-
   <el-dialog v-model="open" :show-close="false" title="팀 리스트 필터" center>
     <el-form :model="filterData">
       <el-form-item label="게임 유형" :label-width="labelWidth">
@@ -57,13 +53,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="sendData"> 확인 </el-button>
-        <el-button @click="open = false">닫기</el-button>
+        <el-button @click="emit('close')">닫기</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
-<style scoped>
-  .el-button {
-    margin-left: 0;
-  }
-</style>
+<style scoped></style>

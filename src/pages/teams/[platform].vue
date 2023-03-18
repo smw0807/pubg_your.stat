@@ -22,7 +22,9 @@
   const router = useRouter();
 
   //팀 만들기 모달 열기 여부
-  const createTeamModal: Ref<boolean> = ref(false);
+  const createTeanDialog: Ref<boolean> = ref(false);
+  //팀 필터 모달 열기 여부
+  const teamFilterDialog: Ref<boolean> = ref(false);
 
   //현재 플랫폼
   const cPlatform = computed(() => props.platform);
@@ -35,12 +37,12 @@
   // 현재 로그인 유저 정보 유무
   const hasUser = computed(() => userStore.hasUser);
 
-  // 팀 만들기 다이얼로그 컴포넌트 버튼 이벤트
-  const teamDialogEvent = (v: string) => {
-    if (v === 'open') {
-      createTeamModal.value = true;
-    } else if (v === 'close') {
-      createTeamModal.value = false;
+  //팀 필터, 팀 만들기 버튼
+  const dialogButtonEvent = (type: 'team' | 'filter'): void => {
+    if (type === 'team') {
+      createTeanDialog.value = !createTeanDialog.value;
+    } else if (type === 'filter') {
+      teamFilterDialog.value = !teamFilterDialog.value;
     }
   };
 
@@ -53,7 +55,7 @@
       try {
         const result = await teamStore.createTeam(form);
         if (result) {
-          createTeamModal.value = false;
+          createTeanDialog.value = false;
           joinTeam(result);
         }
       } catch (err) {
@@ -120,21 +122,26 @@
   <div>
     <!-- 필터버튼, 방만들기 버튼 -->
     <el-row justify="end">
-      <el-col align="end" :span="6">
+      <el-col align="end" :span="24">
         <el-button @click="getTeamList">
           <el-icon><Refresh /></el-icon>
         </el-button>
+        <el-button @click="dialogButtonEvent('filter')"> 팀 필터 </el-button>
+        <el-button @click="dialogButtonEvent('team')"> 팀 만들기 </el-button>
+
         <TeamFilter
           :platform="cPlatform"
           @select-data="setFilter"
           :filter-data="cPlatform === 'kakao' ? cKakaoFilter : cSteamFilter"
+          :open="teamFilterDialog"
+          @close="dialogButtonEvent('filter')"
         />
         <TeamDialog
           :disabled="!hasUser"
           :platform="cPlatform"
-          :open="createTeamModal"
+          :open="createTeanDialog"
           @input-data="createTeam"
-          @button-event="teamDialogEvent"
+          @close="dialogButtonEvent('team')"
         />
       </el-col>
     </el-row>
