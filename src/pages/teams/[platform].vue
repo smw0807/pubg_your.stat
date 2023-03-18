@@ -2,7 +2,7 @@
   import { computed, watch, ref } from 'vue';
   import type { Ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { ElMessageBox } from 'element-plus';
+  import { alertEmits, ElMessageBox } from 'element-plus';
   import { Refresh } from '@element-plus/icons-vue';
   import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
   import { useTeamStore, useUserStore, useTeamRoomStore } from '@/store';
@@ -40,6 +40,13 @@
   //팀 필터, 팀 만들기 버튼
   const dialogButtonEvent = (type: 'team' | 'filter'): void => {
     if (type === 'team') {
+      if (!hasNickname()) {
+        notifWarning(
+          '팀 만들기 실패',
+          '팀을 만들기 위해선 [내 정보]에서 만드려는 플랫폼의 게임 닉네임을 입력해주세요.'
+        );
+        return;
+      }
       createTeanDialog.value = !createTeanDialog.value;
     } else if (type === 'filter') {
       teamFilterDialog.value = !teamFilterDialog.value;
@@ -90,9 +97,7 @@
   // 참가하기
   const joinTeam = async (id: string): Promise<void> => {
     try {
-      //내정보에 참가하려는 플랫폼 닉네임이 등록되어 있는지 확인
-      const nicknames = userStore.getNickname;
-      if (nicknames! && !nicknames[`${cPlatform.value}-nickname`]) {
+      if (!hasNickname()) {
         notifWarning(
           '팀 참가 실패',
           '팀에 참여하려면 [내 정보]에서 닉네임을 등록해주세요.<br>각 플랫폼 닉네임을 등록해야 해당 플랫폼 팀에 참가할 수 있습니다.'
@@ -113,6 +118,17 @@
 
   (async () => await getTeamList())();
 
+  //현재 사용사용자가 닉네임을 등록했는지 확인(팀만들기, 참가하기 시 체크용)
+  const hasNickname = (): boolean => {
+    const nicknames = userStore.getNickname;
+    if (!nicknames) {
+      return false;
+    }
+    if (nicknames[`${cPlatform.value}-nickname`]) {
+      return true;
+    }
+    return false;
+  };
   //팀 구하기 메뉴에서 플랫폼 변경되면 데이터 다시 불러오기
   watch(cPlatform, async () => {
     await getTeamList();
