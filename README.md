@@ -266,7 +266,7 @@ PUBG API에서 일반 스탯에서 제공해주는 데이터의 대부분을 표
 
 ## 5. 맵별 차량 위치
 
-<img src="https://firebasestorage.googleapis.com/v0/b/your-stat.appspot.com/o/9.%20%E1%84%86%E1%85%A2%E1%86%B8.png?alt=media&token=336285c0-09a4-451f-8484-9b5d204e203d"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/your-stat.appspot.com/o/9-0.%20%E1%84%86%E1%85%A2%E1%86%B8.png?alt=media&token=c3402da6-bc5c-4bbc-9d0b-6153eb20f751"/>
 
 경쟁전 기준으로 에란겔, 미라마, 태이고의 차량 리스폰 위치가 표시된 이미지를 제공한다.  
 이미지는 확대, 축소하여 볼 수 있고, 하단에 이미지 아이콘 별로 차량의 종류와 리스폰되는 확률을 표시해준다.  
