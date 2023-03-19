@@ -144,3 +144,13 @@ https://github.com/martinsileno/pubg-typescript-api
   - 쿼리제약조건 : https://stackoverflow.com/questions/69036031/firestore-conditional-where-clause-using-modular-sdk-v9
 - top level await
   - https://v8.dev/features/top-level-await
+
+# 화면
+
+## 메인화면 - 비로그인
+
+<img src="https://firebasestorage.googleapis.com/v0/b/your-stat.appspot.com/o/1-0.%20%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB.png?alt=media&token=d429a183-c88a-45fb-929b-7ea74ad196a8"/>
+
+## 메인화면 - 로그인
+
+<img src="https://firebasestorage.googleapis.com/v0/b/your-stat.appspot.com/o/1-1.%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%20%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB.png?alt=media&token=26904adc-5575-4c49-a6fd-7d14929bb598"/>
