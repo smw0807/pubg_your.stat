@@ -3,13 +3,12 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import { setupRouter } from '@/routes';
-import { createPinia } from 'pinia';
-import { setupElementPlus, setupZoomer, setupTimeago } from '@/plugins';
+import { setupElementPlus, setupPinia,setupZoomer, setupTimeago } from '@/plugins';
 
 const app = createApp(App);
 setupRouter(app); //vue-router apply
 setupElementPlus(app); //element plus apply
-app.use(createPinia());
+setupPinia(app); //pinia apply
 setupZoomer(app); //vue-zoomer apply
-setupTimeago(app);
+setupTimeago(app); //vue-timeago3 apply
 app.mount('#app');

@@ -1,3 +1,4 @@
-export { setupElementPlus } from './ElementPlus';
-export { setupTimeago } from './VueTimeago';
-export { setupZoomer } from './Zoomer';
+export { setupElementPlus } from './SetupElementPlus';
+export { setupPinia } from './SetupPinia';
+export { setupTimeago } from './SetupVueTimeago';
+export { setupZoomer } from './SetupZoomer';

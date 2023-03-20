@@ -6,6 +6,6 @@
 import { App } from 'vue';
 import timeago from 'vue-timeago3';
 
-export const setupTimeago = (app: App) => {
+export const setupTimeago = (app: App): void => {
   app.use(timeago);
 };

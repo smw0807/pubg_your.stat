@@ -8,6 +8,6 @@ import 'element-plus/dist/index.css';
 // import 'element-plus/theme-chalk/display.css';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 
-export const setupElementPlus = (app: App) => {
+export const setupElementPlus = (app: App): void => {
   app.use(ElementPlus);
 };
