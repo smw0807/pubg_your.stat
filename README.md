@@ -39,6 +39,7 @@
 - Firebase (https://firebase.google.com/)
   - Firestore (https://firebase.google.com/docs/firestore)
   - Auth (https://firebase.google.com/docs/auth)
+- cloudtype (https://cloudtype.io/)
 
 # 기능 구성
 
