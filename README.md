@@ -15,7 +15,10 @@
 
 파이어베이스를 이용해 구현한 팀구하기의 기능은 실제 배틀그라운드 공식 디스코드 채널에서 팀을 구하는 과정에 불편함을 느낀게 있어서 이런 방식이면 좋지 않을까? 하는 생각으로 구현해봤다.   
 
-블로그 : https://minu0807.tistory.com/154
+## 블로그
+https://minu0807.tistory.com/154
+## 배포 사이트 주소
+https://web-pubg-your-stat-nx562olfb49aha.sel3.cloudtype.app/
 
 # 개발 환경
 
@@ -152,10 +155,6 @@ https://github.com/martinsileno/pubg-typescript-api
 <br/>
 
 # 구현된 화면
-
-## 배포 사이트 주소
-
-https://web-pubg-your-stat-nx562olfb49aha.sel3.cloudtype.app/
 
 ## 1. 메인화면
 
