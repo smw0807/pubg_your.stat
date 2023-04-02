@@ -57,7 +57,9 @@ export const useSearchStore = defineStore({
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
+        //PC버전의 시즌 정보만 담음
         this.allSeasons = seasons.data.data.filter(v => v.id.match(/pc-.*/gi));
+        //현재 시즌 정보
         this.nowSeason = seasons.data.data.filter(v => v.attributes.isCurrentSeason)[0];
         return 200;
       } catch (err) {
