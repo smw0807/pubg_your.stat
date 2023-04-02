@@ -6,7 +6,7 @@ import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/i
 const statAPI = new PlayerStatsAPI();
 /**
  * 검색 관련 스토어
- * allSeasons : 모든 시즌 정보들
+ * allSeasons : 모든 시즌 정보들 (지금은 현재 시즌의 데이터만 제공해서 안씀)
  * nowSeason : 현재 시즌 정보
  */
 export const useSearchStore = defineStore({
