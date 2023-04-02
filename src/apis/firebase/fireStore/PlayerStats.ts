@@ -2,7 +2,7 @@ import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
 import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/interfaces';
-import { nowDateFormat } from '@/utils';
+import { nowDateFormat, parseRankStat } from '@/utils';
 
 /**
  * 플레이서 스탯 저장소 관련
@@ -56,10 +56,10 @@ export class PlayerStatsAPI {
       squad: 0,
       'squad-fpp': 0,
     };
-    result.solo = rank.data.attributes.rankedGameModeStats.solo?.kda || 0;
-    result['solo-fpp'] = rank.data.attributes.rankedGameModeStats['solo-fpp']?.kda || 0;
-    result.squad = rank.data.attributes.rankedGameModeStats?.squad?.kda || 0;
-    result['squad-fpp'] = rank.data.attributes.rankedGameModeStats['squad-fpp']?.kda || 0;
+    result.solo = parseRankStat('solo', rank)?.kda || 0;
+    result['solo-fpp'] = parseRankStat('solo-fpp', rank)?.kda || 0;
+    result.squad = parseRankStat('squad', rank)?.kda || 0;
+    result['squad-fpp'] = parseRankStat('squad-fpp', rank)?.kda || 0;
     return result;
   }
 
