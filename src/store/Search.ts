@@ -6,13 +6,13 @@ import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/i
 const statAPI = new PlayerStatsAPI();
 /**
  * 검색 관련 스토어
- * nowSeasons : 모든 시즌 정보들
+ * allSeasons : 모든 시즌 정보들
  * nowSeason : 현재 시즌 정보
  */
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
-    nowSeasons: [] as ISeason[],
+    allSeasons: [] as ISeason[],
     nowSeason: {} as ISeason,
     rank: {} as IPlayerSeasonRank,
     normal: {} as IPlayerSeason,
@@ -57,7 +57,7 @@ export const useSearchStore = defineStore({
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
-        this.nowSeasons = seasons.data.data.filter(v => v.id.match(/pc-.*/gi));
+        this.allSeasons = seasons.data.data.filter(v => v.id.match(/pc-.*/gi));
         this.nowSeason = seasons.data.data.filter(v => v.attributes.isCurrentSeason)[0];
         return 200;
       } catch (err) {
