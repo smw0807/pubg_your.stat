@@ -40,7 +40,7 @@
   const activeName = ref('rank');
 
   // 파이어베이스 저장소에 마지막으로 업데이트한 날짜
-  const lastUpdateDate = computed(() => store.lastUpdateDate);
+  const lastUpdateDate = computed(() => store.getLastUpdateDate);
 
   // 1인칭 모드 유무
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;

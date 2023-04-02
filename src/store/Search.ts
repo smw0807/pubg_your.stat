@@ -18,7 +18,11 @@ export const useSearchStore = defineStore({
     normal: {} as IPlayerSeason,
     lastUpdateDate: '',
   }),
-  getters: {},
+  getters: {
+    getLastUpdateDate(): string {
+      return this.lastUpdateDate;
+    },
+  },
   actions: {
     //파이어베이스 저장소에 저장된 데이터 가져오기
     async getStats(params: ISearchForm): Promise<true> {
@@ -53,7 +57,7 @@ export const useSearchStore = defineStore({
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
-        this.nowSeasons = seasons.data.data;
+        this.nowSeasons = seasons.data.data.filter(v => v.id.match(/pc-.*/gi));
         this.nowSeason = seasons.data.data.filter(v => v.attributes.isCurrentSeason)[0];
         return 200;
       } catch (err) {
