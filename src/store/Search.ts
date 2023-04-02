@@ -53,7 +53,7 @@ export const useSearchStore = defineStore({
       }
     },
     //시즌 정보 세팅
-    async setSeason(param: string): Promise<number> {
+    async setSeason(param: string): Promise<void> {
       try {
         const api = new SeasonAPI(param);
         const seasons = await api.getSeasons;
@@ -61,13 +61,12 @@ export const useSearchStore = defineStore({
         this.allSeasons = seasons.data.data.filter(v => v.id.match(/pc-.*/gi));
         //현재 시즌 정보
         this.nowSeason = seasons.data.data.filter(v => v.attributes.isCurrentSeason)[0];
-        return 200;
       } catch (err) {
         throw errorCode(err);
       }
     },
     //검색
-    async searchPlayer(params: ISearchForm): Promise<number> {
+    async searchPlayer(params: ISearchForm): Promise<void> {
       try {
         params.seasonID = this.nowSeason.id;
         const searchAPI = new PlayersAPI(params);
@@ -82,7 +81,6 @@ export const useSearchStore = defineStore({
           this.rank = JSON.parse(statData.rank);
           this.normal = JSON.parse(statData.normal);
           this.lastUpdateDate = statData['last-update-date'];
-          return 200;
         } else {
           throw new Error('404');
         }
