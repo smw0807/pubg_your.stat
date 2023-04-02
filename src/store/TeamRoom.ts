@@ -8,7 +8,6 @@ import {
   RankModeType,
   ISearchForm,
 } from '@/interfaces';
-import { DocumentData } from 'firebase/firestore';
 import { nowDateFormat, dateFormat, parseRankStat } from '@/utils';
 import { useUserStore } from '@/store';
 
@@ -71,47 +70,34 @@ export const useTeamRoomStore = defineStore({
         teamroomAPI.startWatchTeamMessageData(teamId, this.joinTime);
         //랭크 팀일 경우 파이어베이스에 저장된 스탯 정보 시스템 메세지로 뿌리기(해당되는 모드 스탯으로.)
         if (this.teamInfo.isRank) {
-          const userStore = useUserStore();
-          const nicknames = userStore.getNickname;
-          //PUBG API를 통해 갱신된 스탯정보가 있을 경우.
-          if (nicknames) {
-            //팀 플랫폼에 해당하는 닉네임
-            const platformNickname = nicknames[`${this.teamInfo.platform}-nickname`];
-            //닉네임 스탯 정보
-            const stat = (await statAPI.getStats({
-              nickname: platformNickname,
-              platform: this.teamInfo.platform,
-            })) as IPlayerStats;
-            //스탯 정보 있을 경우
-            if (stat) {
-              const mode = this.teamInfo.mode as RankModeType;
-              const parseStat = parseRankStat(mode, JSON.parse(stat.rank));
-              const roundsPlayed = parseStat?.roundsPlayed || 0;
-              //파이어베이스에 데이터는 있는데 현재 시즌 데이터가 아니거나, 팀 모드에 해당되는 판수가 없을 경우
-              if (roundsPlayed === 0) {
-                await teamroomAPI.sendMessage({
-                  'team-uid': this.teamInfo.id,
-                  'sender-uid': '',
-                  message: `${platformNickname} 님은 현재 갱신된 스탯 정보가 없습니다.`,
-                  sender: 'system',
-                  type: 'system',
-                });
-              } else {
-                let message = `${platformNickname} | `;
-                message += `kad: ${stat.kda[mode].toFixed(2)} | `;
-                message += `평딜: ${stat.avgDmg[mode]} | `;
-                message += `판수: ${roundsPlayed} | `;
-                message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
-                await teamroomAPI.sendMessage({
-                  'team-uid': this.teamInfo.id,
-                  'sender-uid': '',
-                  message: message,
-                  sender: 'system',
-                  type: 'system',
-                });
-              }
-            } else {
-              //없을 경우
+          await this.sendUserStatInfo();
+        }
+        return true;
+      } catch (err) {
+        throw err;
+      }
+    },
+    //접속자 스탯 정보 시스템 메세지 보내기
+    async sendUserStatInfo() {
+      try {
+        const userStore = useUserStore();
+        const nicknames = userStore.getNickname;
+        //PUBG API를 통해 갱신된 스탯정보가 있을 경우.
+        if (nicknames && this.teamInfo) {
+          //팀 플랫폼에 해당하는 닉네임
+          const platformNickname = nicknames[`${this.teamInfo.platform}-nickname`];
+          //닉네임 스탯 정보
+          const stat = (await statAPI.getStats({
+            nickname: platformNickname,
+            platform: this.teamInfo.platform,
+          })) as IPlayerStats;
+          //스탯 정보 있을 경우
+          if (stat) {
+            const mode = this.teamInfo.mode as RankModeType;
+            const parseStat = parseRankStat(mode, JSON.parse(stat.rank));
+            const roundsPlayed = parseStat?.roundsPlayed || 0;
+            //파이어베이스에 데이터는 있는데 현재 시즌 데이터가 아니거나, 팀 모드에 해당되는 판수가 없을 경우
+            if (roundsPlayed === 0) {
               await teamroomAPI.sendMessage({
                 'team-uid': this.teamInfo.id,
                 'sender-uid': '',
@@ -119,12 +105,34 @@ export const useTeamRoomStore = defineStore({
                 sender: 'system',
                 type: 'system',
               });
+            } else {
+              let message = `${platformNickname} | `;
+              message += `kad: ${stat.kda[mode].toFixed(2)} | `;
+              message += `평딜: ${stat.avgDmg[mode]} | `;
+              message += `판수: ${roundsPlayed} | `;
+              message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
+              await teamroomAPI.sendMessage({
+                'team-uid': this.teamInfo.id,
+                'sender-uid': '',
+                message: message,
+                sender: 'system',
+                type: 'system',
+              });
             }
+          } else {
+            //없을 경우
+            await teamroomAPI.sendMessage({
+              'team-uid': this.teamInfo.id,
+              'sender-uid': '',
+              message: `${platformNickname} 님은 현재 갱신된 스탯 정보가 없습니다.`,
+              sender: 'system',
+              type: 'system',
+            });
           }
         }
-        return true;
       } catch (err) {
-        throw err;
+        console.error(err);
+        throw '접속자 스탯 정보 가져오기 실패';
       }
     },
     //팀 접속자 정보 가져오기
