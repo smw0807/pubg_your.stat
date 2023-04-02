@@ -72,29 +72,28 @@ export class PlayerStatsAPI {
       'squad-fpp': 0,
     };
     //3인칭 솔로
-    const solo = rank.data.attributes.rankedGameModeStats.solo?.damageDealt || 0;
-    const soloPlays = rank.data.attributes.rankedGameModeStats.solo?.roundsPlayed || 0;
-    if (solo === 0) result.solo = solo;
-    else result.solo = Number((solo / soloPlays).toFixed(0));
+    const soloStat = parseRankStat('solo', rank);
+    const solo = soloStat?.damageDealt || 0;
+    if (solo === 0) result.solo = 0;
+    else result.solo = Number((solo / soloStat.roundsPlayed).toFixed(0));
 
     //1인칭 솔로
-    const soloFpp = rank.data.attributes.rankedGameModeStats['solo-fpp']?.damageDealt || 0;
-    const soloFppPlays = rank.data.attributes.rankedGameModeStats['solo-fpp']?.roundsPlayed || 0;
-    if (soloFpp === 0) result['solo-fpp'] = soloFpp;
-    else result['solo-fpp'] = Number((soloFpp / soloFppPlays).toFixed(0));
+    const soloFppStat = parseRankStat('solo-fpp', rank);
+    const soloFpp = soloFppStat?.damageDealt || 0;
+    if (soloFpp === 0) result['solo-fpp'] = 0;
+    else result['solo-fpp'] = Number((soloFpp / soloFppStat.roundsPlayed).toFixed(0));
 
     //3인칭 스쿼드
-    const squad = rank.data.attributes.rankedGameModeStats.squad?.damageDealt || 0;
-    const squadPlays = rank.data.attributes.rankedGameModeStats.squad?.roundsPlayed || 0;
-    if (squad === 0) result.squad = squad;
-    else result.squad = Number((squad / squadPlays).toFixed(0));
+    const squadStat = parseRankStat('squad', rank);
+    const squad = squadStat?.damageDealt || 0;
+    if (squad === 0) result.squad = 0;
+    else result.squad = Number((squad / squadStat.roundsPlayed).toFixed(0));
 
     //1인칭 스쿼드
-    const squadFpp = rank.data.attributes.rankedGameModeStats['squad-fpp']?.damageDealt || 0;
-    const squadFppPlays = rank.data.attributes.rankedGameModeStats['squad-fpp']?.roundsPlayed || 0;
-    if (squadFpp === 0) result['squad-fpp'] = squadFpp;
-    else result['squad-fpp'] = Number((squadFpp / squadFppPlays).toFixed(0));
-
+    const squadFppStat = parseRankStat('squad-fpp', rank);
+    const squadFpp = squadFppStat?.damageDealt || 0;
+    if (squadFpp === 0) result['squad-fpp'] = 0;
+    else result['squad-fpp'] = Number((squadFpp / squadFppStat.roundsPlayed).toFixed(0));
     return result;
   }
 }
