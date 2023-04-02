@@ -43,19 +43,11 @@ export const useTeamRoomStore = defineStore({
     },
   },
   actions: {
-    //팀 정보 가져오기
-    async getTeamData(teamId: string): Promise<DocumentData | null> {
-      try {
-        return await teamroomAPI.getTeamInfo(teamId);
-      } catch (err) {
-        throw err;
-      }
-    },
     //팀 입장
     async joinTeam(userId: string, teamId: string): Promise<string | true> {
       try {
         //팀 정보 가져오기
-        const team = (await this.getTeamData(teamId)) as ITeamInfo;
+        const team = (await teamroomAPI.getTeamInfo(teamId)) as ITeamInfo;
         //팀 정보 없을 시
         if (!team) {
           return NOT_EXISTS_TEAM_MSG;
