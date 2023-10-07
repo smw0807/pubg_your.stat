@@ -85,8 +85,8 @@
     <slot name="bottom" />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">{{ cancelText }}</el-button>
         <el-button type="primary" @click="submitForm(ruleFormRef)"> {{ saveText }} </el-button>
+        <el-button @click="close">{{ cancelText }}</el-button>
       </span>
     </template>
   </el-dialog>
