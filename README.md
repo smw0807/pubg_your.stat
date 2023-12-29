@@ -21,7 +21,7 @@ https://minu0807.tistory.com/154
 
 ## 배포 사이트 주소
 
-github pages로 작업중...
+https://smw0807.github.io/pubg_your.stat/
 
 # 개발 환경
 
