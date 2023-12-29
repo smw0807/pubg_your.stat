@@ -13,11 +13,14 @@
 제대로 사용해보지 못한 Vue3와 TypeScript도 익혀볼겸 사용하기로 했고,  
 이전부터 사용해보고 싶었던 파이어베이스를 이용해 별도의 추가 기능을 구현해보고자 했다.
 
-파이어베이스를 이용해 구현한 팀구하기의 기능은 실제 배틀그라운드 공식 디스코드 채널에서 팀을 구하는 과정에 불편함을 느낀게 있어서 이런 방식이면 좋지 않을까? 하는 생각으로 구현해봤다.   
+파이어베이스를 이용해 구현한 팀구하기의 기능은 실제 배틀그라운드 공식 디스코드 채널에서 팀을 구하는 과정에 불편함을 느낀게 있어서 이런 방식이면 좋지 않을까? 하는 생각으로 구현해봤다.
 
 ## 블로그
+
 https://minu0807.tistory.com/154
+
 ## 배포 사이트 주소
+
 https://web-pubg-your-stat-nx562olfb49aha.sel3.cloudtype.app/
 
 # 개발 환경
@@ -120,6 +123,8 @@ https://github.com/martinsileno/pubg-typescript-api
 
 ## 만들면서 참고한 URL들
 
+- Vite
+  - GitHub Pages : https://ko.vitejs.dev/guide/static-deploy.html
 - Vue3
   - 컴포져블 https://v3-docs.vuejs-korea.org/guide/reusability/composables.html
   - 계산된속성 https://v3-docs.vuejs-korea.org/guide/essentials/computed.html#best-practices
