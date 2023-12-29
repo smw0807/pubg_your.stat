@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          #cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -50,13 +50,13 @@ jobs:
           VITE_FB_messagingSenderId: ${{ secrets.VITE_FB_messagingSenderId}}
           VITE_FB_appId: ${{ secrets.VITE_FB_appId}}
           VITE_FB_measurementId: ${{ secrets.VITE_FB_measurementId}}
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # dist 디렉터리 업로드
           path: './dist'
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
