@@ -21,7 +21,7 @@ https://minu0807.tistory.com/154
 
 ## 배포 사이트 주소
 
-https://web-pubg-your-stat-nx562olfb49aha.sel3.cloudtype.app/
+github pages로 작업중...
 
 # 개발 환경
 

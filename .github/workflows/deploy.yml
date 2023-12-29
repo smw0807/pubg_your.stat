@@ -1,5 +1,5 @@
 # GitHub Pages에 정적 콘텐츠를 배포하기 위한 간단한 워크플로우
-name: PUBG your start Deploy static content to Pages
+name: Deploy static content to Pages
 
 on:
   # 기본 브랜치에 대한 푸시 이벤트 발생 시 실행
@@ -53,7 +53,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           # dist 디렉터리 업로드
           path: './dist'
