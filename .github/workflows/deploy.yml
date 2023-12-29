@@ -39,6 +39,17 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+        env:
+          VITE_PUBG_API_URL: ${{ secrets.VITE_PUBG_API_URL}}
+          VITE_PUBG_API_KEY: ${{ secrets.VITE_PUBG_API_KEY}}
+          VITE_FB_apiKey: ${{ secrets.VITE_FB_apiKey}}
+          VITE_FB_authDomain: ${{ secrets.VITE_FB_authDomain}}
+          VITE_FB_databaseURL: ${{ secrets.VITE_FB_databaseURL}}
+          VITE_FB_projectId: ${{ secrets.VITE_FB_projectId}}
+          VITE_FB_storageBucket: ${{ secrets.VITE_FB_storageBucket}}
+          VITE_FB_messagingSenderId: ${{ secrets.VITE_FB_messagingSenderId}}
+          VITE_FB_appId: ${{ secrets.VITE_FB_appId}}
+          VITE_FB_measurementId: ${{ secrets.VITE_FB_measurementId}}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
