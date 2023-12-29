@@ -14,6 +14,7 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
   },
+  base: process.env.NODE_ENV === 'production' ? '/pubg_your.stat/' : '/',
   publicDir: './src/public',
   plugins: [
     vue(),
