@@ -7,7 +7,8 @@
   const props = defineProps<Props>();
 
   let selIndex = 0;
-  const cImgPath = computed(() => `/car-respone/${props.imgName}.png`);
+  const urlPath = import.meta.env.DEV ? '/' : '/pubg_your.stat/';
+  const cImgPath = computed(() => `${urlPath}car-respone/${props.imgName}.png`);
   const cSourceLink = computed(() => props.source);
 </script>
 <template>
