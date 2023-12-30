@@ -6,7 +6,8 @@ import generatedRoutes from 'virtual:generated-pages';
 const routes = setupLayouts(generatedRoutes);
 
 const router = createRouter({
-  history: createWebHistory(),
+  // history: createWebHistory(),
+  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/pubg_your.stat/' : '/'),
   routes,
   strict: true,
   scrollBehavior(to, from, savedPosition) {

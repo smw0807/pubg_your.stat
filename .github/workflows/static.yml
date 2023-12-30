@@ -1,5 +1,5 @@
 # GitHub Pages에 정적 콘텐츠를 배포하기 위한 간단한 워크플로우
-name: PUBG your start Deploy static content to Pages
+name: Deploy static content to Pages
 
 on:
   # 기본 브랜치에 대한 푸시 이벤트 발생 시 실행
@@ -34,18 +34,29 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          #cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run build
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+        env:
+          VITE_PUBG_API_URL: ${{ secrets.VITE_PUBG_API_URL}}
+          VITE_PUBG_API_KEY: ${{ secrets.VITE_PUBG_API_KEY}}
+          VITE_FB_apiKey: ${{ secrets.VITE_FB_apiKey}}
+          VITE_FB_authDomain: ${{ secrets.VITE_FB_authDomain}}
+          VITE_FB_databaseURL: ${{ secrets.VITE_FB_databaseURL}}
+          VITE_FB_projectId: ${{ secrets.VITE_FB_projectId}}
+          VITE_FB_storageBucket: ${{ secrets.VITE_FB_storageBucket}}
+          VITE_FB_messagingSenderId: ${{ secrets.VITE_FB_messagingSenderId}}
+          VITE_FB_appId: ${{ secrets.VITE_FB_appId}}
+          VITE_FB_measurementId: ${{ secrets.VITE_FB_measurementId}}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           # dist 디렉터리 업로드
           path: './dist'
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
