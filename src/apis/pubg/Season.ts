@@ -1,6 +1,6 @@
 import { PubgAPI } from '.';
 import { AxiosPromise } from 'axios';
-import { ISeasonList } from '../../interfaces';
+import { ISeasonList } from '@/types';
 
 export class SeasonAPI extends PubgAPI {
   public _platform;

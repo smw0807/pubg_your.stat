@@ -1,4 +1,4 @@
-import { ModeType } from '@/interfaces';
+import { ModeType } from '@/types';
 /**
  * 맵핑 관련
  */

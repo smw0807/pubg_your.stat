@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useRouter } from 'vue-router';
-  import type { ISearchForm } from '@/interfaces';
+  import type { ISearchForm } from '@/types';
   import { ElLoading } from 'element-plus';
   import { player404, _429, notifError } from '@/utils';
   import { useSearchStore } from '@/store';

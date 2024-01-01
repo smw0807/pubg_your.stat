@@ -7,7 +7,7 @@ import {
   IPlayerStats,
   RankModeType,
   ISearchForm,
-} from '@/interfaces';
+} from '@/types';
 import { nowDateFormat, dateFormat, parseRankStat } from '@/utils';
 import { useUserStore } from '@/store';
 

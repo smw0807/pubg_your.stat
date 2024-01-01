@@ -4,7 +4,7 @@
   import { useRouter } from 'vue-router';
   import { ElMessageBox } from 'element-plus';
   import { Refresh } from '@element-plus/icons-vue';
-  import { ITeamForm, ITeamFilter, PlatformType } from '@/interfaces';
+  import { ITeamForm, ITeamFilter, PlatformType } from '@/types';
   import { useTeamStore, useUserStore, useTeamRoomStore } from '@/store';
   import { notifWarning, notifError } from '@/utils';
 

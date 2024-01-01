@@ -1,5 +1,5 @@
 import { PubgAPI } from '.';
-import { ISearchForm, IPlayerList, IPlayerSeasonRank, IPlayerSeason } from '../../interfaces';
+import { ISearchForm, IPlayerList, IPlayerSeasonRank, IPlayerSeason } from '@/types';
 import { AxiosPromise } from 'axios';
 
 /**

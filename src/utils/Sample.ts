@@ -1,4 +1,4 @@
-import { IGameRankStats, IGameStats } from '@/interfaces';
+import { IGameRankStats, IGameStats } from '@/types';
 export const rankStatData: IGameRankStats = {
   currentRankPoint: 0,
   bestRankPoint: 0,

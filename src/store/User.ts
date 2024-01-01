@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { GooleAuthAPI, UsersAPI } from '@/apis';
-import { IUserPlatformNickNames } from '@/interfaces';
+import { IUserPlatformNickNames } from '@/types';
 import { User } from 'firebase/auth';
 const authAPI = new GooleAuthAPI();
 const usersAPI = new UsersAPI();

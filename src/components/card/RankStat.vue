@@ -8,7 +8,7 @@
    */
   import { ref, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { IGameRankStats, ModeType } from '@/interfaces';
+  import { IGameRankStats, ModeType } from '@/types';
   import { insertComma, gameModeName } from '@/utils';
   //icon
   import { Warning } from '@element-plus/icons-vue';

@@ -1,7 +1,7 @@
 import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, getDocs, setDoc, query, collection, where } from 'firebase/firestore';
 import { User } from 'firebase/auth';
-import { IUserPlatformNickNames } from '@/interfaces';
+import { IUserPlatformNickNames } from '@/types';
 import { nowDateFormat } from '@/utils';
 
 export class UsersAPI {

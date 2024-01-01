@@ -6,7 +6,7 @@
    */
   import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
-  import { ISearchForm } from '@/interfaces';
+  import { ISearchForm } from '@/types';
   //icon
   import { Search } from '@element-plus/icons-vue';
 

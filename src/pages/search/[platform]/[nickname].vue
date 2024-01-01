@@ -8,7 +8,7 @@
   import { ref, onMounted, computed } from 'vue';
   import type { Ref } from 'vue';
   import { ElLoading } from 'element-plus';
-  import type { ISearchForm, IGameRankStats, IGameStats } from '@/interfaces';
+  import type { ISearchForm, IGameRankStats, IGameStats } from '@/types';
   import {
     normalStatData,
     rankStatData,
