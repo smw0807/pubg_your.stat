@@ -49,12 +49,13 @@ export const useUserStore = defineStore({
     //로그인 유저 정보 가져오기(새로고침 시엔 이 함수 사용)
     async reloadUser(): Promise<void> {
       try {
-        const user = await authAPI.reloadUser();
-        this.hasUser = user ? true : false;
-        this.user = user;
-        if (this.user) {
-          await this.setNickname();
-        }
+        authAPI.reloadUser(async user => {
+          if (user) {
+            this.hasUser = user ? true : false;
+            this.user = user;
+            await this.setNickname();
+          }
+        });
       } catch (err) {
         throw err;
       }
