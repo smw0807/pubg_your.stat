@@ -7,7 +7,7 @@
   const props = defineProps<Props>();
 
   let selIndex = 0;
-  const urlPath = import.meta.env.DEV ? '/' : '/pubg_your.stat/';
+  const urlPath = import.meta.env.DEV ? '/' : import.meta.env.VITE_PROJECT_NAME;
   const cImgPath = computed(() => `${urlPath}car-respone/${props.imgName}.png`);
   const cSourceLink = computed(() => props.source);
 </script>
