@@ -4,7 +4,7 @@
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
-  import { ITeamMessage, IGameStats, IGameRankStats, RankModeType } from '@/interfaces';
+  import { ITeamMessage, IGameStats, IGameRankStats, RankModeType } from '@/types';
   import {
     notifError,
     notifInfo,

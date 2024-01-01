@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { reactive, ref, watchEffect } from 'vue';
   import type { FormInstance, FormRules } from 'element-plus';
-  import { IUserPlatformNickNames } from '@/interfaces';
+  import { IUserPlatformNickNames } from '@/types';
 
   interface Props {
     open: boolean;

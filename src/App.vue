@@ -2,7 +2,7 @@
   import { computed, ref, watchEffect } from 'vue';
   import type { Ref } from 'vue';
   import { useUserStore } from '@/store';
-  import { IUserPlatformNickNames } from '@/interfaces';
+  import { IUserPlatformNickNames } from '@/types';
   import { notifSuccess, notifError, dateFormat } from '@/utils';
   import { ElMessageBox } from 'element-plus';
   import { useRoute } from 'vue-router';

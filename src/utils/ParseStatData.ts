@@ -5,7 +5,7 @@ import {
   IGameRankStats,
   ModeType,
   RankModeType,
-} from '@/interfaces';
+} from '@/types';
 
 export const parseNormalStat = (mode: ModeType, stat: IPlayerSeason): IGameStats => {
   return stat.data.attributes.gameModeStats[mode];

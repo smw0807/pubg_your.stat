@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { PlatformType, ITeamFilter } from '@/interfaces';
+  import { PlatformType, ITeamFilter } from '@/types';
 
   interface Props {
     open: boolean;

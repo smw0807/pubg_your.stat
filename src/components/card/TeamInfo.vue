@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ITeamInfo, ModeType } from '@/interfaces';
+  import { ITeamInfo, ModeType } from '@/types';
   import { gameModeName } from '@/utils';
 
   interface Props {

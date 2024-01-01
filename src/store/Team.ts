@@ -6,7 +6,7 @@
 
 import { defineStore } from 'pinia';
 import { TeamAPI } from '@/apis';
-import { ITeamForm, ITeamFilter } from '@/interfaces';
+import { ITeamForm, ITeamFilter } from '@/types';
 import type { DocumentData } from 'firebase/firestore';
 
 const teamApi = new TeamAPI();

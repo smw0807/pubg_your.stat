@@ -17,7 +17,7 @@ import {
   getDocs,
   writeBatch,
 } from 'firebase/firestore';
-import { ITeamMessage, ITeamInfo } from '@/interfaces';
+import { ITeamMessage, ITeamInfo } from '@/types';
 import { useTeamRoomStore } from '@/store';
 import { nowDateFormat } from '@/utils';
 

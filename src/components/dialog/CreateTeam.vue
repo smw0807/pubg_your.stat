@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { reactive, computed, watch, ref } from 'vue';
   import type { FormInstance, FormRules } from 'element-plus';
-  import { PlatformType, ITeamForm } from '@/interfaces';
+  import { PlatformType, ITeamForm } from '@/types';
 
   interface Props {
     open: boolean;

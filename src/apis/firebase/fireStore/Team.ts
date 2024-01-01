@@ -2,7 +2,7 @@
 import { collection, addDoc, query, getDocs, orderBy, where } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
 import { FireStore, GooleAuthAPI } from '@/apis/firebase';
-import { ITeamFilter, ITeamInfo, ModeType } from '@/interfaces';
+import { ITeamFilter, ITeamInfo, ModeType } from '@/types';
 import { nowDateFormat } from '@/utils';
 
 export class TeamAPI extends GooleAuthAPI {
@@ -63,7 +63,6 @@ export class TeamAPI extends GooleAuthAPI {
       case 'squad-fpp':
         result = 4;
         break;
-
     }
     return result;
   }

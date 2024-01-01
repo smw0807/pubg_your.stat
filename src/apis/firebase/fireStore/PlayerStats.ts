@@ -1,7 +1,7 @@
 import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
-import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/interfaces';
+import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/types';
 import { nowDateFormat, parseRankStat } from '@/utils';
 
 /**

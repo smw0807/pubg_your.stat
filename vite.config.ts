@@ -1,6 +1,7 @@
 import vue from '@vitejs/plugin-vue';
 import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
 const env = loadEnv(process.env.NODE_ENV, process.cwd(), '');
@@ -26,6 +27,7 @@ export default defineConfig({
       layoutsDirs: 'src/layouts',
       defaultLayout: 'default',
     }),
+    visualizer({ open: true, filename: './dist/bundle-analysis.html' }),
   ],
   resolve: {
     alias: [
@@ -34,5 +36,9 @@ export default defineConfig({
         replacement: resolve(__dirname, 'src'),
       },
     ],
+  },
+  build: {
+    // 파이어베이스 모듈 관련해서 빌드된 파일이 용량이 크다는 경로 떠서 적용...(내가 수정할 수 있는 사항이 아닌 듯 해서)
+    chunkSizeWarningLimit: 2000,
   },
 });

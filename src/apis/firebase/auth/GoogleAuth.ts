@@ -44,13 +44,19 @@ export class GooleAuthAPI {
   }
 
   //로그인 유저 정보(웹페이지 새로고침시엔 이걸 써야 정보를 가져옴)
-  reloadUser(): Promise<User | null> {
-    return new Promise((resolve, reject) => {
-      const unsubscribe = onAuthStateChanged(this.auth, user => {
-        unsubscribe();
-        resolve(user);
+  reloadUser(callback: (user: User | null) => void): void {
+    try {
+      onAuthStateChanged(this.auth, user => {
+        if (user) {
+          callback(user);
+        } else {
+          callback(null);
+        }
       });
-    });
+    } catch (err) {
+      callback(null);
+      throw new Error('현재 사용자 정보 가져오기 실패');
+    }
   }
 
   //로그아웃
