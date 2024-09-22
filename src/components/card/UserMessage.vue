@@ -1,8 +1,5 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
-  import { useWindowSize } from '@vueuse/core';
   import { dateFormat } from '@/utils';
-  const { width } = useWindowSize();
 
   interface Props {
     //메세지 타입
@@ -24,58 +21,53 @@
     textColor: '#E5EAF3',
     backgroundColor: '#1D1E1F',
   });
-
-  //브라우저 width값에 따른 메세지 박스 넓이 값
-  const cWidth = computed(() => {
-    if (width.value > 900) {
-      return '40%';
-    } else if (width.value > 750) {
-      return '50%';
-    } else {
-      return '100%';
-    }
-  });
-  //카드 컴포넌트 스타일
-  const cCardStyles = computed(() => {
-    return {
-      float: props.type === 'mine' ? 'right' : 'left',
-      width: cWidth.value,
-      'word-wrap': 'break-word',
-    };
-  });
-  //카드 컴포넌트 바디 스타일
-  const cardBodyStyles = {
-    padding: '10px',
-    color: props.textColor,
-    'background-color': props.backgroundColor,
-  };
 </script>
 <template>
-  <el-card :body-style="cardBodyStyles" :style="cCardStyles">
-    <el-row>
-      <el-col :span="18" style="padding: 10px 0"> {{ nickname }} </el-col>
-      <el-col :span="6" align="end">
-        <span :style="`font-size: var(--el-font-size-extra-small)`">
-          {{ dateFormat(time, 'YYYY-MM-DD') }}
-        </span>
-        <br />
-        <span :style="`font-size: var(--el-font-size-small)`">
-          {{ dateFormat(time, 'HH:mm:ss') }}
-        </span>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24" class="message">
-        {{ message }}
-      </el-col>
-    </el-row>
-  </el-card>
+  <div :class="props.type === 'mine' ? 'myChat' : 'otherChat'">
+    <div class="chatBox">
+      <div class="chatTime">{{ nickname }} <br />{{ dateFormat(props.time, 'HH:mm:ss') }}</div>
+      <div>{{ props.message }}</div>
+    </div>
+  </div>
 </template>
 <style scoped>
-  .message {
-    font-size: smaller;
+  .chatBox {
+    display: inline-block;
+    position: relative;
+    background-color: #8b66f1;
+    border-radius: 20px;
+    color: #fff;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    max-width: 40%;
+    word-wrap: break-word;
   }
-  .el-row {
-    margin-bottom: 5px;
+
+  .myChat {
+    margin-top: 10px;
+    margin-right: 20px;
+    text-align: right;
+  }
+  .myChat .chatTime {
+    position: absolute;
+    left: -100px;
+    top: 0;
+    color: #fbf7f7;
+    font-size: 14px;
+    word-wrap: 'break-word';
+  }
+
+  .otherChat {
+    margin-top: 10px;
+    margin-left: 20px;
+    text-align: left;
+  }
+  .otherChat .chatTime {
+    position: absolute;
+    left: 60px;
+    top: 0;
+    color: #fbf7f7;
+    font-size: 14px;
+    word-wrap: 'break-word';
   }
 </style>
