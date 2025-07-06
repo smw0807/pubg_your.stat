@@ -46,9 +46,11 @@
   const hasFPP: boolean = params.platform === 'kakao' ? false : true;
 
   // 3인칭 랭크 데이터
+  let tppRankAll: Ref<IGameRankStats> = ref(rankStatData);
   let tppRankSolo: Ref<IGameRankStats> = ref(rankStatData);
   let tppRankSquad: Ref<IGameRankStats> = ref(rankStatData);
   // 1인칭 랭크 데이터
+  let fppRankAll: Ref<IGameRankStats> = ref(rankStatData);
   let fppRankSolo: Ref<IGameRankStats> = ref(rankStatData);
   let fppRankSquad: Ref<IGameRankStats> = ref(rankStatData);
   // 3인칭 일반 데이터
@@ -97,6 +99,7 @@
     const rankData = store.rank;
     const normalData = store.normal;
 
+    tppRankAll.value = parseRankStat('All', rankData);
     tppRankSolo.value = parseRankStat('solo', rankData);
     tppRankSquad.value = parseRankStat('squad', rankData);
 
@@ -105,6 +108,7 @@
     tppSquad.value = parseNormalStat('squad', normalData);
 
     if (hasFPP) {
+      fppRankAll.value = parseRankStat('All', rankData);
       fppRankSolo.value = parseRankStat('solo-fpp', rankData);
       fppRankSquad.value = parseRankStat('squad-fpp', rankData);
 
@@ -133,19 +137,16 @@
         </el-col>
       </el-row>
 
-      <!-- 3인칭 솔로, 스쿼드, 1인칭 솔로, 스쿼드 랭크 스탯 카드 -->
+      <!--  랭크 스탯 카드 -->
       <el-tab-pane label="랭크" name="rank">
         <el-row :gutter="24" align="middle" justify="space-evenly">
           <el-col :span="12" :xs="24" :sm="24" :md="12">
-            <rank-stat-card mode="solo" :data="tppRankSolo" />
-          </el-col>
-          <el-col :span="12" :xs="24" :sm="24" :md="12">
-            <rank-stat-card mode="squad" :data="tppRankSquad" />
+            <rank-stat-card mode="All" :data="tppRankAll" />
           </el-col>
         </el-row>
       </el-tab-pane>
 
-      <el-tab-pane label="1인칭 랭크" name="fpp-rank" v-if="hasFPP">
+      <!-- <el-tab-pane label="1인칭 랭크" name="fpp-rank" v-if="hasFPP">
         <el-row :gutter="24" align="middle" justify="space-evenly">
           <el-col :span="12" :xs="24" :sm="24" :md="12">
             <rank-stat-card mode="solo-fpp" :data="fppRankSolo" />
@@ -154,10 +155,10 @@
             <rank-stat-card mode="squad-fpp" :data="fppRankSquad" />
           </el-col>
         </el-row>
-      </el-tab-pane>
+      </el-tab-pane> -->
 
       <!-- 3인칭 솔로, 듀오, 스쿼드, 1인칭 솔로, 듀오, 스쿼드 일반 스탯 카드 -->
-      <el-tab-pane label="솔로" name="solo">
+      <!-- <el-tab-pane label="솔로" name="solo">
         <el-row :gutter="24">
           <el-col>
             <stat-card mode="solo" :data="tppSolo" />
@@ -203,7 +204,7 @@
             <stat-card mode="squad" :data="fppSquad" />
           </el-col>
         </el-row>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>

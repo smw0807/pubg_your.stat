@@ -88,6 +88,7 @@ export interface IPlayerSeasonRank {
     type: 'rankedplayerstats';
     attributes: {
       rankedGameModeStats: {
+        All: IGameRankStats;
         solo: IGameRankStats;
         'solo-fpp': IGameRankStats;
         squad: IGameRankStats;
@@ -116,6 +117,7 @@ export interface IPlayerSeason {
     type: 'playerSeason';
     attributes: {
       gameModeStats: {
+        All: IGameStats;
         duo: IGameStats;
         'duo-fpp': IGameStats;
         solo: IGameStats;

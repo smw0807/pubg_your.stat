@@ -20,7 +20,7 @@ export type {
   IUserPlatformNickNames,
 } from './firebase';
 
-export type RankModeType = 'solo' | 'solo-fpp' | 'squad' | 'squad-fpp';
+export type RankModeType = 'All' | 'solo' | 'solo-fpp' | 'squad' | 'squad-fpp';
 export type ModeType = RankModeType | 'duo' | 'duo-fpp';
 
 export type PlatformType = 'kakao' | 'steam';

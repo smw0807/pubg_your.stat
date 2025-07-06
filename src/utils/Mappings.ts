@@ -7,6 +7,9 @@ import { ModeType } from '@/types';
 export const gameModeName = (mode: ModeType): string => {
   let result = '';
   switch (mode) {
+    case 'All':
+      result = '랭크';
+      break;
     case 'solo':
       result = '3인칭 솔로';
       break;

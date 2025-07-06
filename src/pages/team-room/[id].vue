@@ -90,15 +90,9 @@
       });
       if (search) {
         if (cTeamInfo.value?.isRank) {
-          memberRankStat.value = parseRankStat(
-            cTeamInfo.value?.mode! as RankModeType,
-            JSON.parse(search.rank)
-          );
+          memberRankStat.value = parseRankStat('All', JSON.parse(search.rank));
         } else {
-          memberNormalStat.value = parseNormalStat(
-            cTeamInfo.value?.mode!,
-            JSON.parse(search.normal)
-          );
+          memberNormalStat.value = parseNormalStat('All', JSON.parse(search.normal));
         }
         searchMemberNickname.value = nickname;
         isShowMemberStat.value = true;
@@ -187,7 +181,7 @@
   //팀 멤버 스탯 보기 다이얼로그 닫을 시 초기화
   watch(isShowMemberStat, () => {
     if (!isShowMemberStat.value) {
-      memberNormalStat.value = normalStatData;
+      // memberNormalStat.value = normalStatData;
       memberRankStat.value = rankStatData;
     }
   });
@@ -201,8 +195,8 @@
 <template>
   <div class="common-layout">
     <el-dialog v-model="isShowMemberStat" :title="searchMemberNickname" width="50%">
-      <NormalStat v-if="!cTeamInfo?.isRank" :mode="cTeamInfo?.mode!" :data="memberNormalStat" />
-      <RankStat v-if="cTeamInfo?.isRank" :mode="cTeamInfo.mode!" :data="memberRankStat" />
+      <!-- <NormalStat v-if="!cTeamInfo?.isRank" :mode="cTeamInfo?.mode!" :data="memberNormalStat" /> -->
+      <RankStat v-if="cTeamInfo?.isRank" mode="All" :data="memberRankStat" />
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="isShowMemberStat = false">닫기</el-button>
