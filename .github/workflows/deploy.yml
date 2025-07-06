@@ -52,7 +52,7 @@ jobs:
           VITE_FB_appId: ${{ secrets.VITE_FB_appId }}
           VITE_FB_measurementId: ${{ secrets.VITE_FB_measurementId }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           # dist 디렉터리 업로드
           path: './dist'
