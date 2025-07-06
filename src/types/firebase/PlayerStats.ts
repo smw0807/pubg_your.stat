@@ -1,4 +1,5 @@
 interface mode {
+  All: number;
   solo: number;
   'solo-fpp': number;
   squad: number;
