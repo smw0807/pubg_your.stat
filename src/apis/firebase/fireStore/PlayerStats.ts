@@ -53,12 +53,14 @@ export class PlayerStatsAPI {
     const result = {
       All: 0,
       solo: 0,
+      duo: 0,
       'solo-fpp': 0,
       squad: 0,
       'squad-fpp': 0,
     };
     result.All = parseRankStat('All', rank)?.kda || 0;
     result.solo = parseRankStat('solo', rank)?.kda || 0;
+    result.duo = parseRankStat('duo', rank)?.kda || 0;
     result['solo-fpp'] = parseRankStat('solo-fpp', rank)?.kda || 0;
     result.squad = parseRankStat('squad', rank)?.kda || 0;
     result['squad-fpp'] = parseRankStat('squad-fpp', rank)?.kda || 0;
@@ -70,6 +72,7 @@ export class PlayerStatsAPI {
     const result = {
       All: 0,
       solo: 0,
+      duo: 0,
       'solo-fpp': 0,
       squad: 0,
       'squad-fpp': 0,
@@ -80,6 +83,13 @@ export class PlayerStatsAPI {
     result.All = Number((solo / soloStat.roundsPlayed).toFixed(0));
     if (solo === 0) result.solo = 0;
     else result.solo = Number((solo / soloStat.roundsPlayed).toFixed(0));
+
+    //3인칭 듀오
+    const duoStat = parseRankStat('duo', rank);
+    const duo = duoStat?.damageDealt || 0;
+    result.All = Number((duo / duoStat.roundsPlayed).toFixed(0));
+    if (duo === 0) result.duo = 0;
+    else result.duo = Number((duo / duoStat.roundsPlayed).toFixed(0));
 
     //1인칭 솔로
     const soloFppStat = parseRankStat('solo-fpp', rank);

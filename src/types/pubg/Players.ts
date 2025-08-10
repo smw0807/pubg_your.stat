@@ -90,6 +90,7 @@ export interface IPlayerSeasonRank {
       rankedGameModeStats: {
         All: IGameRankStats;
         solo: IGameRankStats;
+        duo: IGameRankStats;
         'solo-fpp': IGameRankStats;
         squad: IGameRankStats;
         'squad-fpp': IGameRankStats;
