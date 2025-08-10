@@ -38,8 +38,6 @@
   const isShowMemberStat: Ref<boolean> = ref(false);
   //스탯 조회 팀원 닉네임
   const searchMemberNickname: Ref<string> = ref('');
-  //팀원 일반 스탯 데이터
-  const memberNormalStat: Ref<IGameStats> = ref(normalStatData);
   //팀원 랭크 스탯 데이터
   const memberRankStat: Ref<IGameRankStats> = ref(rankStatData);
 
@@ -88,12 +86,11 @@
         platform: cTeamInfo.value?.platform!,
         nickname: nickname,
       });
+      console.log(search);
       if (search) {
-        if (cTeamInfo.value?.isRank) {
-          memberRankStat.value = parseRankStat('All', JSON.parse(search.rank));
-        } else {
-          memberNormalStat.value = parseNormalStat('All', JSON.parse(search.normal));
-        }
+        memberRankStat.value =
+          cTeamInfo.value?.mode === 'duo' ? JSON.parse(search.duo) : JSON.parse(search.squad);
+
         searchMemberNickname.value = nickname;
         isShowMemberStat.value = true;
       } else {
@@ -181,7 +178,6 @@
   //팀 멤버 스탯 보기 다이얼로그 닫을 시 초기화
   watch(isShowMemberStat, () => {
     if (!isShowMemberStat.value) {
-      // memberNormalStat.value = normalStatData;
       memberRankStat.value = rankStatData;
     }
   });
@@ -195,8 +191,7 @@
 <template>
   <div class="common-layout">
     <el-dialog v-model="isShowMemberStat" :title="searchMemberNickname" width="50%">
-      <!-- <NormalStat v-if="!cTeamInfo?.isRank" :mode="cTeamInfo?.mode!" :data="memberNormalStat" /> -->
-      <RankStat v-if="cTeamInfo?.isRank" mode="All" :data="memberRankStat" />
+      <RankStat v-if="cTeamInfo?.isRank" :mode="cTeamInfo.mode" :data="memberRankStat" />
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="isShowMemberStat = false">닫기</el-button>
@@ -212,7 +207,7 @@
           :nickname="member[`${cTeamInfo?.platform!}-nickname`]"
           :is-mine="cUser?.email === member.email"
           copy-nickname
-          show-stat
+          :show-stat="cTeamInfo?.isRank"
           @show-player-stat="getPlayerStat"
         />
       </el-col>

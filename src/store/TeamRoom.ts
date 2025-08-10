@@ -153,9 +153,9 @@ export const useTeamRoomStore = defineStore({
       }
     },
     //팀원 스탯 정보 가져오기
-    async getMemberStat(params: ISearchForm): Promise<IPlayerStats | null> {
+    async getMemberStat(params: ISearchForm): Promise<IPlayerStatsV2 | null> {
       try {
-        return (await statAPI.getStats(params)) as IPlayerStats;
+        return (await statAPI.getStats(params)) as IPlayerStatsV2;
       } catch (err) {
         throw err;
       }
