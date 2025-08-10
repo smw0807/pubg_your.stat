@@ -7,6 +7,7 @@ import type {
   IPlayerSeasonRank,
   ISeason,
   RankedGameModeStats,
+  GameModeStats,
 } from '@/types';
 
 const statAPI = new PlayerStatsAPI();
@@ -22,8 +23,8 @@ export const useSearchStore = defineStore({
     nowSeason: {} as ISeason,
     rank: {} as IPlayerSeasonRank,
     normal: {} as IPlayerSeason,
-    duo: {} as RankedGameModeStats,
-    squad: {} as RankedGameModeStats,
+    duo: {} as GameModeStats,
+    squad: {} as GameModeStats,
     lastUpdateDate: '',
   }),
   getters: {
@@ -32,6 +33,21 @@ export const useSearchStore = defineStore({
     },
   },
   actions: {
+    //파이어베이스 저장소에 저장된 데이터 가져오기
+    async getStatsV2(params: ISearchForm): Promise<boolean> {
+      try {
+        const statData = await statAPI.getStats(params);
+        if (statData) {
+          this.duo = JSON.parse(statData.duo);
+          this.squad = JSON.parse(statData.squad);
+          this.lastUpdateDate = statData['last-update-date'];
+          return true;
+        }
+        return false;
+      } catch (err) {
+        throw err;
+      }
+    },
     //파이어베이스 저장소에 저장된 데이터 가져오기
     async getStats(params: ISearchForm): Promise<true> {
       try {
@@ -80,7 +96,6 @@ export const useSearchStore = defineStore({
         params.seasonID = this.nowSeason.id;
         const searchAPI = new PlayersAPI(params);
         const stat = await searchAPI.getRankStat();
-        console.log(stat);
 
         // 파이어베이스에 검색한 스탯정보 저장
         await statAPI.setStatsV2(params, stat.data);
