@@ -54,8 +54,8 @@ export const useSearchStore = defineStore({
         const statData = await statAPI.getStats(params);
         //저장소에 데이터가 있을 경우
         if (statData) {
-          this.rank = JSON.parse(statData.rank);
-          this.normal = JSON.parse(statData.normal);
+          this.duo = JSON.parse(statData.duo);
+          this.squad = JSON.parse(statData.squad);
           this.lastUpdateDate = statData['last-update-date'];
         } else {
           //데이터가 없을 경우 pubg api에다 검색 요청 후 저장소에 저장

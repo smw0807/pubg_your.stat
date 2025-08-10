@@ -24,6 +24,7 @@
         route.push(`/search/${params.platform}/${params.nickname}`);
       }
     } catch (err) {
+      console.log(err);
       if (err === 404) player404();
       else if (err === 429) _429();
       else notifError('플레이어 조회 실패', err as string);
