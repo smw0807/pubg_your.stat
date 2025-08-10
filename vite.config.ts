@@ -15,7 +15,7 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
   },
-  base: process.env.NODE_ENV === 'production' ? env.VITE_PROJECT_NAME : '/',
+  base: '/',
   publicDir: './src/public',
   plugins: [
     vue(),
@@ -40,5 +40,13 @@ export default defineConfig({
   build: {
     // 파이어베이스 모듈 관련해서 빌드된 파일이 용량이 크다는 경로 떠서 적용...(내가 수정할 수 있는 사항이 아닌 듯 해서)
     chunkSizeWarningLimit: 2000,
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash].[ext]',
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+      },
+    },
   },
 });
