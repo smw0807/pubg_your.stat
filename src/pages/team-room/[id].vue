@@ -86,7 +86,6 @@
         platform: cTeamInfo.value?.platform!,
         nickname: nickname,
       });
-      console.log(search);
       if (search) {
         memberRankStat.value =
           cTeamInfo.value?.mode === 'duo' ? JSON.parse(search.duo) : JSON.parse(search.squad);
