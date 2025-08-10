@@ -120,11 +120,11 @@ export interface IPlayerSeason {
       gameModeStats: {
         All: IGameStats;
         duo: IGameStats;
-        'duo-fpp': IGameStats;
+        // 'duo-fpp': IGameStats;
         solo: IGameStats;
-        'solo-fpp': IGameStats;
+        // 'solo-fpp': IGameStats;
         squad: IGameStats;
-        'squad-fpp': IGameStats;
+        // 'squad-fpp': IGameStats;
       };
     };
     relationships: {

@@ -35,12 +35,12 @@
           <el-option label="전체" value="all" />
           <el-option v-show="filterData.isRank === false" label="듀오" value="duo" />
           <el-option label="스쿼드" value="squad" />
-          <el-option
+          <!-- <el-option
             v-show="filterData.isRank === false && platform === 'steam'"
             label="1인칭 듀오"
             value="duo-fpp"
           />
-          <el-option v-show="platform === 'steam'" label="1인칭 스쿼드" value="squad-fpp" />
+          <el-option v-show="platform === 'steam'" label="1인칭 스쿼드" value="squad-fpp" /> -->
         </el-select>
       </el-form-item>
       <el-form-item label="순서" :label-width="labelWidth">

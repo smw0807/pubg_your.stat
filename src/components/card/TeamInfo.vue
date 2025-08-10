@@ -15,15 +15,15 @@
       case 'duo':
         result = '#9FC93C';
         break;
-      case 'duo-fpp':
-        result = '#47C83E';
-        break;
+      // case 'duo-fpp':
+      //   result = '#47C83E';
+      //   break;
       case 'squad':
         result = '#4374D9';
         break;
-      case 'squad-fpp':
-        result = '#3DB7CC';
-        break;
+      // case 'squad-fpp':
+      //   result = '#3DB7CC';
+      //   break;
     }
     return result;
   };

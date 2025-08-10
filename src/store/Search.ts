@@ -116,27 +116,27 @@ export const useSearchStore = defineStore({
     },
 
     //검색
-    async searchPlayer(params: ISearchForm): Promise<void> {
-      try {
-        params.seasonID = this.nowSeason.id;
-        const searchAPI = new PlayersAPI(params);
-        const stat = await searchAPI.allStat;
+    // async searchPlayer(params: ISearchForm): Promise<void> {
+    //   try {
+    //     params.seasonID = this.nowSeason.id;
+    //     const searchAPI = new PlayersAPI(params);
+    //     const stat = await searchAPI.allStat;
 
-        //파이어베이스에 검색한 스탯정보 저장
-        await statAPI.setStats(params, stat[0].data, stat[1].data);
+    //     //파이어베이스에 검색한 스탯정보 저장
+    //     await statAPI.setStats(params, stat[0].data, stat[1].data);
 
-        //파이어베이스에 저장된 데이터 가져오기
-        const statData = await statAPI.getStats(params);
-        if (statData) {
-          this.rank = JSON.parse(statData.rank);
-          this.normal = JSON.parse(statData.normal);
-          this.lastUpdateDate = statData['last-update-date'];
-        } else {
-          throw new Error('404');
-        }
-      } catch (err) {
-        throw errorCode(err);
-      }
-    },
+    //     //파이어베이스에 저장된 데이터 가져오기
+    //     const statData = await statAPI.getStats(params);
+    //     if (statData) {
+    //       this.rank = JSON.parse(statData.rank);
+    //       this.normal = JSON.parse(statData.normal);
+    //       this.lastUpdateDate = statData['last-update-date'];
+    //     } else {
+    //       throw new Error('404');
+    //     }
+    //   } catch (err) {
+    //     throw errorCode(err);
+    //   }
+    // },
   },
 });

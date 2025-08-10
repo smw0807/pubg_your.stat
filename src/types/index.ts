@@ -22,8 +22,8 @@ export type {
   IUserPlatformNickNames,
 } from './firebase';
 
-export type RankModeType = 'All' | 'solo' | 'duo' | 'solo-fpp' | 'squad' | 'squad-fpp';
-export type ModeType = RankModeType | 'duo' | 'squad';
+export type RankModeType = 'All' | 'solo' | 'duo' | 'squad';
+export type ModeType = RankModeType;
 
 export type PlatformType = 'kakao' | 'steam';
 export interface ISearchForm {

@@ -56,11 +56,9 @@ export class TeamAPI extends GooleAuthAPI {
     let result = 0;
     switch (mode) {
       case 'duo':
-      case 'duo-fpp':
         result = 2;
         break;
       case 'squad':
-      case 'squad-fpp':
         result = 4;
         break;
     }
