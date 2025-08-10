@@ -4,15 +4,8 @@
   import { useRouter } from 'vue-router';
   import { useTeamRoomStore, useUserStore } from '@/store';
   import { ElMessageBox } from 'element-plus';
-  import { ITeamMessage, IGameStats, IGameRankStats, RankModeType } from '@/types';
-  import {
-    notifError,
-    notifInfo,
-    normalStatData,
-    rankStatData,
-    parseNormalStat,
-    parseRankStat,
-  } from '@/utils';
+  import { ITeamMessage, IGameRankStats } from '@/types';
+  import { notifError, notifInfo, rankStatData } from '@/utils';
   import { useWindowSize } from '@vueuse/core';
 
   //컴포넌트
