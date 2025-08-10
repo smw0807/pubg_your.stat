@@ -21,7 +21,7 @@ export type {
 } from './firebase';
 
 export type RankModeType = 'All' | 'solo' | 'duo' | 'solo-fpp' | 'squad' | 'squad-fpp';
-export type ModeType = RankModeType | 'duo' | 'duo-fpp';
+export type ModeType = RankModeType | 'duo' | 'squad';
 
 export type PlatformType = 'kakao' | 'steam';
 export interface ISearchForm {

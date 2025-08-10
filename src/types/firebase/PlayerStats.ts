@@ -22,3 +22,13 @@ export interface IPlayerStats {
   'last-update-date': string;
   platform: string;
 }
+export interface IPlayerStatsV2 {
+  duo: string;
+  duoKda: number;
+  duoAvgDmg: number;
+  squad: string;
+  squadKda: number;
+  squadAvgDmg: number;
+  'last-update-date': string;
+  platform: string;
+}

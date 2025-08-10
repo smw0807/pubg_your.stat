@@ -1,15 +1,23 @@
 import { FireStore } from '@/apis/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
-import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, IPlayerStats } from '@/types';
+import type {
+  ISearchForm,
+  IPlayerSeason,
+  IPlayerSeasonRank,
+  IPlayerStats,
+  ModeType,
+} from '@/types';
 import { nowDateFormat, parseRankStat } from '@/utils';
+import { IPlayerStatsV2 } from '@/types/firebase/PlayerStats';
 
 /**
  * 플레이서 스탯 저장소 관련
  */
 export class PlayerStatsAPI {
   private db = FireStore;
-  private collection: string = 'player-stats';
+  // private collection: string = 'player-stats';
+  private collection: string = 'player-stats-v2';
 
   //저장소에 저장된 정보 가져오기
   async getStats(params: ISearchForm): Promise<DocumentData | null> {
@@ -24,6 +32,40 @@ export class PlayerStatsAPI {
     } catch (err) {
       throw err;
     }
+  }
+
+  /** 배그 공식 API 랭크 결과값 변경으로 인해 새로운 스탯 저장소 생성
+   * 스탯 저장소에 저장된 정보 가져오기
+   * @param params 검색 파라미터
+   * @param rank 랭크 스탯
+   */
+  async setStatsV2(params: ISearchForm, rank: IPlayerSeasonRank): Promise<void> {
+    const id = `${params.platform}-${params.nickname}`;
+    const data: IPlayerStatsV2 = {
+      duo: JSON.stringify(parseRankStat('duo', rank)) ?? '{}',
+      duoKda: this.extractKdaV2('duo', rank),
+      duoAvgDmg: this.extractAvgV2('duo', rank),
+      squad: JSON.stringify(parseRankStat('squad', rank)) ?? '{}',
+      squadKda: this.extractKdaV2('squad', rank),
+      squadAvgDmg: this.extractAvgV2('squad', rank),
+      'last-update-date': nowDateFormat('YYYY-MM-DD HH:mm:ss'),
+      platform: params.platform,
+    };
+    await setDoc(doc(this.db, this.collection, id), data);
+  }
+
+  extractKdaV2(mode: ModeType, rank: IPlayerSeasonRank) {
+    const stat = parseRankStat(mode, rank);
+    if (!stat) return 0;
+    return stat.kda || 0;
+  }
+
+  extractAvgV2(mode: ModeType, rank: IPlayerSeasonRank) {
+    const stat = parseRankStat(mode, rank);
+    if (!stat) return 0;
+    const damageDealt = stat.damageDealt || 0;
+    const roundsPlayed = stat.roundsPlayed || 0;
+    return Number((damageDealt / roundsPlayed).toFixed(0));
   }
 
   //저장소에 스탯 및 기타 정보들 저장
