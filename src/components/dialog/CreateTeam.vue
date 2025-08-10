@@ -70,7 +70,7 @@
       </el-form-item>
       <el-form-item label="게임 모드" :label-width="labelWidth">
         <el-select v-model="form.mode">
-          <el-option v-show="form.isRank === false" label="듀오" value="duo" />
+          <el-option label="듀오" value="duo" />
           <el-option label="스쿼드" value="squad" />
           <el-option
             v-show="form.isRank === false && platform === 'steam'"

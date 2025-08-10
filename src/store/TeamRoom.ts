@@ -7,9 +7,11 @@ import {
   IPlayerStats,
   RankModeType,
   ISearchForm,
+  ModeType,
 } from '@/types';
 import { nowDateFormat, dateFormat, parseRankStat } from '@/utils';
 import { useUserStore } from '@/store';
+import { IPlayerStatsV2 } from '@/types/firebase/PlayerStats';
 
 const JOIN_FAIL_MSG = '팀 참가에 실패하였습니다.';
 const NOT_EXISTS_TEAM_MSG = '팀이 존재하지 않습니다.';
@@ -70,7 +72,7 @@ export const useTeamRoomStore = defineStore({
         teamroomAPI.startWatchTeamMessageData(teamId, this.joinTime);
         //랭크 팀일 경우 파이어베이스에 저장된 스탯 정보 시스템 메세지로 뿌리기(해당되는 모드 스탯으로.)
         if (this.teamInfo.isRank) {
-          await this.sendUserStatInfo();
+          await this.sendUserStatInfo(this.teamInfo.mode);
         }
         return true;
       } catch (err) {
@@ -78,7 +80,7 @@ export const useTeamRoomStore = defineStore({
       }
     },
     //접속자 스탯 정보 시스템 메세지 보내기
-    async sendUserStatInfo() {
+    async sendUserStatInfo(mode: ModeType) {
       try {
         const userStore = useUserStore();
         const nicknames = userStore.getNickname;
@@ -90,11 +92,12 @@ export const useTeamRoomStore = defineStore({
           const stat = (await statAPI.getStats({
             nickname: platformNickname,
             platform: this.teamInfo.platform,
-          })) as IPlayerStats;
+          })) as IPlayerStatsV2;
+
           //스탯 정보 있을 경우
           if (stat) {
             const mode = this.teamInfo.mode as RankModeType;
-            const parseStat = parseRankStat('All', JSON.parse(stat.rank));
+            const parseStat = mode === 'duo' ? JSON.parse(stat.duo) : JSON.parse(stat.squad);
             const roundsPlayed = parseStat?.roundsPlayed || 0;
             //파이어베이스에 데이터는 있는데 현재 시즌 데이터가 아니거나, 팀 모드에 해당되는 판수가 없을 경우
             if (roundsPlayed === 0) {
@@ -107,8 +110,8 @@ export const useTeamRoomStore = defineStore({
               });
             } else {
               let message = `${platformNickname} | `;
-              message += `kad: ${stat.kda['All'].toFixed(2)} | `;
-              message += `평딜: ${stat.avgDmg['All']} | `;
+              message += `kad: ${parseStat.kda.toFixed(2)} | `;
+              message += `평딜: ${Number((parseStat.damageDealt / roundsPlayed).toFixed(0))} | `;
               message += `판수: ${roundsPlayed} | `;
               message += `${dateFormat(stat['last-update-date'], 'YYYY-MM-DD')} 기준 `;
               await teamroomAPI.sendMessage({
