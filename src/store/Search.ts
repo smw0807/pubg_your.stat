@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia';
 import { PlayersAPI, SeasonAPI, PlayerStatsAPI } from '@/apis';
 import { _429, errorCode } from '@/utils';
-import type { ISearchForm, IPlayerSeason, IPlayerSeasonRank, ISeason } from '@/types';
+import type {
+  ISearchForm,
+  IPlayerSeason,
+  IPlayerSeasonRank,
+  ISeason,
+  RankedGameModeStats,
+} from '@/types';
 
 const statAPI = new PlayerStatsAPI();
 /**
@@ -16,6 +22,8 @@ export const useSearchStore = defineStore({
     nowSeason: {} as ISeason,
     rank: {} as IPlayerSeasonRank,
     normal: {} as IPlayerSeason,
+    duo: {} as RankedGameModeStats,
+    squad: {} as RankedGameModeStats,
     lastUpdateDate: '',
   }),
   getters: {
@@ -36,7 +44,7 @@ export const useSearchStore = defineStore({
         } else {
           //데이터가 없을 경우 pubg api에다 검색 요청 후 저장소에 저장
           await this.setSeason(params.platform);
-          await this.searchPlayer(params);
+          await this.searchPlayerRank(params);
         }
         return true;
       } catch (err) {
@@ -47,7 +55,7 @@ export const useSearchStore = defineStore({
     async reloadStats(params: ISearchForm): Promise<void> {
       try {
         await this.setSeason(params.platform);
-        await this.searchPlayer(params);
+        await this.searchPlayerRank(params);
       } catch (err) {
         throw err;
       }
@@ -65,6 +73,33 @@ export const useSearchStore = defineStore({
         throw errorCode(err);
       }
     },
+
+    // 검색 (랭크 스탯만 가져옴)
+    async searchPlayerRank(params: ISearchForm): Promise<void> {
+      try {
+        params.seasonID = this.nowSeason.id;
+        const searchAPI = new PlayersAPI(params);
+        const stat = await searchAPI.getRankStat();
+        console.log(stat);
+
+        // 파이어베이스에 검색한 스탯정보 저장
+        await statAPI.setStatsV2(params, stat.data);
+
+        //파이어베이스에 저장된 데이터 가져오기
+        const statData = await statAPI.getStats(params);
+
+        if (statData) {
+          this.duo = JSON.parse(statData.duo);
+          this.squad = JSON.parse(statData.squad);
+          this.lastUpdateDate = statData['last-update-date'];
+        } else {
+          throw new Error('404');
+        }
+      } catch (err) {
+        throw errorCode(err);
+      }
+    },
+
     //검색
     async searchPlayer(params: ISearchForm): Promise<void> {
       try {

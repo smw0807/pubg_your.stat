@@ -9,6 +9,8 @@ export type {
   IPlayerSeasonRank,
   IGameStats,
   IGameRankStats,
+  GameModeStats,
+  RankedGameModeStats,
 } from './pubg';
 
 export type {

@@ -8,3 +8,4 @@ export type {
   IGameStats,
   IGameRankStats,
 } from './Players';
+export type { GameModeStats, RankedGameModeStats } from './Stats';
