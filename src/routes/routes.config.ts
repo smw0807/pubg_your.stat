@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'index',
+    name: '검색하기',
     component: () => import('@/pages/index.vue'),
     meta: {
       transition: 'fade',
@@ -10,7 +10,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/search/:platform/:nickname',
-    name: 'search',
+    name: '전적검색 결과',
     component: () => import('@/pages/search/[platform]/[nickname].vue'),
     meta: {
       transition: 'fade',
@@ -19,7 +19,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/team-room/:id',
-    name: 'team-room',
+    name: '팀 채팅방',
     component: () => import('@/pages/team-room/[id].vue'),
     meta: {
       transition: 'fade',
@@ -28,14 +28,14 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/map',
-    name: 'map',
+    name: '맵별 차량 위치',
     meta: {
       transition: 'fade',
     },
     children: [
       {
         path: '/erangel',
-        name: 'erangel',
+        name: '에란겔',
         component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
@@ -43,7 +43,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/miramar',
-        name: 'miramar',
+        name: '미라마',
         component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
@@ -51,7 +51,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/taego',
-        name: 'taego',
+        name: '태이고',
         component: () => import('@/pages/map/[name].vue'),
         meta: {
           transition: 'fade',
@@ -61,14 +61,14 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/teams',
-    name: 'teams',
+    name: '팀 구하기',
     meta: {
       transition: 'fade',
     },
     children: [
       {
         path: '/kakao',
-        name: 'kakao',
+        name: '카카오',
         component: () => import('@/pages/teams/[platform].vue'),
         meta: {
           transition: 'fade',
@@ -76,7 +76,7 @@ export const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/steam',
-        name: 'steam',
+        name: '스팀',
         component: () => import('@/pages/teams/[platform].vue'),
         meta: {
           transition: 'fade',
