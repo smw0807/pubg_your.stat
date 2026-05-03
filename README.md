@@ -19,10 +19,6 @@
 
 https://minu0807.tistory.com/154
 
-## 배포 사이트 주소
-
-https://pubg-your-stat.vercel.app/
-
 # 개발 환경
 
 - Macbook Pro 13(M1)
